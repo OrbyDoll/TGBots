@@ -10,7 +10,7 @@ number_qiwi = '0'
 crypto_token = '117648:AALWG76dDywR7VupQAJ4IzVK2z4LtdGBXFq'
 crypto_test_token = '8526:AA0psEGSS2Hnj2RnPGS0c8RSXloBwHoTKxU'
 key = b'Zs0_7-WL749f543t1ufeqgjOmw8vWLxJeWMWZzLPkdI='
-procent = 5  # Комиссия сервиса
+procent = 6  # Комиссия сервиса
 db = Path("data/db.db")  # Расположение базы данных, если вы не знаете что это, не трогайте!
 token_qiwi = "1"  # Qiwi Токен
 required_chat_id = -1001797934189 #Поменять на нормальный канал

@@ -39,8 +39,8 @@ async def start(message: types.Message, state: FSMContext):
         await state.update_data(auction_id=None)
         balance = garantDB.get_balance(message.chat.id)[0]
         if not db.user_exists(message.chat.id):
-            db.add_user(message.chat.id, int(balance), message.from_user.username)
-        db.set_balance(message.chat.id, int(balance))
+            db.add_user(message.chat.id, float(balance), message.from_user.username)
+        db.set_balance(message.chat.id, float(balance))
         await bot.send_message(message.chat.id, f'Привет {message.from_user.username}! \n\nСоздавай собственный аукцион или присоединяйся к уже сущетсвующему.', reply_markup=nav.action_choose)
         await state.update_data(author_id=None)
         current_state = await state.get_state()
@@ -52,29 +52,35 @@ async def call_handler(call: types.CallbackQuery, state: FSMContext):
     await bot.answer_callback_query(callback_query_id=call.id)
     chatid = call.message.chat.id
     if 'get_auctions' in call.data:
-        state_data = await state.get_data()
-        author_id = state_data['auction_id']
-        if db.check_active_auction(chatid) or not author_id == None:
-            await bot.send_message(chatid, 'Вам необходимо закончить все аукционы!')
-            return
-        all_auctions = db.get_all_auctions()
-        if len(all_auctions) == 0:
-            await bot.send_message(chatid, 'Сейчас нет активных аукционов.')
-            return
-        for auction in all_auctions:
-            if auction[1] < 5:
-                await bot.send_message(chatid, f'Аукцион: №{auction[0]}\nТовар: {auction[4]}\n{"Начальная ставка" if auction[6] == "inactive" else "Текущая ставка"} : {auction[2] if auction[6] == "inactive" else auction[5]}\nУчастников: {auction[1]}\nСтатус: {auction[6]} ',reply_markup=nav.get_auction_offer(auction[3]))
+        try:
+            state_data = await state.get_data()
+            author_id = state_data['auction_id']
+            if db.check_active_auction(chatid) or not author_id == None:
+                await bot.send_message(chatid, 'Вам необходимо закончить все аукционы!')
+                return
+            all_auctions = db.get_all_auctions()
+            if len(all_auctions) == 0:
+                await bot.send_message(chatid, 'Сейчас нет активных аукционов.')
+                return
+            for auction in all_auctions:
+                if auction[1] < 5:
+                    await bot.send_message(chatid, f'Аукцион: №{auction[0]}\nТовар: {auction[4]}\n{"Начальная ставка" if auction[6] == "inactive" else "Текущая ставка"} : {auction[2] if auction[6] == "inactive" else auction[5]}\nУчастников: {auction[1]}\nСтатус: {auction[6]} ',reply_markup=nav.get_auction_offer(auction[3]))
+        except Exception as e:
+            print(e, ' get auctions')
     elif 'create_auction' in call.data:
-        state_data = await state.get_data()
-        author_id = state_data['auction_id']
-        if db.check_active_auction(chatid):
-            await bot.send_message(chatid, 'У вас уже есть аукцион!')
-            return
-        if not author_id == None:
-            await bot.send_message(chatid, 'Вам необходимо закончить все аукционы!')
-            return
-        await bot.send_message(chatid, 'Напишите название товара')
-        await state.set_state(ClientState.CREATEAUCTION)
+        try:
+            state_data = await state.get_data()
+            author_id = state_data['auction_id']
+            if db.check_active_auction(chatid):
+                await bot.send_message(chatid, 'У вас уже есть аукцион!')
+                return
+            if not author_id == None:
+                await bot.send_message(chatid, 'Вам необходимо закончить все аукционы!')
+                return
+            await bot.send_message(chatid, 'Напишите название товара')
+            await state.set_state(ClientState.CREATEAUCTION)
+        except Exception as e:
+            print(e)
     elif 'my_auction' in call.data:
         if db.check_active_auction(chatid):
             current_state = await state.get_state()
@@ -141,7 +147,7 @@ async def call_handler(call: types.CallbackQuery, state: FSMContext):
     elif 'offer_rate' in call.data:
         try:
             gbalance = garantDB.get_balance(chatid)[0]
-            db.set_balance(chatid, int(gbalance))
+            db.set_balance(chatid, float(gbalance))
             state_data = await state.get_data()
             author_id = state_data['auction_id']
             if db.get_auction(author_id)[6] == 'inactive':
@@ -224,7 +230,6 @@ async def changeStartCost(message: types.Message, state: FSMContext):
 @dp.message_handler(state=ClientState.OFFERRATE)
 async def offerRate(message: types.Message, state: FSMContext):
     try:
-        
         offer = int(message.text)
         user_info = db.get_user(message.chat.id)
         state_data = await state.get_data()

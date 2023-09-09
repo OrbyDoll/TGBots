@@ -20,3 +20,9 @@ class GarantDB:
                 'SELECT `balance` FROM `users` WHERE `user_id` = ?', (user_id,)
             ).fetchone()
             return res
+    def user_exists(self, user_id):
+        with self.connection:
+            result = self.cursor.execute(
+                "SELECT * FROM `users` WHERE `user_id` = ?", (user_id,)
+            ).fetchall()
+            return bool(result)

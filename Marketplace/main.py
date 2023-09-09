@@ -36,8 +36,8 @@ async def start(message: types.Message, state: FSMContext):
             return
         balance = garantDB.get_balance(message.chat.id)[0]
         if not db.user_exists(message.chat.id):
-            db.add_user(message.chat.id, int(balance), message.from_user.username)
-        db.set_balance(message.chat.id, int(balance))
+            db.add_user(message.chat.id, float(balance), message.from_user.username)
+        db.set_balance(message.chat.id, float(balance))
         await bot.send_message(
             message.from_user.id,
             "Выберите действие",
@@ -57,7 +57,7 @@ async def callback_message(call: types.CallbackQuery, state: FSMContext):
         await state.set_state(ClientState.CHOOSEPRODUCT_CATEGORY)
     elif 'buy' in call.data:
         balance = garantDB.get_balance(chatid)[0]
-        db.set_balance(chatid, int(balance))
+        db.set_balance(chatid, float(balance))
         if int(call.data.split()[1]) == chatid:
             await bot.send_message(chatid, 'Нельзя купить свой товар')
             await state.set_state(ClientState.START)

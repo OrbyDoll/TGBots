@@ -19,7 +19,9 @@ profile.add(
 	types.InlineKeyboardButton('Пополнение баланса', callback_data='input'),
 	types.InlineKeyboardButton('Обновить логин', callback_data='up_login')
 )
-
+go_back = types.InlineKeyboardMarkup().add(
+    types.InlineKeyboardButton(text="Назад", callback_data='go_back')
+)
 cors = types.InlineKeyboardMarkup()
 cors.add(
 	types.InlineKeyboardButton('💎 Продавец', callback_data='seller'),

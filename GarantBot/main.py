@@ -117,9 +117,9 @@ def start(message: types.Message):
         )
 @bot.message_handler(commands=['getBalance'])
 def getBalance(message: types.Message):
-    if not checkMember(message.chat.id, required_chat_id):
-        bot.send_message(message.chat.id,f'Для доступа к каналу необходимо подписаться на канал!',reply_markup=kb.channel_url)
-        return
+    # if not checkMember(message.chat.id, required_chat_id):
+    #     bot.send_message(message.chat.id,f'Для доступа к каналу необходимо подписаться на канал!',reply_markup=kb.channel_url)
+    #     return
     if not message.chat.type == 'private':
         return
     if message.from_user.id == admin:
@@ -130,9 +130,9 @@ def getBalance(message: types.Message):
 # Вызов Админ Панели
 @bot.message_handler(commands=["admin"])
 def start(message: types.Message):
-    if not checkMember(message.chat.id, required_chat_id):
-        bot.send_message(message.chat.id,f'Для доступа к каналу необходимо подписаться на канал!',reply_markup=kb.channel_url)
-        return
+    # if not checkMember(message.chat.id, required_chat_id):
+    #     bot.send_message(message.chat.id,f'Для доступа к каналу необходимо подписаться на канал!',reply_markup=kb.channel_url)
+    #     return
     if not message.chat.type == 'private':
         return
     if message.chat.id == admin or message.chat.id == admin2:
@@ -145,19 +145,18 @@ def start(message: types.Message):
 # Команды
 @bot.message_handler(content_types=["text"])
 def send_text(message):
-    print(func.decode_link(message.text))
     if not message.chat.type == 'private':
         return
-    if not checkMember(message.chat.id, required_chat_id):
-        bot.send_message(message.chat.id,f'Для доступа к каналу необходимо подписаться на канал!',reply_markup=kb.channel_url)
-        return
+    # if not checkMember(message.chat.id, required_chat_id):
+    #     bot.send_message(message.chat.id,f'Для доступа к каналу необходимо подписаться на канал!',reply_markup=kb.channel_url)
+    #     return
     chat_id = message.chat.id
     username = message.from_user.username
-    # try:
-    info = func.check_ban(user_id=chat_id)
-    if info[0] == "1":
+    try:
+        info = func.check_ban(user_id=chat_id)
+        if info[0] == "1":
             bot.send_message(chat_id, "⛔️ К сожалению, Вы получили блокировку!")
-    else:
+        else:
             info = func.search_block(chat_id)
             if info != None:
                 bot.send_message(
@@ -189,15 +188,20 @@ def send_text(message):
                         "Вывести ваши последние сделки где вы...",
                         reply_markup=kb.cors,
                     )
-                elif func.decode_link(message.text).startswith('offer'):
-                    offer_link_split = func.decode_link(message.text).split()
-                    seller_nick = offer_link_split[1]
-                    customer_nick = offer_link_split[2]
-                    get_offer_from_string(seller_nick_raw=seller_nick, customer_nick_raw=customer_nick, offer_type=offer_link_split[4], offer_link_split=offer_link_split)
-    # except Exception as e:
-    #     print(e, '1')
-    #     bot.send_message(chat_id, "Попробуйте заново")
-    #     func.first_join(user_id=chat_id, username=username)
+                else:
+                    try:
+                        if func.decode_link(message.text).startswith('offer'):
+                            offer_link_split = func.decode_link(message.text).split()
+                            seller_nick = offer_link_split[1]
+                            customer_nick = offer_link_split[2]
+                            get_offer_from_string(seller_nick_raw=seller_nick, customer_nick_raw=customer_nick, offer_type=offer_link_split[4], offer_link_split=offer_link_split)
+                    except Exception as e:
+                        print(e, ' decoder error')
+                        bot.send_message(chat_id, "Что-то пошло не так")
+    except Exception as e:
+        print(e, '1')
+        bot.send_message(chat_id, "Попробуйте заново")
+        func.first_join(user_id=chat_id, username=username)
 
 
 @bot.callback_query_handler(func=lambda call: True)
@@ -215,6 +219,7 @@ def handler_call(call):
             bot.edit_message_text(
                 chat_id=chat_id, message_id=message_id, text="⛔️ Сделок не обнаружено!"
             )
+            bot.edit_message_reply_markup(chat_id=chat_id, message_id=message_id, reply_markup=kb.go_back)
 
     elif call.data == "customer":
         info = func.last_offers_customer(chat_id)
@@ -224,6 +229,7 @@ def handler_call(call):
             bot.edit_message_text(
                 chat_id=chat_id, message_id=message_id, text="⛔️ Сделок не обнаружено!"
             )
+            bot.edit_message_reply_markup(chat_id=chat_id, message_id=message_id, reply_markup=kb.go_back)
 
     elif call.data == "menu":
         bot.edit_message_text(
@@ -412,12 +418,12 @@ def handler_call(call):
             bot.edit_message_text(
                 chat_id=chat_id,
                 message_id=message_id,
-                text=f"💰 Сделка №{info[3]}\n👤 Покупатель - {info_c[0]}\n💎 Продавец - {info_s[0]}\n\n💳 {'Сумма - Не указана' if int(info[2]) == 0 else f'{info[2]} USDT'}\n📄 Статус сделки - {status}",
+                text=f"💰 Сделка №{info[3]}\n👤 Покупатель - {info_c[0]}\n💎 Продавец - {info_s[0]}\n\n💳 {'Сумма - Не указана' if info[2] == None else f'{info[2]} USDT'}\n📄 Статус сделки - {status}",
                 reply_markup=kb.customer_panel,
             )
             bot.send_message(
                 info_s[0],
-                text=f"💰 Сделка №{info[3]}\n👤 Покупатель - {info_c[0]}\n💎 Продавец - {info_s[0]}\n\n💳 {'Сумма - Не указана' if int(info[2]) == 0 else f'{info[2]} USDT'}\n📄 Статус сделки - {status}",
+                text=f"💰 Сделка №{info[3]}\n👤 Покупатель - {info_c[0]}\n💎 Продавец - {info_s[0]}\n\n💳 {'Сумма - Не указана' if info[2] == None else f'{info[2]} USDT'}\n📄 Статус сделки - {status}",
                 reply_markup=kb.seller_panel,
             )
         except:
@@ -436,15 +442,16 @@ def handler_call(call):
             bot.edit_message_text(
                 chat_id=chat_id,
                 message_id=message_id,
-                text=f"💰 Сделка №{info[3]}\n👤 Покупатель - {info_c[0]}\n💎 Продавец - {info_s[0]}\n\n💳 {'Сумма - Не указана' if int(info[2]) == 0 else f'{info[2]} USDT'}\n📄 Статус сделки - {status}",
+                text=f"💰 Сделка №{info[3]}\n👤 Покупатель - {info_c[0]}\n💎 Продавец - {info_s[0]}\n\n💳 {'Сумма - Не указана' if info[2] == None else f'{info[2]} USDT'}\n📄 Статус сделки - {status}",
                 reply_markup=kb.seller_panel,
             )
             bot.send_message(
                 info_c[0],
-                text=f"💰 Сделка №{info[3]}\n👤 Покупатель - {info_c[0]}\n💎 Продавец - {info_s[0]}\n\n💳 {'Сумма - Не указана' if int(info[2]) == 0 else f'{info[2]} USDT'}\n📄 Статус сделки - {status}",
+                text=f"💰 Сделка №{info[3]}\n👤 Покупатель - {info_c[0]}\n💎 Продавец - {info_s[0]}\n\n💳 {'Сумма - Не указана' if info[2] == None else f'{info[2]} USDT'}\n📄 Статус сделки - {status}",
                 reply_markup=kb.customer_panel,
             )
-        except:
+        except Exception as e:
+            print(e, ' accept_seller')
             bot.answer_callback_query(
                 callback_query_id=call.id, show_alert=True, text=error
             )
@@ -966,6 +973,12 @@ def handler_call(call):
             bot.answer_callback_query(
                 callback_query_id=call.id, show_alert=True, text=error
             )
+    elif call.data == 'go_back':
+        bot.send_message(
+            chat_id,
+            "Вывести ваши последние сделки где вы...",
+            reply_markup=kb.cors,
+        )
 
 def getAmount(message):
     amount = message.text
@@ -1222,32 +1235,38 @@ def search_customer(message):
                             info[0],
                             "⛔️ С вами пытались провести сделку, однако система её отклонила, ведь вы проводите другую в настоящий момент!",
                         )
-    except:
+    except Exception as e:
+        print(e, ' search customer')
         bot.send_message(message.chat.id, text=error)
 
 
 def output(message):
-    if message.text.startswith("-"):
-        bot.send_message(message.chat.id, text="⛔️ Не в мою смену...")
-    else:
-        output_amount = float(message.text)
-        if output_amount * func.getExchangeRate() < 1:
-            msg = bot.send_message(message.chat.id, f'Минимальная сумма пополнения 1 USD \n Актульный курс USDT/USD = {func.getExchangeRate()}')
-            bot.register_next_step_handler(msg, output)
+    try:
+        if message.text.startswith("-"):
+            bot.send_message(message.chat.id, text="⛔️ Не в мою смену...")
         else:
-            info = func.profile(message.chat.id)
-            if float(info[2]) < output_amount:
-                msg = bot.send_message(message.chat.id, 'Недостаточно денег на балансе. Попробуйте еще раз.')
+            output_amount = float(message.text)
+            if output_amount * func.getExchangeRate() < 1:
+                msg = bot.send_message(message.chat.id, f'Минимальная сумма пополнения 1 USD \n Актульный курс USDT/USD = {func.getExchangeRate()}')
                 bot.register_next_step_handler(msg, output)
             else:
-                try:
-                    transfer = requests.get(api_link + f'transfer?user_id={message.chat.id}&spend_id={func.generate_random_string(16)}&asset=USDT&amount={output_amount}', headers=header).json()['result']
-                    func.output(message.chat.id, output_amount)
-                    bot.send_message(message.chat.id, f"Успешно выведено {transfer['amount']} USDT.")
-                except Exception as e:
-                    print(e)
-                    msg = bot.send_message(message.chat.id, "Что-то пошло не так. Попробуйте еще раз.")
+                info = func.profile(message.chat.id)
+                if float(info[2]) < output_amount:
+                    msg = bot.send_message(message.chat.id, 'Недостаточно денег на балансе. Попробуйте еще раз.')
                     bot.register_next_step_handler(msg, output)
+                else:
+                    try:
+                        transfer = requests.get(api_link + f'transfer?user_id={message.chat.id}&spend_id={func.generate_random_string(16)}&asset=USDT&amount={output_amount}', headers=header).json()['result']
+                        func.output(message.chat.id, output_amount)
+                        bot.send_message(message.chat.id, f"Успешно выведено {transfer['amount']} USDT.")
+                    except Exception as e:
+                        print(e, ' transfer error')
+                        msg = bot.send_message(message.chat.id, "Что-то пошло не так. Попробуйте еще раз.")
+                        bot.register_next_step_handler(msg, output)
+    except Exception as e:
+        print(e, ' output error')
+        bot.send_message(message.chat.id, text=error)
+
 
 
 def message1(message):
