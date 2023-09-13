@@ -1,0 +1,3 @@
+TOKEN = "6662932670:AAEgDYaQzKSK0zA4GXgYqJ0vPQ8hn10v9BA"
+admin_id = 0
+glav_admin_id = 1245273271
