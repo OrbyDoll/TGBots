@@ -144,12 +144,13 @@ async def call_handler(call: types.CallbackQuery, state: FSMContext):
                 await bot.send_message(chatid, "Что-то пошло не так⛔️")
         elif "start_cost" in call.data:
             try:
+                print(1)
                 auction_info = db.get_auction(chatid)
                 if auction_info[2] < auction_info[5]:
                     await bot.send_message(
                         chatid, "Уже нельзя поменять начальную ставку⛔️"
                     )
-                return
+                    return
                 await bot.send_message(chatid, "Введите новую начальную ставку💵")
                 await state.set_state(ClientState.CHANGESTARTCOST)
             except Exception as e:

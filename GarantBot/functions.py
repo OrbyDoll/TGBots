@@ -1,6 +1,6 @@
 import sqlite3
 import telebot
-from config import db, TOKEN, crypto_token, crypto_test_token, key
+from config import db1, TOKEN, crypto_token, crypto_test_token, key
 import random
 import requests
 import json
@@ -8,8 +8,11 @@ from random import randint
 import time
 import kboard
 import string
+import pathlib
+import sys
 from cryptography.fernet import Fernet
 from telebot import types
+
 
 def decode_link(link):
     decoder = Fernet(key)
@@ -21,7 +24,13 @@ class GiveBalance:
         self.login = user_id
         self.balance = None
 
-header = {'Crypto-Pay-API-Token' : crypto_test_token}
+
+header = {"Crypto-Pay-API-Token": crypto_test_token}
+
+script_dir = pathlib.Path(sys.argv[0]).parent
+db = script_dir / db1
+
+
 conn = sqlite3.connect(db)
 cur = conn.cursor()
 cur.execute(
@@ -57,61 +66,74 @@ cur.execute(
    review INTEGER PRIMARY KEY);
 """
 )
+
+
 def get_nick_from_id(id):
     connection = sqlite3.connect(db)
     q = connection.cursor()
-    res = q.execute(
-        "SELECT nick FROM users WHERE user_id = ?", (id,)
-    ).fetchone()
+    res = q.execute("SELECT nick FROM users WHERE user_id = ?", (id,)).fetchone()
     return res[0]
+
+
 def get_id_from_name(name):
     connection = sqlite3.connect(db)
     q = connection.cursor()
-    res = q.execute(
-        "SELECT user_id FROM users WHERE nick = ?", (name,)
-    ).fetchone()
+    res = q.execute("SELECT user_id FROM users WHERE nick = ?", (name,)).fetchone()
     return res[0]
+
+
 def getOffersNumber():
     res = 0
     connection = sqlite3.connect(db)
     q = connection.cursor()
-    offers = q.execute('SELECT seller FROM last_offers').fetchall()
+    offers = q.execute("SELECT seller FROM last_offers").fetchall()
     for seller in offers:
         res += 1
     return res
 
+
 def getSummFromString(str):
     spl_str = str.split()
     for i in range(len(spl_str)):
-        if spl_str[i] == 'сумму':
-            return float(spl_str[i+1])
-        
+        if spl_str[i] == "сумму":
+            return float(spl_str[i + 1])
+
+
 def getOffersSumm():
     summ = 0
     connection = sqlite3.connect(db)
     q = connection.cursor()
-    acts = q.execute('SELECT act FROM last_offers').fetchall()
+    acts = q.execute("SELECT act FROM last_offers").fetchall()
     for act in acts:
         summ += getSummFromString(act[0])
     return summ
 
+
 def generate_random_string(length):
     letters = string.ascii_lowercase
-    rand_string = ''.join(random.sample(letters, length))
+    rand_string = "".join(random.sample(letters, length))
     return rand_string
 
+
 def getExchangeRate():
-    exchangeRates = requests.get('https://testnet-pay.crypt.bot/api/getExchangeRates', headers=header).json()['result']
+    exchangeRates = requests.get(
+        "https://testnet-pay.crypt.bot/api/getExchangeRates", headers=header
+    ).json()["result"]
     for coin in exchangeRates:
-        if coin['source'] == 'USDT' and coin['target'] == "USD":
-            return float(coin['rate'])
+        if coin["source"] == "USDT" and coin["target"] == "USD":
+            return float(coin["rate"])
+
+
 def getUrlMarkup(url):
     cryptoMarkup = types.InlineKeyboardMarkup()
     cryptoMarkup.add(
-        types.InlineKeyboardButton(text='Перейти к оплате',url=url),
-        types.InlineKeyboardButton(text='Проверка оплаты', callback_data='check_payment')
+        types.InlineKeyboardButton(text="Перейти к оплате", url=url),
+        types.InlineKeyboardButton(
+            text="Проверка оплаты", callback_data="check_payment"
+        ),
     )
     return cryptoMarkup
+
 
 def first_join(user_id, username):
     connection = sqlite3.connect(db)
@@ -125,11 +147,16 @@ def first_join(user_id, username):
         )
         connection.commit()
     connection.close()
+
+
 def getUserBalance(user_id):
     connection = sqlite3.connect(db)
     q = connection.cursor()
-    balance = q.execute('SELECT balance FROM users WHERE user_id = ?', (user_id,)).fetchone()
+    balance = q.execute(
+        "SELECT balance FROM users WHERE user_id = ?", (user_id,)
+    ).fetchone()
     return balance
+
 
 def check_ban(user_id):
     connection = sqlite3.connect(db)
@@ -175,22 +202,38 @@ def last_offers_customer(user_id):
     return text
     connection.close()
 
+
 def input(user_id, balance):
     connection = sqlite3.connect(db)
     q = connection.cursor()
-    prev_balance = q.execute("SELECT balance FROM users WHERE user_id = ?", (user_id, )).fetchone()[0]
+    prev_balance = q.execute(
+        "SELECT balance FROM users WHERE user_id = ?", (user_id,)
+    ).fetchone()[0]
     new_balance = float(prev_balance) + float(balance)
-    q.execute("UPDATE users SET balance = ? WHERE user_id = ?", (new_balance, user_id,))
+    q.execute(
+        "UPDATE users SET balance = ? WHERE user_id = ?",
+        (
+            new_balance,
+            user_id,
+        ),
+    )
     connection.commit()
     connection.close()
+
 
 def output(user_id, money):
     connection = sqlite3.connect(db)
     q = connection.cursor()
-    prev_balance = q.execute("SELECT balance FROM users WHERE user_id = ?", (user_id, )).fetchone()[0]
+    prev_balance = q.execute(
+        "SELECT balance FROM users WHERE user_id = ?", (user_id,)
+    ).fetchone()[0]
     ost = float(prev_balance) - float(money)
     q.execute(
-        "UPDATE users SET balance = ? WHERE user_id = ?", (ost, user_id,)
+        "UPDATE users SET balance = ? WHERE user_id = ?",
+        (
+            ost,
+            user_id,
+        ),
     )
     connection.commit()
     connection.close()
@@ -230,6 +273,7 @@ def edit_balance(dict):
     connection.commit()
     connection.close()
 
+
 def admin_message(text):
     conn = sqlite3.connect(db)
     cursor = conn.cursor()
@@ -243,14 +287,10 @@ def search(search):
     connection = sqlite3.connect(db)
     q = connection.cursor()
 
-    row = q.execute(
-        "SELECT * FROM users WHERE user_id = ?", (search,)
-    ).fetchone()
+    row = q.execute("SELECT * FROM users WHERE user_id = ?", (search,)).fetchone()
     if not row == None:
         return row
-    rows = q.execute(
-        "SELECT * FROM users WHERE nick = ?", (search,)
-    ).fetchone()
+    rows = q.execute("SELECT * FROM users WHERE nick = ?", (search,)).fetchone()
     if not rows == None:
         return rows
     connection.close()

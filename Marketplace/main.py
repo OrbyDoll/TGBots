@@ -29,7 +29,6 @@ class ClientState(StatesGroup):
 
 db.create_tables()
 
-
 @dp.message_handler(commands=["start"])
 async def start(message: types.Message, state: FSMContext):
     try:
