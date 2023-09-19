@@ -47,8 +47,11 @@ async def call_handler(call: types.CallbackQuery):
             call.message.message_id,
             nav.categor_choose_forward,
         )
+    elif call.data == "shantazh":
+        await bot.send_message(chatid, "В разработке")
     else:
-        open_file = open(f"./test.txt", "rb")
+        file_name = call.data
+        open_file = open(f"Manuals/files/{file_name}.txt", "rb")
         await bot.send_document(chatid, open_file)
 
 
