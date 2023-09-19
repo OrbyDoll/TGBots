@@ -13,30 +13,30 @@ choose_action = types.InlineKeyboardMarkup(row_width=2).add(
 )
 
 categor = types.ReplyKeyboardMarkup(row_width=2, one_time_keyboard=True).add(
-    types.KeyboardButton(text='Мануалы'),
-    types.KeyboardButton(text='Теги'),
-    types.KeyboardButton(text='Деф'),
-    types.KeyboardButton(text='Услуги'),
-    types.KeyboardButton(text='Материалы'),
-    types.KeyboardButton(text='Софт'),
-    types.KeyboardButton(text='Боты'),
-    types.KeyboardButton(text='Сайты'),
-    types.KeyboardButton(text='PRADA'),
-    types.KeyboardButton(text='Другое')
+    types.KeyboardButton(text='Мануалы📓'),
+    types.KeyboardButton(text='Теги📧'),
+    types.KeyboardButton(text='Деф🛡'),
+    types.KeyboardButton(text='Услуги🤝'),
+    types.KeyboardButton(text='Материалы🗃'),
+    types.KeyboardButton(text='Софт🖥'),
+    types.KeyboardButton(text='Боты🤖'),
+    types.KeyboardButton(text='Сайты🌐'),
+    types.KeyboardButton(text='PRADA🏆'),
+    types.KeyboardButton(text='Другое⚙️')
 )
 
 buy_choose = types.InlineKeyboardMarkup(row_width=2).add(
-    types.InlineKeyboardButton("Да", callback_data='accept'),
-    types.InlineKeyboardButton("Нет", callback_data='deny')
+    types.InlineKeyboardButton("Да✔️", callback_data='accept'),
+    types.InlineKeyboardButton("Нет❌", callback_data='deny')
 )
 
 def get_offer_buy_button(offer_str):
     return types.InlineKeyboardMarkup().add(
-        types.InlineKeyboardButton(text='Купить', callback_data=f'buy_{offer_str}')
+        types.InlineKeyboardButton(text='Купить🛍', callback_data=f'buy_{offer_str}')
     )
 def get_offer_del_button(offer_str):
     return types.InlineKeyboardMarkup().add(
-        types.InlineKeyboardButton(text='Удалить', callback_data=f'del_{offer_str}')
+        types.InlineKeyboardButton(text='Удалить🗑', callback_data=f'del_{offer_str}')
     )
 
 # category_selection_menu = types.InlineKeyboardMarkup(row_width=2)
