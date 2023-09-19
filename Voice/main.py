@@ -12,7 +12,7 @@ dp = Dispatcher(bot)
 async def start(message: types.Message):
     if message.chat.type == "private":
         await bot.send_message(
-            message.chat.id, "Выберите категорию", reply_markup=nav.categor_choose
+            message.chat.id, "Выберите категорию📋", reply_markup=nav.categor_choose
         )
 
 
@@ -23,7 +23,7 @@ async def callback(call: types.CallbackQuery):
         choosed_category = call.data[4:]
         await bot.send_message(
             chatid,
-            "Выберите файл",
+            "Выберите файл📋",
             reply_markup=nav.get_category_page(choosed_category, 1),
         )
     elif call.data.startswith("page_"):
@@ -42,7 +42,7 @@ async def callback(call: types.CallbackQuery):
             await bot.send_audio(chatid, open_file)
         except Exception as e:
             print(e)
-            await bot.send_message(chatid, "Этот файл недоступен.")
+            await bot.send_message(chatid, "Этот файл недоступен⛔️")
 
 
 if __name__ == "__main__":

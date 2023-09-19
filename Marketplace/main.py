@@ -37,10 +37,10 @@ async def start(message: types.Message, state: FSMContext):
             if not garantDB.user_exists(message.chat.id):
                 await bot.send_message(
                     message.chat.id,
-                    "Для доступа к этому боту необходимо нажать на старт в нашем гарант боте.",
+                    "🗣️ Добро пожаловать в PRADA | MARKETPLACE - уникальную площадку по размещению ваших услуг и товаров, которая гарантирует безопасность как покупателя, так и продавца.\n💬 Внизу будет представлено пользовательское соглашение, запустив бота Вы автоматически подтверждаете что вы со всем ознакомились и даете свое согласие.\n🏆 PRADA | MARKETLACE - работай с лучшими!",
                     reply_markup=types.InlineKeyboardMarkup().add(
                         types.InlineKeyboardButton(
-                            text="Перейти в гарант бота",
+                            text="Перейти в гарант бота💎",
                             url="https://t.me/pradagarantbot",
                         )
                     ),
@@ -52,13 +52,13 @@ async def start(message: types.Message, state: FSMContext):
             db.set_balance(message.chat.id, float(balance))
             await bot.send_message(
                 message.from_user.id,
-                "Выберите действие",
+                "Выберите действие📋",
                 reply_markup=nav.choose_action,
             )
             await state.set_state(ClientState.START)
     except Exception as e:
         print(e, " start")
-        await bot.send_message(message.chat.id, "Что-то пошло не так")
+        await bot.send_message(message.chat.id, "Что-то пошло не так⛔️")
 
 
 @dp.callback_query_handler(state=ClientState.all_states)
@@ -68,33 +68,33 @@ async def callback_message(call: types.CallbackQuery, state: FSMContext):
         if "create_offer" in call.data:
             await bot.send_message(
                 chatid,
-                "К какой категории относиться ваш товар?",
+                "К какой категории относиться ваш товар?📦",
                 reply_markup=nav.categor,
             )
             await state.set_state(ClientState.CREATEOFFER_CATEGORY)
         elif "choose_product" in call.data:
             await bot.send_message(
-                chatid, "Выберите категорию", reply_markup=nav.categor
+                chatid, "Выберите категорию💼", reply_markup=nav.categor
             )
             await state.set_state(ClientState.CHOOSEPRODUCT_CATEGORY)
         elif "buy" in call.data:
             balance = garantDB.get_balance(chatid)[0]
             db.set_balance(chatid, float(balance))
             if int(call.data.split()[1]) == chatid:
-                await bot.send_message(chatid, "Нельзя купить свой товар")
+                await bot.send_message(chatid, "❌Нельзя купить свой товар❌")
                 await state.set_state(ClientState.START)
                 return
             elif int(db.get_user(chatid)[1]) < int(call.data.split()[3]):
                 await bot.send_message(
                     chatid,
-                    f"Недостаточно денег на балансе. Ваш баланс {db.get_user(chatid)[1]} USDT",
+                    f"❌Недостаточно денег на балансе. Ваш баланс {db.get_user(chatid)[1]} USDT❌",
                 )
                 await state.set_state(ClientState.START)
                 return
             await state.update_data(seller_id=call.data[4:])
             await bot.send_message(
                 chatid,
-                "Вы уверены что хотите купить этот товар? Потом это действие нельзя будет отменить",
+                "🔔Вы уверены что хотите купить этот товар? Потом это действие нельзя будет отменить🔔",
                 reply_markup=nav.buy_choose,
             )
         elif "accept" in call.data:
@@ -102,12 +102,12 @@ async def callback_message(call: types.CallbackQuery, state: FSMContext):
             buy_link = state_data["seller_id"]
             await bot.edit_message_text(
                 chat_id=chatid,
-                text=f"Отправьте данный текст нашему гаранту для начала сделки: `{nav.code_link(buy_link.encode())}`",
+                text=f"📨Отправьте данный текст нашему гаранту для начала сделки: `{nav.code_link(buy_link.encode())}`📨",
                 message_id=call.message.message_id,
                 parse_mode="MARKDOWN",
                 reply_markup=types.InlineKeyboardMarkup().add(
                     types.InlineKeyboardButton(
-                        text="Перейти в гарант бота", url="https://t.me/pradagarantbot"
+                        text="Перейти в гарант бота➡️", url="https://t.me/pradagarantbot"
                     )
                 ),
             )
@@ -116,11 +116,11 @@ async def callback_message(call: types.CallbackQuery, state: FSMContext):
             await bot.delete_message(chatid, call.message.message_id)
             await state.set_state(ClientState.START)
             await bot.send_message(
-                chatid, "Выберите действие", reply_markup=nav.choose_action
+                chatid, "Выберите действие📋", reply_markup=nav.choose_action
             )
         elif "my_products" in call.data:
             await bot.send_message(
-                chatid, "Выберите категорию", reply_markup=nav.categor
+                chatid, "Выберите категорию📋", reply_markup=nav.categor
             )
             await state.set_state(ClientState.DELETEPRODUCT_CATEGORY)
         elif "del" in call.data:
@@ -128,10 +128,10 @@ async def callback_message(call: types.CallbackQuery, state: FSMContext):
             db.del_offer_products(chatid, offer_str.split("/"))
             await bot.delete_message(chatid, call.message.message_id)
             await state.set_state(ClientState.START)
-            await bot.send_message(chatid, "Товар удален")
+            await bot.send_message(chatid, "Товар удален✔️")
     except Exception as e:
         print(e, " callback")
-        await bot.send_message(chatid, "Что-то пошло не так")
+        await bot.send_message(chatid, "Что-то пошло не так⛔️")
 
 
 @dp.message_handler(state=ClientState.DELETEPRODUCT_CATEGORY)
@@ -148,7 +148,7 @@ async def createOffer(message: types.Message, state: FSMContext):
             if choosed_category == product_category:
                 await bot.send_message(
                     message.chat.id,
-                    f"Категория: {product_category}\nТовар: {product_name}\nЦена: {product_price} USDT",
+                    f"💼Категория: {product_category}\n📦Товар: {product_name}\n💲Цена: {product_price} USDT",
                     reply_markup=nav.get_offer_del_button(del_link),
                 )
 
@@ -173,16 +173,16 @@ async def createOffer1(message: types.Message, state: FSMContext):
                         res = True
                         await bot.send_message(
                             message.chat.id,
-                            f"Категория: {product_category}\nТовар: {product_name}\nАвтор: {owner_id}\nЦена: {product_price} USDT",
+                            f"💼Категория: {product_category}\n📦Товар: {product_name}\nАвтор: {owner_id}\n💲Цена: {product_price} USDT",
                             reply_markup=nav.get_offer_buy_button(buy_link),
                         )
         if not res:
             await bot.send_message(
-                message.chat.id, "Товаров в данной категории не найдено."
+                message.chat.id, "Товаров в данной категории не найдено❌."
             )
     except Exception as e:
         print(e, " create offer 1")
-        await bot.send_message(message.chat.id, "Что-то пошло не так")
+        await bot.send_message(message.chat.id, "Что-то пошло не так⛔️")
 
 
 @dp.message_handler(state=ClientState.CREATEOFFER_CATEGORY)
@@ -190,12 +190,12 @@ async def createOffer(message: types.Message, state: FSMContext):
     try:
         await state.update_data(product_category=message.text)
         await bot.send_message(
-            message.chat.id, "Напишите краткое описание вашего товара"
+            message.chat.id, "Напишите краткое описание вашего товара✏️"
         )
         await state.set_state(ClientState.CREATEOFFER_NAME)
     except Exception as e:
         print(e, " create offer 2")
-        await bot.send_message(message.chat.id, "Что-то пошло не так")
+        await bot.send_message(message.chat.id, "Что-то пошло не так⛔️")
 
 
 @dp.message_handler(state=ClientState.CREATEOFFER_NAME)
@@ -203,12 +203,12 @@ async def createOffer(message: types.Message, state: FSMContext):
     try:
         await state.update_data(product_name=message.text)
         await bot.send_message(
-            message.chat.id, "Напишите стоимость вашего товара в USDT"
+            message.chat.id, "Напишите стоимость вашего товара в USDT💲"
         )
         await state.set_state(ClientState.CREATEOFFER_PRICE)
     except Exception as e:
         print(e, " create offer 3")
-        await bot.send_message(message.chat.id, "Что-то пошло не так")
+        await bot.send_message(message.chat.id, "Что-то пошло не так⛔️")
 
 
 @dp.message_handler(state=ClientState.CREATEOFFER_PRICE)
@@ -222,12 +222,12 @@ async def createOffer(message: types.Message, state: FSMContext):
         product_name = state_data["product_name"]
         db.add_offer(message.chat.id, [product_category, product_name, product_price])
         await bot.send_message(
-            message.chat.id, "Продукт успешно добавлен", reply_markup=nav.choose_action
+            message.chat.id, "Продукт успешно добавлен✔️", reply_markup=nav.choose_action
         )
         await state.set_state(ClientState.START)
     except Exception as e:
         print(e)
-        await bot.send_message(message.chat.id, "Что-то пошло не так.")
+        await bot.send_message(message.chat.id, "Что-то пошло не так⛔️")
 
 
 if __name__ == "__main__":

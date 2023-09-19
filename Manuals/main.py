@@ -25,7 +25,7 @@ async def start(message: types.Message):
     if message.chat.type == "private":
         await bot.send_message(
             message.chat.id,
-            "Выберите категорию",
+            "Выберите категорию📋",
             reply_markup=nav.categor_choose_forward,
         )
 
