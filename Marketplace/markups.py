@@ -6,6 +6,13 @@ coder = Fernet(cfg.key)
 def code_link(text):
     return coder.encrypt(text).decode()
 
+menu = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2).add(
+    types.KeyboardButton(text="Создать предложение"),
+    types.KeyboardButton(text="Выбрать товар"),
+    types.KeyboardButton(text="Мои товары"),
+)
+
+
 choose_action = types.InlineKeyboardMarkup(row_width=2).add(
     types.InlineKeyboardButton(text='Создать предложение', callback_data='create_offer'),
     types.InlineKeyboardButton(text='Выбрать товар', callback_data='choose_product'),
@@ -28,6 +35,12 @@ categor = types.ReplyKeyboardMarkup(row_width=2, one_time_keyboard=True).add(
 buy_choose = types.InlineKeyboardMarkup(row_width=2).add(
     types.InlineKeyboardButton("Да✔️", callback_data='accept'),
     types.InlineKeyboardButton("Нет❌", callback_data='deny')
+)
+
+sort_choose = types.InlineKeyboardMarkup(row_width=2).add(
+    types.InlineKeyboardButton(text="Сначала дорогие", callback_data="sort_increase"),
+    types.InlineKeyboardButton(text="Сначала дешевые", callback_data="sort_decrease"),
+    types.InlineKeyboardButton(text="Сначала новые", callback_data="sort_no"),
 )
 
 def get_offer_buy_button(offer_str):

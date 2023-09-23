@@ -231,7 +231,7 @@ def send_text(message):
 
 
 @bot.callback_query_handler(func=lambda call: True)
-def handler_call(call):
+def handler_call(call: types.CallbackQuery):
     chat_id = call.message.chat.id
     message_id = call.message.message_id
     if call.data == "output":
@@ -1007,9 +1007,15 @@ def handler_call(call):
                 callback_query_id=call.id, show_alert=True, text=error
             )
     elif call.data == "go_back":
-        bot.send_message(
-            chat_id,
-            "Вывести ваши последние сделки где вы...",
+        bot.edit_message_text(
+            message_id=call.message.message_id,
+            chat_id=chat_id,
+            text="Вывести ваши последние сделки где вы...",
+        )
+        bot.edit_message_reply_markup(
+            chat_id=chat_id,
+            message_id=call.message.message_id,
+            inline_message_id=call.message.message_id,
             reply_markup=kb.cors,
         )
 
