@@ -295,6 +295,7 @@ async def call_handler(call: types.CallbackQuery, state: FSMContext):
                     "Сейчас нет активных аукционов этой категории.⛔️",
                     reply_markup=nav.menu,
                 )
+                await state.set_state(ClientState.START)
                 return
             await bot.send_message(
                 chatid,
