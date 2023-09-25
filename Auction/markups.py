@@ -88,7 +88,6 @@ def accept_offer(offer_id):
 
 
 del_auction = types.InlineKeyboardMarkup().add(
-    types.InlineKeyboardButton(text="Вернуться в меню", callback_data="return"),
     types.InlineKeyboardButton(
         text="Перейти в гарант бота ➡️", url="https://t.me/pradagarantbot"
     ),

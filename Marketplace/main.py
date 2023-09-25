@@ -219,7 +219,7 @@ async def chooseProduct(message: types.Message, state: FSMContext):
                     product_category = offer_list[0]
                     product_name = offer_list[1]
                     product_price = offer_list[2]
-                    buy_link = f"offer {owner_id} {message.chat.id} {product_price} customer-seller"
+                    buy_link = f"offer {message.chat.id} {owner_id} {product_price} customer-seller"
                     if choosed_category == product_category:
                         res = True
                         await bot.send_message(

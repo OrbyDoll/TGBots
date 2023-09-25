@@ -69,6 +69,7 @@ cur.execute(
 
 
 def get_nick_from_id(id):
+    print(id)
     connection = sqlite3.connect(db)
     q = connection.cursor()
     res = q.execute("SELECT nick FROM users WHERE user_id = ?", (id,)).fetchone()
@@ -630,10 +631,10 @@ def dispute_info_seller(user_id):
     conn.close()
 
 
-def check_deal(user_id):
+def check_deal(nick):
     connection = sqlite3.connect(db)
     q = connection.cursor()
-    results = q.execute("SELECT user_id FROM users WHERE nick=?", (user_id,))
+    results = q.execute("SELECT user_id FROM users WHERE nick=?", (nick,))
     results = results.fetchone()
     row = q.execute("SELECT user_id2 FROM temp_deal WHERE user_id=?", (results[0],))
     row = row.fetchone()

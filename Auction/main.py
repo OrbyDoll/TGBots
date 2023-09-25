@@ -476,7 +476,7 @@ async def call_handler(call: types.CallbackQuery, state: FSMContext):
                 members_id = db.get_members_id(chatid)[0].split("/")
                 auction_info = db.get_auction(chatid)
                 user_info = db.get_user(author_id)
-                offer_link = f"offer {db.get_user(chatid)[2]} {user_info[2]} {auction_info[5]} seller-customer"
+                offer_link = f"offer {db.get_user(chatid)[0]} {user_info[0]} {auction_info[5]} seller-customer"
                 await bot.send_message(
                     author_id,
                     f"Вы выиграли аукцион. Ваша ставка: {auction_info[5]} USDT. Продавец предложит вам сделку в нашем гаранте✅",
@@ -488,6 +488,7 @@ async def call_handler(call: types.CallbackQuery, state: FSMContext):
                     parse_mode="MARKDOWN",
                     reply_markup=nav.del_auction,
                 )
+                await state.set_state(ClientState.START)
                 db.del_auction(chatid)
                 for member in members_id:
                     if not member == "" and not int(member) == author_id:
