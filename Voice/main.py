@@ -24,12 +24,14 @@ async def callback(call: types.CallbackQuery):
         await bot.send_message(
             chatid,
             "Выберите файл📋",
-            reply_markup=nav.get_category_page(choosed_category, 1),
+            reply_markup=nav.get_category_page(choosed_category, 0),
         )
     elif call.data.startswith("page_"):
         data_split = call.data.split()
         choosed_category = data_split[2]
         page = int(data_split[1])
+        if nav.get_category_page(choosed_category, page) == "huy":
+            return
         await bot.edit_message_reply_markup(
             chatid,
             call.message.message_id,
@@ -38,7 +40,11 @@ async def callback(call: types.CallbackQuery):
         )
     else:
         try:
-            open_file = open(f"Voice/files/{call.data}.ogg", "rb")
+            data_split = call.data.split()
+            open_file = open(
+                f"Voice/files/{data_split[0]}/{data_split[1] + '  ' + data_split[2]}.ogg",
+                "rb",
+            )
             await bot.send_audio(chatid, open_file)
         except Exception as e:
             print(e)

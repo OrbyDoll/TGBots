@@ -57,6 +57,11 @@ async def start(message: types.Message, state: FSMContext):
                     ),
                 )
                 return
+            elif garantDB.check_ban(message.chat.id) == "1":
+                await bot.send_message(
+                    message.chat.id, "К сожалению вы получили блокировку."
+                )
+                return
             await bot.send_message(
                 message.chat.id,
                 "Тестовое сообщение типо абуба бубаб",
@@ -67,11 +72,6 @@ async def start(message: types.Message, state: FSMContext):
             if not db.user_exists(message.chat.id):
                 db.add_user(message.chat.id, float(balance), message.from_user.username)
             db.set_balance(message.chat.id, float(balance))
-            # await bot.send_message(
-            #     message.chat.id,
-            #     f"Привет {message.from_user.username}! \n\nСоздавай собственный аукцион или присоединяйся к уже сущетсвующему.🏺",
-            #     reply_markup=nav.action_choose,
-            # )
             await state.update_data(author_id=None)
             current_state = await state.get_state()
             if current_state == None:
@@ -83,6 +83,18 @@ async def start(message: types.Message, state: FSMContext):
 @dp.message_handler(state=ClientState.GETAUCTIONS)
 async def getAuctions(message: types.Message, state: FSMContext):
     try:
+        if message.text == "Назад":
+            await bot.send_message(
+                message.chat.id,
+                "Тестовое сообщение типо абуба бубаб",
+                reply_markup=nav.menu,
+            )
+            await bot.delete_message(message.chat.id, message.message_id)
+            await bot.delete_message(message.chat.id, message.message_id - 1)
+            await bot.delete_message(message.chat.id, message.message_id - 2)
+            await bot.delete_message(message.chat.id, message.message_id - 3)
+            await state.set_state(ClientState.START)
+            return
         await state.update_data(desired_category=message.text[:-1])
         await bot.send_message(
             message.chat.id, "Выберите вариант сортировки", reply_markup=nav.sort_choose
@@ -95,12 +107,26 @@ async def getAuctions(message: types.Message, state: FSMContext):
 @dp.message_handler(state=ClientState.SETAUCTIONCATEGORY)
 async def setAuctionCategory(message: types.Message, state: FSMContext):
     try:
+        if message.text == "Назад":
+            await bot.send_message(
+                message.chat.id,
+                "Тестовое сообщение типо абуба бубаб",
+                reply_markup=nav.menu,
+            )
+            await bot.delete_message(message.chat.id, message.message_id)
+            await bot.delete_message(message.chat.id, message.message_id - 1)
+            await bot.delete_message(message.chat.id, message.message_id - 2)
+            await bot.delete_message(message.chat.id, message.message_id - 3)
+            await state.set_state(ClientState.START)
+            return
         auctionCategory = message.text[:-1]
         await state.update_data(product_category=auctionCategory)
         await bot.send_message(
             message.chat.id,
             "Напишите название товара📦",
-            reply_markup=nav.menu,
+            reply_markup=types.InlineKeyboardMarkup().add(
+                types.InlineKeyboardButton(text="Назад", callback_data="back_2")
+            ),
         )
         await state.set_state(ClientState.SETAUCTIONPRODUCT)
     except Exception as e:
@@ -114,7 +140,11 @@ async def setAuctionProduct(message: types.Message, state: FSMContext):
         productName = message.text
         await state.update_data(product_name=productName)
         await bot.send_message(
-            message.chat.id, "Введите начальную ставку для вашего аукциона."
+            message.chat.id,
+            "Введите начальную ставку для вашего аукциона.",
+            reply_markup=types.InlineKeyboardMarkup().add(
+                types.InlineKeyboardButton(text="Назад", callback_data="back_2")
+            ),
         )
         await state.set_state(ClientState.FINSIHCREATEAUCTION)
     except Exception as e:
@@ -135,7 +165,7 @@ async def createAuction(message: types.Message, state: FSMContext):
             "Аукцион успешно создан, ожидайте участников✅",
             reply_markup=nav.owner_actions,
         )
-        await state.set_state(ClientState.AUCTIONOWNER)
+        await state.set_state(ClientState.START)
     except Exception as e:
         print(e, "finish create auction")
         await bot.send_message(message.chat.id, "Что-то пошло не так⛔️")
@@ -164,6 +194,10 @@ async def changeStartCost(message: types.Message, state: FSMContext):
 @dp.message_handler(state=ClientState.OFFERRATE)
 async def offerRate(message: types.Message, state: FSMContext):
     try:
+        if message.text == "Назад":
+            await bot.delete_message(message.message_id)
+            await bot.delete_message(message.message_id - 1)
+            return
         offer = int(message.text)
         user_info = db.get_user(message.chat.id)
         state_data = await state.get_data()
@@ -201,6 +235,9 @@ async def offerRate(message: types.Message, state: FSMContext):
 @dp.message_handler(content_types=["text"], state=ClientState.all_states)
 async def writeText(message: types.Message, state: FSMContext):
     chatid = message.chat.id
+    if garantDB.check_ban(chatid) == "1":
+        await bot.send_message(chatid, "К сожалению вы получили блокировку.")
+        return
     if message.text == "Список аукционов ⚖️":
         try:
             state_data = await state.get_data()
@@ -241,18 +278,11 @@ async def writeText(message: types.Message, state: FSMContext):
     elif message.text == "Перейти к своему аукциону 🔓":
         try:
             if db.check_active_auction(chatid):
-                current_state = await state.get_state()
-                if current_state == "ClientState:AUCTIONOWNER":
-                    await bot.send_message(
-                        chatid, "Вы уже находитесь в своем аукционе.⛔️"
-                    )
-                else:
-                    await bot.send_message(
-                        chatid,
-                        "Ваш аукцион, ожидайте участников👥",
-                        reply_markup=nav.owner_actions,
-                    )
-                    await state.set_state(ClientState.AUCTIONOWNER)
+                await bot.send_message(
+                    chatid,
+                    "Ваш аукцион, ожидайте участников👥",
+                    reply_markup=nav.owner_actions,
+                )
             else:
                 await bot.send_message(chatid, "У вас нет активного аукциона⛔️")
         except Exception as e:
@@ -335,17 +365,11 @@ async def call_handler(call: types.CallbackQuery, state: FSMContext):
         elif "my_auction" in call.data:
             if db.check_active_auction(chatid):
                 current_state = await state.get_state()
-                if current_state == "ClientState:AUCTIONOWNER":
-                    await bot.send_message(
-                        chatid, "Вы уже находитесь в своем аукционе.⛔️"
-                    )
-                else:
-                    await bot.send_message(
-                        chatid,
-                        "Ваш аукцион, ожидайте участников👥",
-                        reply_markup=nav.owner_actions,
-                    )
-                    await state.set_state(ClientState.AUCTIONOWNER)
+                await bot.send_message(
+                    chatid,
+                    "Ваш аукцион, ожидайте участников👥",
+                    reply_markup=nav.owner_actions,
+                )
             else:
                 await bot.send_message(chatid, "У вас нет активного аукциона⛔️")
         elif "remove_auction" in call.data:
@@ -369,18 +393,34 @@ async def call_handler(call: types.CallbackQuery, state: FSMContext):
                 await bot.send_message(chatid, "Что-то пошло не так⛔️")
         elif "start_cost" in call.data:
             try:
-                print(1)
                 auction_info = db.get_auction(chatid)
                 if auction_info[2] < auction_info[5]:
                     await bot.send_message(
                         chatid, "Уже нельзя поменять начальную ставку⛔️"
                     )
                     return
-                await bot.send_message(chatid, "Введите новую начальную ставку💵")
+                await bot.send_message(
+                    chatid,
+                    "Введите новую начальную ставку💵",
+                    reply_markup=types.InlineKeyboardMarkup().add(
+                        types.InlineKeyboardButton(text="Назад", callback_data="back_1")
+                    ),
+                )
                 await state.set_state(ClientState.CHANGESTARTCOST)
             except Exception as e:
                 print(e, call.data)
                 await bot.send_message(chatid, "Что-то пошло не так⛔️")
+        elif "back" in call.data:
+            try:
+                await bot.delete_message(chatid, call.message.message_id)
+                if call.data[-1] == "2":
+                    await bot.delete_message(chatid, call.message.message_id - 1)
+                    await bot.send_message("Включение меню", reply_markup=nav.menu)
+                await state.set_state(ClientState.START)
+            except Exception as e:
+                print(e, call.data)
+                await bot.send_message(chatid, "Что-то пошло не так⛔️")
+
         elif "enter_auction" in call.data:
             try:
                 author_id = int(call.data[13:])

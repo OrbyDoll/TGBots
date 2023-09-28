@@ -60,6 +60,7 @@ categor = types.ReplyKeyboardMarkup(row_width=2, one_time_keyboard=True).add(
     types.KeyboardButton(text="Сайты🌐"),
     types.KeyboardButton(text="PRADA🏆"),
     types.KeyboardButton(text="Другое⚙️"),
+    types.KeyboardButton(text="Назад"),
 )
 owner_actions = types.InlineKeyboardMarkup(row_width=1)
 owner_actions.add(
