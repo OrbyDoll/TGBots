@@ -58,7 +58,6 @@ categor = types.ReplyKeyboardMarkup(row_width=2, one_time_keyboard=True).add(
     types.KeyboardButton(text="Софт🖥"),
     types.KeyboardButton(text="Боты🤖"),
     types.KeyboardButton(text="Сайты🌐"),
-    types.KeyboardButton(text="PRADA🏆"),
     types.KeyboardButton(text="Другое⚙️"),
     types.KeyboardButton(text="Назад"),
 )

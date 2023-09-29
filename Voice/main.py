@@ -38,7 +38,12 @@ async def callback(call: types.CallbackQuery):
             call.message.message_id,
             nav.get_category_page(choosed_category, page),
         )
-    else:
+    elif call.data == "back":
+        await bot.delete_message(chatid, call.message.message_id)
+        # await bot.send_message(
+        #     chatid, "Выберите категорию📋", reply_markup=nav.categor_choose
+        # )
+    elif not call.data == "aboba":
         try:
             data_split = call.data.split()
             open_file = open(

@@ -109,8 +109,8 @@ async def setAuctionCategory(message: types.Message, state: FSMContext):
     try:
         if message.text == "Назад":
             await bot.send_message(
-                message.chat.id,
-                "Тестовое сообщение типо абуба бубаб",
+                chat_id=message.chat.id,
+                text="Тестовое сообщение типо абуба бубаб",
                 reply_markup=nav.menu,
             )
             await bot.delete_message(message.chat.id, message.message_id)

@@ -39,9 +39,7 @@ def checkMember(userid, chatid):
     return True
 
 
-def get_offer_from_string(
-    seller_id, customer_id, offer_type, offer_link_split
-):
+def get_offer_from_string(seller_id, customer_id, offer_type, offer_link_split):
     seller_nick = func.get_nick_from_id(seller_id)
     customer_nick = func.get_nick_from_id(customer_id)
     offer_price = offer_link_split[3]
@@ -158,12 +156,12 @@ def send_text(message):
     #     return
     chat_id = message.chat.id
     username = message.from_user.username
-    # try:
-    info = func.check_ban(user_id=chat_id)
-    if info[0] == "1":
-        bot.send_message(chat_id, "⛔️ К сожалению, Вы получили блокировку!")
-    else:
-        info = func.search_block(chat_id)
+    try:
+        info = func.check_ban(user_id=chat_id)
+        if info[0] == "1":
+            bot.send_message(chat_id, "⛔️ К сожалению, Вы получили блокировку!")
+        else:
+            info = func.search_block(chat_id)
         if info != None:
             bot.send_message(
                 chat_id,
@@ -196,25 +194,25 @@ def send_text(message):
                     reply_markup=kb.cors,
                 )
             else:
-                # try:
-                print(func.decode_link(message.text))
-                if func.decode_link(message.text).startswith("offer"):
-                    offer_link_split = func.decode_link(message.text).split()
-                    seller_id = offer_link_split[1]
-                    customer_id = offer_link_split[2]
-                    get_offer_from_string(
-                        seller_id=seller_id,
-                        customer_id=customer_id,
-                        offer_type=offer_link_split[4],
-                        offer_link_split=offer_link_split,
-                    )
-            # except Exception as e:
-            #     print(e, " decoder error")
-            #     bot.send_message(chat_id, "Что-то пошло не так")
-    # except Exception as e:
-    #     print(e, "1")
-    #     bot.send_message(chat_id, "Попробуйте заново")
-    #     func.first_join(user_id=chat_id, username=username)
+                try:
+                    print(func.decode_link(message.text))
+                    if func.decode_link(message.text).startswith("offer"):
+                        offer_link_split = func.decode_link(message.text).split()
+                        seller_id = offer_link_split[1]
+                        customer_id = offer_link_split[2]
+                        get_offer_from_string(
+                            seller_id=seller_id,
+                            customer_id=customer_id,
+                            offer_type=offer_link_split[4],
+                            offer_link_split=offer_link_split,
+                        )
+                except Exception as e:
+                    print(e, " decoder error")
+                    bot.send_message(chat_id, "Попробуйте заново")
+    except Exception as e:
+        print(e, "1")
+        bot.send_message(chat_id, "Попробуйте заново")
+        func.first_join(user_id=chat_id, username=username)
 
 
 @bot.callback_query_handler(func=lambda call: True)

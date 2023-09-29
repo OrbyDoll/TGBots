@@ -90,7 +90,7 @@ async def callback_message(call: types.CallbackQuery, state: FSMContext):
             await bot.send_message(
                 chatid,
                 "К какой категории относиться ваш товар?📦",
-                reply_markup=nav.categor,
+                reply_markup=nav.categor_without_prada,
             )
             await state.set_state(ClientState.CREATEOFFER_CATEGORY)
         elif "buy" in call.data:
@@ -133,6 +133,34 @@ async def callback_message(call: types.CallbackQuery, state: FSMContext):
             await bot.delete_message(chatid, call.message.message_id)
             await state.set_state(ClientState.START)
             await bot.send_message(chatid, "Выберите действие📋", reply_markup=nav.menu)
+        elif "service" in call.data:
+            await bot.delete_message(chatid, call.message.message_id)
+            choosed_service = call.data[8:]
+            await bot.send_message(
+                chatid,
+                nav.prada_service_list[choosed_service]["text"],
+                reply_markup=types.InlineKeyboardMarkup().add(
+                    types.InlineKeyboardButton(
+                        text="Заказать", callback_data=f"order_{choosed_service}"
+                    ),
+                    types.InlineKeyboardButton(
+                        text="Назад к услугам", callback_data="choose"
+                    ),
+                ),
+            )
+            await state.set_state(ClientState.START)
+        elif "choose" in call.data:
+            await bot.delete_message(chatid, call.message.message_id)
+            await bot.send_message(
+                chatid, "Выберите интересующую услугу", reply_markup=nav.service_markup
+            )
+        elif "order" in call.data:
+            choosed_service = call.data[6:]
+            await bot.send_message(
+                chatid,
+                nav.prada_service_list[choosed_service]["contacts"],
+                reply_markup=nav.menu,
+            )
         elif "my_products" in call.data:
             if db.get_user_offers(chatid) == None:
                 await bot.send_message(chatid, "У вас нет активных предложений")
@@ -222,6 +250,7 @@ async def createOffer(message: types.Message, state: FSMContext):
             await bot.send_message(
                 message.chat.id, "Включение меню", reply_markup=nav.menu
             )
+        await state.set_state(ClientState.START)
 
     except Exception as e:
         print(e, " delete product")
@@ -231,6 +260,21 @@ async def createOffer(message: types.Message, state: FSMContext):
 @dp.message_handler(state=ClientState.CHOOSEPRODUCT_CATEGORY)
 async def chooseProduct(message: types.Message, state: FSMContext):
     try:
+        if message.text == "Назад":
+            await bot.delete_message(message.chat.id, message.message_id)
+            await bot.delete_message(message.chat.id, message.message_id - 1)
+            await bot.send_message(
+                message.chat.id, "Включение меню", reply_markup=nav.menu
+            )
+            await state.set_state(ClientState.START)
+            return
+        elif message.text == "PRADA🏆":
+            await bot.send_message(
+                message.chat.id,
+                "Выберите интересующую услугу",
+                reply_markup=nav.service_markup,
+            )
+            return
         await state.update_data(choosed_category=message.text[:-1])
         await bot.send_message(
             message.chat.id, "Выберите вариант сортировки", reply_markup=nav.sort_choose
@@ -246,7 +290,6 @@ async def createOffer(message: types.Message, state: FSMContext):
     try:
         if message.text == "Назад":
             await bot.delete_message(message.chat.id, message.message_id)
-            await bot.delete_message(message.chat.id, message.message_id - 1)
             await bot.send_message(
                 message.chat.id, "Включение меню", reply_markup=nav.menu
             )

@@ -19,7 +19,6 @@ def get_category_page(category, page):
     choosed_category = files_name[category]
     category_lenght = math.ceil(len(choosed_category) / 8)
     if 8 * page <= len(choosed_category) and 8 * page >= 0:
-        print(page)
         for item in range(
             8 * page,
             8 * (page + 1)
@@ -42,6 +41,11 @@ def get_category_page(category, page):
             text=f"{page + 1}/{category_lenght}", callback_data="aboba"
         )
         item_choose.row(button_back, button_middle, button_forward)
+        item_choose.row(
+            types.InlineKeyboardButton(
+                text="Назад к выбору категории", callback_data="back"
+            )
+        )
         if not page == 1:
             item_choose.add()
         if not page * 8 >= len(choosed_category):
