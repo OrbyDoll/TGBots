@@ -12,8 +12,7 @@ dp = Dispatcher(bot)
 async def start(message: types.Message):
     if message.chat.type == "private":
         await bot.send_message(
-            message.chat.id, "Выберите категорию📋", reply_markup=nav.categor_choose
-        )
+            message.chat.id, f"Приветствую, {message.from_user.username} ✅\n\nPRADA MATERIALS - универсальный, полностью бесплатный бот, позволяющий вам брать материалы для комфортной работы по любым направлениям💎\n\n🏆PRADA EMPIRE - работай с лучшим🏆", reply_markup=nav.categor_choose)
 
 
 @dp.callback_query_handler()
@@ -24,21 +23,32 @@ async def callback(call: types.CallbackQuery):
         await bot.send_message(
             chatid,
             "Выберите файл📋",
-            reply_markup=nav.get_category_page(choosed_category, 1),
+            reply_markup=nav.get_category_page(choosed_category, 0),
         )
     elif call.data.startswith("page_"):
         data_split = call.data.split()
         choosed_category = data_split[2]
         page = int(data_split[1])
+        if nav.get_category_page(choosed_category, page) == "huy":
+            return
         await bot.edit_message_reply_markup(
             chatid,
             call.message.message_id,
             call.message.message_id,
             nav.get_category_page(choosed_category, page),
         )
-    else:
+    elif call.data == "back":
+        await bot.delete_message(chatid, call.message.message_id)
+        # await bot.send_message(
+        #     chatid, "Выберите категорию📋", reply_markup=nav.categor_choose
+        # )
+    elif not call.data == "aboba":
         try:
-            open_file = open(f"Voice/files/{call.data}.ogg", "rb")
+            data_split = call.data.split()
+            open_file = open(
+                f"Voice/files/{data_split[0]}/{data_split[1] + '  ' + data_split[2]}.ogg",
+                "rb",
+            )
             await bot.send_audio(chatid, open_file)
         except Exception as e:
             print(e)

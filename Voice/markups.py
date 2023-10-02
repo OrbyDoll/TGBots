@@ -1,6 +1,6 @@
 from aiogram import types
 from filesMass import files_name
-
+import math
 
 categor_choose = types.InlineKeyboardMarkup(row_width=2).add(
     types.InlineKeyboardButton(text="🌐Universal🌐", callback_data="cat_universal"),
@@ -15,27 +15,41 @@ categor_choose = types.InlineKeyboardMarkup(row_width=2).add(
 
 
 def get_category_page(category, page):
-    item_choose = types.InlineKeyboardMarkup(row_width=2)
+    item_choose = types.InlineKeyboardMarkup(row_width=1)
     choosed_category = files_name[category]
-    for item in range(
-        8 * (page - 1),
-        8 * page if 8 * page < len(choosed_category) else len(choosed_category),
-    ):
-        item_choose.insert(
+    category_lenght = math.ceil(len(choosed_category) / 8)
+    if 8 * page <= len(choosed_category) and 8 * page >= 0:
+        for item in range(
+            8 * page,
+            8 * (page + 1)
+            if 8 * (page + 1) < len(choosed_category)
+            else len(choosed_category),
+        ):
+            item_choose.insert(
+                types.InlineKeyboardButton(
+                    text=choosed_category[item][0],
+                    callback_data=f"{category} {choosed_category[item][1]}",
+                )
+            )
+        button_back = types.InlineKeyboardButton(
+            text="Назад⬅️", callback_data=f"page_ {page - 1} {category}"
+        )
+        button_forward = types.InlineKeyboardButton(
+            text="Вперед➡️", callback_data=f"page_ {page + 1} {category}"
+        )
+        button_middle = types.InlineKeyboardButton(
+            text=f"{page + 1}/{category_lenght}", callback_data="aboba"
+        )
+        item_choose.row(button_back, button_middle, button_forward)
+        item_choose.row(
             types.InlineKeyboardButton(
-                text=choosed_category[item][0], callback_data=choosed_category[item][1]
+                text="Назад к выбору категории", callback_data="back"
             )
         )
-    if not page == 1:
-        item_choose.add(
-            types.InlineKeyboardButton(
-                text="Назад⬅️", callback_data=f"page_ {page - 1} {category}"
-            )
-        )
-    if not page * 8 >= len(choosed_category):
-        item_choose.add(
-            types.InlineKeyboardButton(
-                text="Вперед➡️", callback_data=f"page_ {page + 1} {category}"
-            )
-        )
-    return item_choose
+        if not page == 1:
+            item_choose.add()
+        if not page * 8 >= len(choosed_category):
+            item_choose.add()
+        return item_choose
+    else:
+        return "huy"

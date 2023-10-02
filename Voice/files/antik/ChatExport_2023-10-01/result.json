@@ -1,0 +1,2058 @@
+{
+ "name": "MATERIALS | ANTIK",
+ "type": "private_channel",
+ "id": 1612981646,
+ "messages": [
+  {
+   "id": 1,
+   "type": "service",
+   "date": "2023-07-12T14:53:41",
+   "date_unixtime": "1689162821",
+   "actor": "MATERIALS | ANTIK",
+   "actor_id": "channel1612981646",
+   "action": "create_channel",
+   "title": "MATERIALS | ANTIK",
+   "text": "",
+   "text_entities": []
+  },
+  {
+   "id": 2,
+   "type": "message",
+   "date": "2023-07-12T15:03:14",
+   "date_unixtime": "1689163394",
+   "edited": "2023-09-28T00:12:26",
+   "edited_unixtime": "1695849146",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "text": [
+    {
+     "type": "custom_emoji",
+     "text": "📺",
+     "document_id": "stickers/sticker.webp"
+    },
+    {
+     "type": "custom_emoji",
+     "text": "📺",
+     "document_id": "stickers/sticker.webp"
+    },
+    {
+     "type": "custom_emoji",
+     "text": "📺",
+     "document_id": "stickers/sticker.webp"
+    },
+    "\n\nданный телеграм канал посвящен бесплатным голосовым сообщениям которые предназначены для ворка по антикино\n\nесли у вас есть желание приобрести подписку:\n\n",
+    {
+     "type": "bold",
+     "text": "ОФОРМЛЕНИЕ ЗАКАЗА - "
+    },
+    {
+     "type": "mention",
+     "text": "@pradamaterialsmng"
+    },
+    {
+     "type": "bold",
+     "text": "\n\nГОЛОСОВЫЕ СООБЩЕНИЯ - "
+    },
+    {
+     "type": "mention",
+     "text": "@pradamateriaIs"
+    },
+    {
+     "type": "bold",
+     "text": "\n\nОПЛАТА - "
+    },
+    {
+     "type": "mention",
+     "text": "@pradaoplata"
+    },
+    {
+     "type": "bold",
+     "text": "\n\n"
+    },
+    "заказ оформлять исключительно через менеджера, по другому заказ принят не будет. \n\nматериалы в канале будут регулярно обновляться для улучшения работы сервиса и упрощения вашего ворка.\n\nработаем под крылом империи ",
+    {
+     "type": "mention",
+     "text": "@PRADAEMPlRE"
+    },
+    ".\n\n",
+    {
+     "type": "custom_emoji",
+     "text": "📺",
+     "document_id": "stickers/sticker.webp"
+    },
+    {
+     "type": "custom_emoji",
+     "text": "📺",
+     "document_id": "stickers/sticker.webp"
+    },
+    {
+     "type": "custom_emoji",
+     "text": "📺",
+     "document_id": "stickers/sticker.webp"
+    },
+    ""
+   ],
+   "text_entities": [
+    {
+     "type": "custom_emoji",
+     "text": "📺",
+     "document_id": "stickers/sticker.webp"
+    },
+    {
+     "type": "custom_emoji",
+     "text": "📺",
+     "document_id": "stickers/sticker.webp"
+    },
+    {
+     "type": "custom_emoji",
+     "text": "📺",
+     "document_id": "stickers/sticker.webp"
+    },
+    {
+     "type": "plain",
+     "text": "\n\nданный телеграм канал посвящен бесплатным голосовым сообщениям которые предназначены для ворка по антикино\n\nесли у вас есть желание приобрести подписку:\n\n"
+    },
+    {
+     "type": "bold",
+     "text": "ОФОРМЛЕНИЕ ЗАКАЗА - "
+    },
+    {
+     "type": "mention",
+     "text": "@pradamaterialsmng"
+    },
+    {
+     "type": "bold",
+     "text": "\n\nГОЛОСОВЫЕ СООБЩЕНИЯ - "
+    },
+    {
+     "type": "mention",
+     "text": "@pradamateriaIs"
+    },
+    {
+     "type": "bold",
+     "text": "\n\nОПЛАТА - "
+    },
+    {
+     "type": "mention",
+     "text": "@pradaoplata"
+    },
+    {
+     "type": "bold",
+     "text": "\n\n"
+    },
+    {
+     "type": "plain",
+     "text": "заказ оформлять исключительно через менеджера, по другому заказ принят не будет. \n\nматериалы в канале будут регулярно обновляться для улучшения работы сервиса и упрощения вашего ворка.\n\nработаем под крылом империи "
+    },
+    {
+     "type": "mention",
+     "text": "@PRADAEMPlRE"
+    },
+    {
+     "type": "plain",
+     "text": ".\n\n"
+    },
+    {
+     "type": "custom_emoji",
+     "text": "📺",
+     "document_id": "stickers/sticker.webp"
+    },
+    {
+     "type": "custom_emoji",
+     "text": "📺",
+     "document_id": "stickers/sticker.webp"
+    },
+    {
+     "type": "custom_emoji",
+     "text": "📺",
+     "document_id": "stickers/sticker.webp"
+    },
+    {
+     "type": "plain",
+     "text": ""
+    }
+   ]
+  },
+  {
+   "id": 5,
+   "type": "message",
+   "date": "2023-07-12T15:09:11",
+   "date_unixtime": "1689163751",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_1@12-07-2023_15-09-11.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 12,
+   "text": "Извини, номер не дам, принципы",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Извини, номер не дам, принципы"
+    }
+   ]
+  },
+  {
+   "id": 6,
+   "type": "message",
+   "date": "2023-07-12T15:09:11",
+   "date_unixtime": "1689163751",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_2@12-07-2023_15-09-11.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 6,
+   "text": "Давай сначала получше узнаем друг друга, а потом пойдем",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Давай сначала получше узнаем друг друга, а потом пойдем"
+    }
+   ]
+  },
+  {
+   "id": 7,
+   "type": "message",
+   "date": "2023-07-12T15:09:11",
+   "date_unixtime": "1689163751",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_3@12-07-2023_15-09-11.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 10,
+   "text": "Ты меня не сможешь забрать, родители отвозят",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Ты меня не сможешь забрать, родители отвозят"
+    }
+   ]
+  },
+  {
+   "id": 8,
+   "type": "message",
+   "date": "2023-07-12T15:09:12",
+   "date_unixtime": "1689163752",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_4@12-07-2023_15-09-12.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 8,
+   "text": "Ой сегодня очень много дел",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Ой сегодня очень много дел"
+    }
+   ]
+  },
+  {
+   "id": 9,
+   "type": "message",
+   "date": "2023-07-12T15:09:12",
+   "date_unixtime": "1689163752",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_5@12-07-2023_15-09-12.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 4,
+   "text": "Я вот только пришла, буду готовить покушать",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Я вот только пришла, буду готовить покушать"
+    }
+   ]
+  },
+  {
+   "id": 10,
+   "type": "message",
+   "date": "2023-07-12T15:09:13",
+   "date_unixtime": "1689163753",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_6@12-07-2023_15-09-13.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 3,
+   "text": "Я лежу думаю убраться дома надо",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Я лежу думаю убраться дома надо"
+    }
+   ]
+  },
+  {
+   "id": 11,
+   "type": "message",
+   "date": "2023-07-12T15:09:13",
+   "date_unixtime": "1689163753",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_7@12-07-2023_15-09-13.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 4,
+   "text": "Я сегодня напишу тебе вечером или чуть позже",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Я сегодня напишу тебе вечером или чуть позже"
+    }
+   ]
+  },
+  {
+   "id": 12,
+   "type": "message",
+   "date": "2023-07-12T15:09:14",
+   "date_unixtime": "1689163754",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_8@12-07-2023_15-09-14.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 2,
+   "text": "Удачи, береги себя",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Удачи, береги себя"
+    }
+   ]
+  },
+  {
+   "id": 13,
+   "type": "message",
+   "date": "2023-07-12T15:09:14",
+   "date_unixtime": "1689163754",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_9@12-07-2023_15-09-14.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 1,
+   "text": "Капец",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Капец"
+    }
+   ]
+  },
+  {
+   "id": 14,
+   "type": "message",
+   "date": "2023-07-12T15:09:15",
+   "date_unixtime": "1689163755",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_10@12-07-2023_15-09-15.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 2,
+   "text": "Ну ладно",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Ну ладно"
+    }
+   ]
+  },
+  {
+   "id": 15,
+   "type": "message",
+   "date": "2023-07-12T15:09:18",
+   "date_unixtime": "1689163758",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_11@12-07-2023_15-09-18.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 2,
+   "text": "Оу прикольно",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Оу прикольно"
+    }
+   ]
+  },
+  {
+   "id": 16,
+   "type": "message",
+   "date": "2023-07-12T15:09:19",
+   "date_unixtime": "1689163759",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_12@12-07-2023_15-09-19.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 3,
+   "text": "Что еще можешь рассказать ?",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Что еще можешь рассказать ?"
+    }
+   ]
+  },
+  {
+   "id": 17,
+   "type": "message",
+   "date": "2023-07-12T15:09:19",
+   "date_unixtime": "1689163759",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_13@12-07-2023_15-09-19.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 2,
+   "text": "Можно но не сегодня",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Можно но не сегодня"
+    }
+   ]
+  },
+  {
+   "id": 18,
+   "type": "message",
+   "date": "2023-07-12T15:09:20",
+   "date_unixtime": "1689163760",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_14@12-07-2023_15-09-20.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 2,
+   "text": "Я с Атырау а ты?",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Я с Атырау а ты?"
+    }
+   ]
+  },
+  {
+   "id": 19,
+   "type": "message",
+   "date": "2023-07-12T15:09:20",
+   "date_unixtime": "1689163760",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_15@12-07-2023_15-09-20.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 2,
+   "text": "Я с Семей а ты?",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Я с Семей а ты?"
+    }
+   ]
+  },
+  {
+   "id": 20,
+   "type": "message",
+   "date": "2023-07-12T15:09:20",
+   "date_unixtime": "1689163760",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_16@12-07-2023_15-09-20.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 2,
+   "text": "Я с Астаны а ты?",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Я с Астаны а ты?"
+    }
+   ]
+  },
+  {
+   "id": 21,
+   "type": "message",
+   "date": "2023-07-12T15:09:21",
+   "date_unixtime": "1689163761",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_17@12-07-2023_15-09-21.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 3,
+   "text": "Блин даже не знаю",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Блин даже не знаю"
+    }
+   ]
+  },
+  {
+   "id": 22,
+   "type": "message",
+   "date": "2023-07-12T15:09:21",
+   "date_unixtime": "1689163761",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_18@12-07-2023_15-09-21.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 3,
+   "text": "Какие планы на ближайшие дни?",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Какие планы на ближайшие дни?"
+    }
+   ]
+  },
+  {
+   "id": 23,
+   "type": "message",
+   "date": "2023-07-12T15:09:22",
+   "date_unixtime": "1689163762",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_19@12-07-2023_15-09-22.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 2,
+   "text": "Может сходим куда нибудь?",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Может сходим куда нибудь?"
+    }
+   ]
+  },
+  {
+   "id": 24,
+   "type": "message",
+   "date": "2023-07-12T15:09:22",
+   "date_unixtime": "1689163762",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_20@12-07-2023_15-09-22.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 2,
+   "text": "Какие планы на вечер?",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Какие планы на вечер?"
+    }
+   ]
+  },
+  {
+   "id": 25,
+   "type": "message",
+   "date": "2023-07-12T15:09:41",
+   "date_unixtime": "1689163781",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_21@12-07-2023_15-09-41.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 2,
+   "text": "Еду в аэропорт встречать родственников",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Еду в аэропорт встречать родственников"
+    }
+   ]
+  },
+  {
+   "id": 26,
+   "type": "message",
+   "date": "2023-07-12T15:09:42",
+   "date_unixtime": "1689163782",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_22@12-07-2023_15-09-42.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 2,
+   "text": "Я сейчас маме по дому помогаю",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Я сейчас маме по дому помогаю"
+    }
+   ]
+  },
+  {
+   "id": 27,
+   "type": "message",
+   "date": "2023-07-12T15:09:42",
+   "date_unixtime": "1689163782",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_23@12-07-2023_15-09-42.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 4,
+   "text": "Я сейчас  дома лежу, приболела",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Я сейчас  дома лежу, приболела"
+    }
+   ]
+  },
+  {
+   "id": 28,
+   "type": "message",
+   "date": "2023-07-12T15:09:43",
+   "date_unixtime": "1689163783",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_24@12-07-2023_15-09-43.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 2,
+   "text": "Чем занимаешься?",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Чем занимаешься?"
+    }
+   ]
+  },
+  {
+   "id": 29,
+   "type": "message",
+   "date": "2023-07-12T15:09:43",
+   "date_unixtime": "1689163783",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_25@12-07-2023_15-09-43.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 3,
+   "text": "Вот мой голос без пробоем",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Вот мой голос без пробоем"
+    }
+   ]
+  },
+  {
+   "id": 30,
+   "type": "message",
+   "date": "2023-07-12T15:09:44",
+   "date_unixtime": "1689163784",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_26@12-07-2023_15-09-44.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 3,
+   "text": "Свободного времени мало",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Свободного времени мало"
+    }
+   ]
+  },
+  {
+   "id": 31,
+   "type": "message",
+   "date": "2023-07-12T15:09:44",
+   "date_unixtime": "1689163784",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_27@12-07-2023_15-09-44.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 9,
+   "text": "Про себя \nРаньше конным спортом занималась , стрельбой из лука \nРаботаю в банке",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Про себя \nРаньше конным спортом занималась , стрельбой из лука \nРаботаю в банке"
+    }
+   ]
+  },
+  {
+   "id": 32,
+   "type": "message",
+   "date": "2023-07-12T15:09:44",
+   "date_unixtime": "1689163784",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_28@12-07-2023_15-09-44.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 2,
+   "text": "Расскажи о себе что нибудь",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Расскажи о себе что нибудь"
+    }
+   ]
+  },
+  {
+   "id": 33,
+   "type": "message",
+   "date": "2023-07-12T15:09:45",
+   "date_unixtime": "1689163785",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_29@12-07-2023_15-09-45.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 3,
+   "text": "У меня все отлично, у тебя как?",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "У меня все отлично, у тебя как?"
+    }
+   ]
+  },
+  {
+   "id": 34,
+   "type": "message",
+   "date": "2023-07-12T15:09:45",
+   "date_unixtime": "1689163785",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_30@12-07-2023_15-09-45.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 2,
+   "text": "Как дела у тебя ?",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Как дела у тебя ?"
+    }
+   ]
+  },
+  {
+   "id": 35,
+   "type": "message",
+   "date": "2023-07-12T15:09:46",
+   "date_unixtime": "1689163786",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_31@12-07-2023_15-09-46.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 1,
+   "text": "Привет",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Привет"
+    }
+   ]
+  },
+  {
+   "id": 36,
+   "type": "message",
+   "date": "2023-07-12T15:09:52",
+   "date_unixtime": "1689163792",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_32@12-07-2023_15-09-52.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 2,
+   "text": "Сладких снов)",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Сладких снов)"
+    }
+   ]
+  },
+  {
+   "id": 37,
+   "type": "message",
+   "date": "2023-07-12T15:09:53",
+   "date_unixtime": "1689163793",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_33@12-07-2023_15-09-53.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 3,
+   "text": "Я уже ложусь , так что спокойной ночи",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Я уже ложусь , так что спокойной ночи"
+    }
+   ]
+  },
+  {
+   "id": 38,
+   "type": "message",
+   "date": "2023-07-12T15:09:53",
+   "date_unixtime": "1689163793",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_34@12-07-2023_15-09-53.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 2,
+   "text": "Добрый вечер",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Добрый вечер"
+    }
+   ]
+  },
+  {
+   "id": 39,
+   "type": "message",
+   "date": "2023-07-12T15:09:54",
+   "date_unixtime": "1689163794",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_35@12-07-2023_15-09-54.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 2,
+   "text": "Доброе утро",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Доброе утро"
+    }
+   ]
+  },
+  {
+   "id": 40,
+   "type": "message",
+   "date": "2023-07-12T15:09:54",
+   "date_unixtime": "1689163794",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_36@12-07-2023_15-09-54.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 1,
+   "text": "Добрый день",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Добрый день"
+    }
+   ]
+  },
+  {
+   "id": 41,
+   "type": "message",
+   "date": "2023-07-12T15:09:54",
+   "date_unixtime": "1689163794",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_37@12-07-2023_15-09-54.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 7,
+   "text": "Я не особо люблю аудио и звонки, лучше переписываться или вживую",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Я не особо люблю аудио и звонки, лучше переписываться или вживую"
+    }
+   ]
+  },
+  {
+   "id": 42,
+   "type": "message",
+   "date": "2023-07-12T15:09:55",
+   "date_unixtime": "1689163795",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_38@12-07-2023_15-09-55.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 3,
+   "text": "Давай, только узнаем тут получше друг друга",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Давай, только узнаем тут получше друг друга"
+    }
+   ]
+  },
+  {
+   "id": 43,
+   "type": "message",
+   "date": "2023-07-12T15:09:55",
+   "date_unixtime": "1689163795",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_39@12-07-2023_15-09-55.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 2,
+   "text": "Зачем ты мне пишешь тогда?",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Зачем ты мне пишешь тогда?"
+    }
+   ]
+  },
+  {
+   "id": 44,
+   "type": "message",
+   "date": "2023-07-12T15:09:56",
+   "date_unixtime": "1689163796",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_40@12-07-2023_15-09-56.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 4,
+   "text": "Могу предложить кое что но это не всем нравится",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Могу предложить кое что но это не всем нравится"
+    }
+   ]
+  },
+  {
+   "id": 45,
+   "type": "message",
+   "date": "2023-07-12T15:09:56",
+   "date_unixtime": "1689163796",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_41@12-07-2023_15-09-56.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 8,
+   "text": "Так не получится, так с подругой уже хотели сделать",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Так не получится, так с подругой уже хотели сделать"
+    }
+   ]
+  },
+  {
+   "id": 46,
+   "type": "message",
+   "date": "2023-07-12T15:10:14",
+   "date_unixtime": "1689163814",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_42@12-07-2023_15-10-14.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 2,
+   "text": "На стендап сходить",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "На стендап сходить"
+    }
+   ]
+  },
+  {
+   "id": 47,
+   "type": "message",
+   "date": "2023-07-12T15:10:14",
+   "date_unixtime": "1689163814",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_43@12-07-2023_15-10-14.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 3,
+   "text": "У меня своей карты нет, сейчас папину скину",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "У меня своей карты нет, сейчас папину скину"
+    }
+   ]
+  },
+  {
+   "id": 48,
+   "type": "message",
+   "date": "2023-07-12T15:10:15",
+   "date_unixtime": "1689163815",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_44@12-07-2023_15-10-15.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 3,
+   "text": "Не особо люблю прогулки",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Не особо люблю прогулки"
+    }
+   ]
+  },
+  {
+   "id": 49,
+   "type": "message",
+   "date": "2023-07-12T15:10:15",
+   "date_unixtime": "1689163815",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_45@12-07-2023_15-10-15.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 14,
+   "text": "Прогулки это больше для закрепления общения, мог бы что нибудь поромантичнее придумать",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Прогулки это больше для закрепления общения, мог бы что нибудь поромантичнее придумать"
+    }
+   ]
+  },
+  {
+   "id": 50,
+   "type": "message",
+   "date": "2023-07-12T15:10:16",
+   "date_unixtime": "1689163816",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_2@12-07-2023_15-09-11.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 6,
+   "text": "Давай сначала получше узнаем друг друга, а потом пойдем",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Давай сначала получше узнаем друг друга, а потом пойдем"
+    }
+   ]
+  },
+  {
+   "id": 51,
+   "type": "message",
+   "date": "2023-07-12T15:10:16",
+   "date_unixtime": "1689163816",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_47@12-07-2023_15-10-16.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 2,
+   "text": "Могу предложить один вариант",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Могу предложить один вариант"
+    }
+   ]
+  },
+  {
+   "id": 52,
+   "type": "message",
+   "date": "2023-07-12T15:10:17",
+   "date_unixtime": "1689163817",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_17@12-07-2023_15-09-21.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 3,
+   "text": "Блин даже не знаю",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Блин даже не знаю"
+    }
+   ]
+  },
+  {
+   "id": 53,
+   "type": "message",
+   "date": "2023-07-12T15:10:17",
+   "date_unixtime": "1689163817",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_49@12-07-2023_15-10-17.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 3,
+   "text": "Там нужно на сайте бронировать",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Там нужно на сайте бронировать"
+    }
+   ]
+  },
+  {
+   "id": 54,
+   "type": "message",
+   "date": "2023-07-12T15:10:18",
+   "date_unixtime": "1689163818",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_50@12-07-2023_15-10-18.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 9,
+   "text": "Там по брони идет, мне не очень такое, но там знакомая была",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Там по брони идет, мне не очень такое, но там знакомая была"
+    }
+   ]
+  },
+  {
+   "id": 55,
+   "type": "message",
+   "date": "2023-07-12T15:10:35",
+   "date_unixtime": "1689163835",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_51@12-07-2023_15-10-35.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 4,
+   "text": "Я там еще не была , но мне говорили что там очень круто",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Я там еще не была , но мне говорили что там очень круто"
+    }
+   ]
+  },
+  {
+   "id": 56,
+   "type": "message",
+   "date": "2023-07-12T15:10:36",
+   "date_unixtime": "1689163836",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_52@12-07-2023_15-10-36.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 12,
+   "text": "Вспомнила о месте свидание на крышах",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Вспомнила о месте свидание на крышах"
+    }
+   ]
+  },
+  {
+   "id": 57,
+   "type": "message",
+   "date": "2023-07-12T15:10:36",
+   "date_unixtime": "1689163836",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_53@12-07-2023_15-10-36.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 23,
+   "text": "Сегодня день не удался, ноготь сломала , очень больно",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Сегодня день не удался, ноготь сломала , очень больно"
+    }
+   ]
+  },
+  {
+   "id": 58,
+   "type": "message",
+   "date": "2023-07-12T15:10:37",
+   "date_unixtime": "1689163837",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_54@12-07-2023_15-10-37.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 5,
+   "text": "Буду тебе очень благодарна, при встрече отблагодарю",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Буду тебе очень благодарна, при встрече отблагодарю"
+    }
+   ]
+  },
+  {
+   "id": 59,
+   "type": "message",
+   "date": "2023-07-12T15:10:37",
+   "date_unixtime": "1689163837",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_55@12-07-2023_15-10-37.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 14,
+   "text": "Ты не сможешь меня выручить , моему мастеру по маникюру скинуть",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Ты не сможешь меня выручить , моему мастеру по маникюру скинуть"
+    }
+   ]
+  },
+  {
+   "id": 60,
+   "type": "message",
+   "date": "2023-07-12T15:10:38",
+   "date_unixtime": "1689163838",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_56@12-07-2023_15-10-38.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 6,
+   "text": "Почему из за того что я долго не отвечаю думают что я фейк",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Почему из за того что я долго не отвечаю думают что я фейк"
+    }
+   ]
+  },
+  {
+   "id": 61,
+   "type": "message",
+   "date": "2023-07-12T15:10:38",
+   "date_unixtime": "1689163838",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_3@12-07-2023_15-09-11.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 10,
+   "text": "Ты меня не сможешь забрать, родители отвозят",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Ты меня не сможешь забрать, родители отвозят"
+    }
+   ]
+  },
+  {
+   "id": 62,
+   "type": "message",
+   "date": "2023-07-12T15:10:38",
+   "date_unixtime": "1689163838",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_4@12-07-2023_15-09-12.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 8,
+   "text": "Ой сегодня очень много дел",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Ой сегодня очень много дел"
+    }
+   ]
+  },
+  {
+   "id": 63,
+   "type": "message",
+   "date": "2023-07-12T15:10:39",
+   "date_unixtime": "1689163839",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_5@12-07-2023_15-09-12.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 4,
+   "text": "Я вот только пришла, буду готовить покушать",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Я вот только пришла, буду готовить покушать"
+    }
+   ]
+  },
+  {
+   "id": 64,
+   "type": "message",
+   "date": "2023-07-12T15:10:39",
+   "date_unixtime": "1689163839",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_6@12-07-2023_15-09-13.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 3,
+   "text": "Я лежу думаю убраться дома надо",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Я лежу думаю убраться дома надо"
+    }
+   ]
+  },
+  {
+   "id": 65,
+   "type": "message",
+   "date": "2023-07-12T15:11:14",
+   "date_unixtime": "1689163874",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_61@12-07-2023_15-11-14.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 4,
+   "text": "Давай тогда забронируем на 23:00",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Давай тогда забронируем на 23:00"
+    }
+   ]
+  },
+  {
+   "id": 66,
+   "type": "message",
+   "date": "2023-07-12T15:11:14",
+   "date_unixtime": "1689163874",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_62@12-07-2023_15-11-14.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 1,
+   "text": "Сегодня вечером будет",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Сегодня вечером будет"
+    }
+   ]
+  },
+  {
+   "id": 67,
+   "type": "message",
+   "date": "2023-07-12T15:11:15",
+   "date_unixtime": "1689163875",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_63@12-07-2023_15-11-15.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 4,
+   "text": "Я за 2 столиком на Мусину",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Я за 2 столиком на Мусину"
+    }
+   ]
+  },
+  {
+   "id": 68,
+   "type": "message",
+   "date": "2023-07-12T15:11:15",
+   "date_unixtime": "1689163875",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_64@12-07-2023_15-11-15.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 4,
+   "text": "Да уж круто ты придумал, не ожидала от тебя такого",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Да уж круто ты придумал, не ожидала от тебя такого"
+    }
+   ]
+  },
+  {
+   "id": 69,
+   "type": "message",
+   "date": "2023-07-12T15:11:16",
+   "date_unixtime": "1689163876",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_65@12-07-2023_15-11-16.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 4,
+   "text": "У меня каспи не по телефону а по номеру карты",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "У меня каспи не по телефону а по номеру карты"
+    }
+   ]
+  },
+  {
+   "id": 70,
+   "type": "message",
+   "date": "2023-07-12T15:11:16",
+   "date_unixtime": "1689163876",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_66@12-07-2023_15-11-16.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 2,
+   "text": "Блин но ты меня подвел",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Блин но ты меня подвел"
+    }
+   ]
+  },
+  {
+   "id": 71,
+   "type": "message",
+   "date": "2023-07-12T15:11:17",
+   "date_unixtime": "1689163877",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_67@12-07-2023_15-11-17.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 4,
+   "text": "Даже если рекламирую все равно не пойдешь?",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Даже если рекламирую все равно не пойдешь?"
+    }
+   ]
+  },
+  {
+   "id": 72,
+   "type": "message",
+   "date": "2023-07-12T15:11:17",
+   "date_unixtime": "1689163877",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_68@12-07-2023_15-11-17.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 4,
+   "text": "Сегодня не получится, у меня небольшие проблемы",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Сегодня не получится, у меня небольшие проблемы"
+    }
+   ]
+  },
+  {
+   "id": 73,
+   "type": "message",
+   "date": "2023-07-12T15:11:17",
+   "date_unixtime": "1689163877",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_69@12-07-2023_15-11-17.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 9,
+   "text": "Чай могу и дома попить, мог бы получше удивить девушку",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Чай могу и дома попить, мог бы получше удивить девушку"
+    }
+   ]
+  },
+  {
+   "id": 74,
+   "type": "message",
+   "date": "2023-07-12T15:11:18",
+   "date_unixtime": "1689163878",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_70@12-07-2023_15-11-18.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 9,
+   "text": "Кофе могу и дома попить, мог бы получше удивить девушку",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Кофе могу и дома попить, мог бы получше удивить девушку"
+    }
+   ]
+  },
+  {
+   "id": 75,
+   "type": "message",
+   "date": "2023-07-12T15:12:23",
+   "date_unixtime": "1689163943",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_71@12-07-2023_15-12-23.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 10,
+   "text": "Мы с подругой билеты купили, а она сейчас отказалась",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Мы с подругой билеты купили, а она сейчас отказалась"
+    }
+   ]
+  },
+  {
+   "id": 76,
+   "type": "message",
+   "date": "2023-07-12T15:12:23",
+   "date_unixtime": "1689163943",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_72@12-07-2023_15-12-23.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 3,
+   "text": "Я из Усть-Каменогорска",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Я из Усть-Каменогорска"
+    }
+   ]
+  },
+  {
+   "id": 77,
+   "type": "message",
+   "date": "2023-07-12T15:12:24",
+   "date_unixtime": "1689163944",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_73@12-07-2023_15-12-24.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 3,
+   "text": "Давай тогда 50/50 сложимся",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Давай тогда 50/50 сложимся"
+    }
+   ]
+  },
+  {
+   "id": 78,
+   "type": "message",
+   "date": "2023-07-12T15:12:24",
+   "date_unixtime": "1689163944",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_74@12-07-2023_15-12-24.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 2,
+   "text": "Не люблю шумные компании честно",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Не люблю шумные компании честно"
+    }
+   ]
+  },
+  {
+   "id": 79,
+   "type": "message",
+   "date": "2023-07-12T15:12:25",
+   "date_unixtime": "1689163945",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_75@12-07-2023_15-12-25.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 4,
+   "text": "У меня своей карты нет, пользуюсь картой отца",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "У меня своей карты нет, пользуюсь картой отца"
+    }
+   ]
+  },
+  {
+   "id": 80,
+   "type": "message",
+   "date": "2023-07-12T15:12:25",
+   "date_unixtime": "1689163945",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_76@12-07-2023_15-12-25.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 5,
+   "text": "Давай я куплю, покажу билет и ты скинешь мне",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Давай я куплю, покажу билет и ты скинешь мне"
+    }
+   ]
+  },
+  {
+   "id": 81,
+   "type": "message",
+   "date": "2023-07-12T15:12:25",
+   "date_unixtime": "1689163945",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_77@12-07-2023_15-12-25.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 3,
+   "text": "Ну если не веришь, то и не надо",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Ну если не веришь, то и не надо"
+    }
+   ]
+  },
+  {
+   "id": 82,
+   "type": "message",
+   "date": "2023-07-12T15:12:26",
+   "date_unixtime": "1689163946",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_78@12-07-2023_15-12-26.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 1,
+   "text": "доброе утро",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "доброе утро"
+    }
+   ]
+  },
+  {
+   "id": 83,
+   "type": "message",
+   "date": "2023-07-12T15:12:26",
+   "date_unixtime": "1689163946",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_79@12-07-2023_15-12-26.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 2,
+   "text": "пока что выбираю что надеть",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "пока что выбираю что надеть"
+    }
+   ]
+  },
+  {
+   "id": 84,
+   "type": "message",
+   "date": "2023-07-12T15:12:27",
+   "date_unixtime": "1689163947",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_80@12-07-2023_15-12-27.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 2,
+   "text": "не знаю в чем пойти",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "не знаю в чем пойти"
+    }
+   ]
+  },
+  {
+   "id": 85,
+   "type": "message",
+   "date": "2023-07-12T15:13:31",
+   "date_unixtime": "1689164011",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_81@12-07-2023_15-13-31.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 4,
+   "text": "завтра учеба, лучше сегодня",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "завтра учеба, лучше сегодня"
+    }
+   ]
+  },
+  {
+   "id": 86,
+   "type": "message",
+   "date": "2023-07-12T15:13:32",
+   "date_unixtime": "1689164012",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_82@12-07-2023_15-13-32.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 4,
+   "text": "завтра работа, лучше сегодня",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "завтра работа, лучше сегодня"
+    }
+   ]
+  },
+  {
+   "id": 87,
+   "type": "message",
+   "date": "2023-07-12T15:13:32",
+   "date_unixtime": "1689164012",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_83@12-07-2023_15-13-32.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 2,
+   "text": "как день проходит",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "как день проходит"
+    }
+   ]
+  },
+  {
+   "id": 88,
+   "type": "message",
+   "date": "2023-07-12T15:13:33",
+   "date_unixtime": "1689164013",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_84@12-07-2023_15-13-33.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 1,
+   "text": "что дел",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "что дел"
+    }
+   ]
+  },
+  {
+   "id": 89,
+   "type": "message",
+   "date": "2023-07-12T15:13:33",
+   "date_unixtime": "1689164013",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_85@12-07-2023_15-13-33.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 5,
+   "text": "мне очень плохо, мб в другой раз?",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "мне очень плохо, мб в другой раз?"
+    }
+   ]
+  },
+  {
+   "id": 90,
+   "type": "message",
+   "date": "2023-07-12T15:13:34",
+   "date_unixtime": "1689164014",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_86@12-07-2023_15-13-34.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 3,
+   "text": "чем вечером занят",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "чем вечером занят"
+    }
+   ]
+  },
+  {
+   "id": 91,
+   "type": "message",
+   "date": "2023-07-12T15:13:34",
+   "date_unixtime": "1689164014",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_87@12-07-2023_15-13-34.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 2,
+   "text": "о, я люблю готовить",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "о, я люблю готовить"
+    }
+   ]
+  },
+  {
+   "id": 92,
+   "type": "message",
+   "date": "2023-07-12T15:13:35",
+   "date_unixtime": "1689164015",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_88@12-07-2023_15-13-35.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 3,
+   "text": "живу с родителями",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "живу с родителями"
+    }
+   ]
+  },
+  {
+   "id": 93,
+   "type": "message",
+   "date": "2023-07-12T15:13:35",
+   "date_unixtime": "1689164015",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_89@12-07-2023_15-13-35.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 20,
+   "text": "фильмы нравятся все",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "фильмы нравятся все"
+    }
+   ]
+  },
+  {
+   "id": 94,
+   "type": "message",
+   "date": "2023-07-12T15:13:35",
+   "date_unixtime": "1689164015",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_90@12-07-2023_15-13-35.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 6,
+   "text": "Меня зовут Мадина, Я 98 года, рост 162",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Меня зовут Мадина, Я 98 года, рост 162"
+    }
+   ]
+  },
+  {
+   "id": 95,
+   "type": "message",
+   "date": "2023-07-12T15:14:40",
+   "date_unixtime": "1689164080",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_91@12-07-2023_15-14-40.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 12,
+   "text": "Если бы я давала всем свой адрес я бы из дома выйти бы не смогла",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Если бы я давала всем свой адрес я бы из дома выйти бы не смогла"
+    }
+   ]
+  },
+  {
+   "id": 96,
+   "type": "message",
+   "date": "2023-07-12T15:14:41",
+   "date_unixtime": "1689164081",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_92@12-07-2023_15-14-41.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 4,
+   "text": ".у меня есть вариант в кинорум местный сходить",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": ".у меня есть вариант в кинорум местный сходить"
+    }
+   ]
+  },
+  {
+   "id": 97,
+   "type": "message",
+   "date": "2023-07-12T15:14:41",
+   "date_unixtime": "1689164081",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_93@12-07-2023_15-14-41.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 7,
+   "text": "Я хочу именно в этот \nПросто на счет других не знаю, а этот самый приличный у нас",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Я хочу именно в этот \nПросто на счет других не знаю, а этот самый приличный у нас"
+    }
+   ]
+  },
+  {
+   "id": 98,
+   "type": "message",
+   "date": "2023-07-12T15:14:42",
+   "date_unixtime": "1689164082",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_94@12-07-2023_15-14-42.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 2,
+   "text": "5. сейчас скину ссылку",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "5. сейчас скину ссылку"
+    }
+   ]
+  },
+  {
+   "id": 99,
+   "type": "message",
+   "date": "2023-07-12T15:14:42",
+   "date_unixtime": "1689164082",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_95@12-07-2023_15-14-42.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 6,
+   "text": "Мы с подругой туда уже раз 100 ходили",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Мы с подругой туда уже раз 100 ходили"
+    }
+   ]
+  },
+  {
+   "id": 100,
+   "type": "message",
+   "date": "2023-07-12T15:14:43",
+   "date_unixtime": "1689164083",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_96@12-07-2023_15-14-43.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 4,
+   "text": "ты наверное устал, спишемся позже",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "ты наверное устал, спишемся позже"
+    }
+   ]
+  },
+  {
+   "id": 101,
+   "type": "message",
+   "date": "2023-07-12T15:14:43",
+   "date_unixtime": "1689164083",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_97@12-07-2023_15-14-43.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 2,
+   "text": "расскажи что нить о себе",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "расскажи что нить о себе"
+    }
+   ]
+  },
+  {
+   "id": 102,
+   "type": "message",
+   "date": "2023-07-12T15:14:44",
+   "date_unixtime": "1689164084",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_98@12-07-2023_15-14-44.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 1,
+   "text": "ты такой милый",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "ты такой милый"
+    }
+   ]
+  },
+  {
+   "id": 103,
+   "type": "message",
+   "date": "2023-07-12T15:14:44",
+   "date_unixtime": "1689164084",
+   "from": "MATERIALS | ANTIK",
+   "from_id": "channel1612981646",
+   "file": "voice_messages/audio_99@12-07-2023_15-14-44.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 8,
+   "text": "Я работаю, читаю книги, смотрю фильмы",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Я работаю, читаю книги, смотрю фильмы"
+    }
+   ]
+  }
+ ]
+}

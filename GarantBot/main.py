@@ -39,28 +39,11 @@ def checkMember(userid, chatid):
     return True
 
 
-def get_offer_from_string(
-    seller_nick_raw, customer_nick_raw, offer_type, offer_link_split
-):
-    seller_nick = (
-        seller_nick_raw if offer_type == "seller-customer" else customer_nick_raw
-    )
-    customer_nick = (
-        customer_nick_raw if offer_type == "seller-customer" else seller_nick_raw
-    )
-    seller_id = (
-        func.get_id_from_name(seller_nick)
-        if offer_type == "seller-customer"
-        else seller_nick
-    )
-    customer_id = (
-        func.get_id_from_name(customer_nick)
-        if offer_type == "seller-customer"
-        else customer_nick
-    )
+def get_offer_from_string(seller_id, customer_id, offer_type, offer_link_split):
+    seller_nick = func.get_nick_from_id(seller_id)
+    customer_nick = func.get_nick_from_id(customer_id)
     offer_price = offer_link_split[3]
-    check_user = func.search(customer_nick)
-    print(seller_id, customer_id)
+    check_user = func.search(customer_nick)  # Требует ник
     if check_user == None:
         bot.send_message(
             seller_id,
@@ -72,7 +55,8 @@ def get_offer_from_string(
             text="Нельзя отправить сделку самому себе",
         )
     else:
-        check_deal = func.check_deal(func.get_nick_from_id(customer_nick))
+        print(customer_nick, seller_nick, " c-s")
+        check_deal = func.check_deal(customer_nick)  # Требует ник
         if check_deal == None:
             try:
                 func.deal(seller_id, customer_id)
@@ -129,7 +113,7 @@ def start(message: types.Message):
         func.first_join(user_id=chat_id, username=username)
         bot.send_message(
             chat_id,
-            "✅ Добро пожаловать, {}!".format(message.from_user.first_name),
+            f" Приветствую, @terihub ✅\n\nPRADA GARANT - уникальная система позволяющая вам максимально безопасно проводить любые сделки💎\n\nСистема оплаты проходит через Crypto bot  для полной конфиденциальности ваших сделок💠\n\nКомиссия нашего бота составляет всего 6%💸\n\nВ нашем боте вас ждёт профессионализм, безопасности и все удобства для качественного проведения вашей сделки🌐\n\n🏆PRADA EMPIRE - работай с лучшими🏆",
             reply_markup=kb.menu,
         )
 
@@ -178,52 +162,53 @@ def send_text(message):
             bot.send_message(chat_id, "⛔️ К сожалению, Вы получили блокировку!")
         else:
             info = func.search_block(chat_id)
-            if info != None:
+        if info != None:
+            bot.send_message(
+                chat_id,
+                "⛔️ Вы не можете взаимодействовать с ботом, пока не завершите сделку!",
+            )
+        else:
+            if message.text.lower() == "👤 профиль":
+                info = func.profile(user_id=chat_id)
                 bot.send_message(
                     chat_id,
-                    "⛔️ Вы не можете взаимодействовать с ботом, пока не завершите сделку!",
+                    "🧾 Профиль:\n\n❕ Ваш id - <b><code>{id}</code></b>\n❕ Проведенных сделок - {offers}\n\n💰 Ваш баланс - {balance} USDT\n".format(
+                        id=info[0], offers=info[1], balance=info[2]
+                    ),
+                    reply_markup=kb.profile,
+                    parse_mode="HTML",
+                )
+            elif message.text.lower() == "🔒 провести сделку":
+                msg = bot.send_message(
+                    chat_id, "В этой сделке вы...", reply_markup=kb.choise_offer
+                )
+            elif message.text.lower() == "⭐️ о нас":
+                bot.send_message(
+                    chat_id,
+                    f"По всем вопросам: @{nicknameadm}\nНаш чат: {chat_bota}\nИнструкция по использованию: {instruction}\n\nОбщее число сделок: {func.getOffersNumber()}\nОбщая сумма всех сделок: {func.getOffersSumm()} USDT",
+                )
+            elif message.text.lower() == "💵 прошедшие сделки":
+                bot.send_message(
+                    chat_id,
+                    "Вывести ваши последние сделки где вы...",
+                    reply_markup=kb.cors,
                 )
             else:
-                if message.text.lower() == "👤 профиль":
-                    info = func.profile(user_id=chat_id)
-                    bot.send_message(
-                        chat_id,
-                        "🧾 Профиль:\n\n❕ Ваш id - <b><code>{id}</code></b>\n❕ Проведенных сделок - {offers}\n\n💰 Ваш баланс - {balance} USDT\n".format(
-                            id=info[0], offers=info[1], balance=info[2]
-                        ),
-                        reply_markup=kb.profile,
-                        parse_mode="HTML",
-                    )
-                elif message.text.lower() == "🔒 провести сделку":
-                    msg = bot.send_message(
-                        chat_id, "В этой сделке вы...", reply_markup=kb.choise_offer
-                    )
-                elif message.text.lower() == "⭐️ о нас":
-                    bot.send_message(
-                        chat_id,
-                        f"По всем вопросам: @{nicknameadm}\nНаш чат: {chat_bota}\nИнструкция по использованию: {instruction}\n\nОбщее число сделок: {func.getOffersNumber()}\nОбщая сумма всех сделок: {func.getOffersSumm()} USDT",
-                    )
-                elif message.text.lower() == "💵 прошедшие сделки":
-                    bot.send_message(
-                        chat_id,
-                        "Вывести ваши последние сделки где вы...",
-                        reply_markup=kb.cors,
-                    )
-                else:
-                    try:
-                        if func.decode_link(message.text).startswith("offer"):
-                            offer_link_split = func.decode_link(message.text).split()
-                            seller_nick = offer_link_split[1]
-                            customer_nick = offer_link_split[2]
-                            get_offer_from_string(
-                                seller_nick_raw=seller_nick,
-                                customer_nick_raw=customer_nick,
-                                offer_type=offer_link_split[4],
-                                offer_link_split=offer_link_split,
-                            )
-                    except Exception as e:
-                        print(e, " decoder error")
-                        bot.send_message(chat_id, "Что-то пошло не так")
+                try:
+                    print(func.decode_link(message.text))
+                    if func.decode_link(message.text).startswith("offer"):
+                        offer_link_split = func.decode_link(message.text).split()
+                        seller_id = offer_link_split[1]
+                        customer_id = offer_link_split[2]
+                        get_offer_from_string(
+                            seller_id=seller_id,
+                            customer_id=customer_id,
+                            offer_type=offer_link_split[4],
+                            offer_link_split=offer_link_split,
+                        )
+                except Exception as e:
+                    print(e, " decoder error")
+                    bot.send_message(chat_id, "Попробуйте заново")
     except Exception as e:
         print(e, "1")
         bot.send_message(chat_id, "Попробуйте заново")

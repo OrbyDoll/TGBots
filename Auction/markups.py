@@ -58,8 +58,8 @@ categor = types.ReplyKeyboardMarkup(row_width=2, one_time_keyboard=True).add(
     types.KeyboardButton(text="Софт🖥"),
     types.KeyboardButton(text="Боты🤖"),
     types.KeyboardButton(text="Сайты🌐"),
-    types.KeyboardButton(text="PRADA🏆"),
     types.KeyboardButton(text="Другое⚙️"),
+    types.KeyboardButton(text="Назад"),
 )
 owner_actions = types.InlineKeyboardMarkup(row_width=1)
 owner_actions.add(
@@ -88,7 +88,6 @@ def accept_offer(offer_id):
 
 
 del_auction = types.InlineKeyboardMarkup().add(
-    types.InlineKeyboardButton(text="Вернуться в меню", callback_data="return"),
     types.InlineKeyboardButton(
         text="Перейти в гарант бота ➡️", url="https://t.me/pradagarantbot"
     ),
