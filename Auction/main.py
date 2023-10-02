@@ -59,12 +59,12 @@ async def start(message: types.Message, state: FSMContext):
                 return
             elif garantDB.check_ban(message.chat.id) == "1":
                 await bot.send_message(
-                    message.chat.id, "К сожалению вы получили блокировку."
+                    message.chat.id, "❌К сожалению вы получили блокировку❌"
                 )
                 return
             await bot.send_message(
                 message.chat.id,
-                "Тестовое сообщение типо абуба бубаб",
+                "Приветствую, {message.from_user.username} ✅\n\nPRADA AUCTION - первый подобный проект во всей индустрии 💎\n\nНе определились с ценой товара? 💸\nУ вас есть что то уникальное? 🗃️\n\nНаш бот поможет вам провести аукцион, максимально комфортно и на профессиональном уровне🌐\n\n🏆PRADA EMPIRE - работай с лучшими🏆",
                 reply_markup=nav.menu,
             )
             await state.update_data(auction_id=None)
@@ -332,7 +332,7 @@ async def call_handler(call: types.CallbackQuery, state: FSMContext):
                 "Выберите интересующий аукцион",
                 reply_markup=auctions_markup,
             )
-            await bot.send_message(chatid, "Включение меню", reply_markup=nav.menu)
+            await bot.send_message(chatid, "🏆", reply_markup=nav.menu)
             await state.set_state(ClientState.START)
         elif "back_offer_list" in call.data:
             await bot.delete_message(chatid, call.message.message_id)
@@ -415,7 +415,7 @@ async def call_handler(call: types.CallbackQuery, state: FSMContext):
                 await bot.delete_message(chatid, call.message.message_id)
                 if call.data[-1] == "2":
                     await bot.delete_message(chatid, call.message.message_id - 1)
-                    await bot.send_message("Включение меню", reply_markup=nav.menu)
+                    await bot.send_message("🏆", reply_markup=nav.menu)
                 await state.set_state(ClientState.START)
             except Exception as e:
                 print(e, call.data)

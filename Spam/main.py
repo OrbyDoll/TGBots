@@ -45,7 +45,7 @@ async def sendMessage(message: types.Message, state: FSMContext):
             ):
                 await bot.send_message(
                     message.chat.id,
-                    "Привет! Пишите сообщенияя ниже и наш админ ответит вам в ближайшее время.",
+                    "Привет ! Пишите сообщенияя ниже и наш админ ответит вам в ближайшее время.",
                 )
             elif (
                 message.from_user.id == cfg.admin_id

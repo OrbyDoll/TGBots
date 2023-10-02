@@ -60,7 +60,7 @@ async def start(message: types.Message, state: FSMContext):
                 return
             elif garantDB.check_ban(message.chat.id) == "1":
                 await bot.send_message(
-                    message.chat.id, "К сожалению вы получили блокировку."
+                    message.chat.id, "❌К сожалению вы получили блокировку❌"
                 )
                 return
             balance = garantDB.get_balance(message.chat.id)[0]
