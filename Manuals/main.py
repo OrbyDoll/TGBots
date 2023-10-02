@@ -49,10 +49,18 @@ async def call_handler(call: types.CallbackQuery):
         )
     elif call.data == "shantazh":
         await bot.send_message(chatid, "В разработке")
+    elif call.data == "close":
+        await bot.delete_message(chatid, call.message.message_id)
     else:
         file_name = call.data
         open_file = open(f"Manuals/files/{file_name}.txt", "rb")
-        await bot.send_document(chatid, open_file)
+        await bot.send_document(
+            chatid,
+            open_file,
+            reply_markup=types.InlineKeyboardMarkup().add(
+                types.InlineKeyboardButton(text="Скрыть", callback_data="close")
+            ),
+        )
 
 
 if __name__ == "__main__":
