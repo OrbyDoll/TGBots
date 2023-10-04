@@ -53,7 +53,7 @@ categor.add(
     types.KeyboardButton(text="Боты🤖"),
     types.KeyboardButton(text="Сайты🌐"),
     types.KeyboardButton(text="Мануалы📓"),
-    types.KeyboardButton(text='Документы📄'),
+    types.KeyboardButton(text="Документы📄"),
     types.KeyboardButton(text="Другое⚙️"),
     types.KeyboardButton(text="Назад"),
 )
@@ -69,7 +69,7 @@ categor_without_prada = types.ReplyKeyboardMarkup(
     types.KeyboardButton(text="Софт🖥"),
     types.KeyboardButton(text="Боты🤖"),
     types.KeyboardButton(text="Сайты🌐"),
-    types.KeyboardButton(text='Документы📄'),
+    types.KeyboardButton(text="Документы📄"),
     types.KeyboardButton(text="Другое⚙️"),
     types.KeyboardButton(text="Назад"),
 )
@@ -94,34 +94,8 @@ def get_offer_buy_button(offer_str):
 
 def get_offer_del_button(offer_str):
     return types.InlineKeyboardMarkup().add(
-        types.InlineKeyboardButton(text="Удалить🗑", callback_data=f"del_{offer_str}")
+        types.InlineKeyboardButton(text="Удалить🗑", callback_data=f"del_{offer_str}"),
+        types.InlineKeyboardButton(
+            text="Изменить цену", callback_data=f"changeprice_{offer_str}"
+        ),
     )
-
-
-# category_selection_menu = types.InlineKeyboardMarkup(row_width=2)
-# for categories in cfg.product_list:
-#     category_selection_button = types.InlineKeyboardButton(
-#         text=categories["name"], callback_data=categories["name"]
-#     )
-#     category_selection_menu.insert(category_selection_button)
-
-
-# def getProductsMarkup(category):
-#     if category == "Back":
-#         return category_selection_menu
-#     products_selection_markup = types.InlineKeyboardMarkup(row_width=1)
-#     for i in cfg.product_list:
-#         if i["name"] == category:
-#             for j in i["items"]:
-#                 products_selection_button = types.InlineKeyboardButton(
-#                     text=j, callback_data=j
-#                 )
-#                 products_selection_markup.insert(products_selection_button)
-#     products_selection_markup.insert(
-#         types.InlineKeyboardButton(text="Back", callback_data="Back")
-#     )
-#     return products_selection_markup
-#     products_selection_markup.insert(
-#         types.InlineKeyboardButton(text="Nothing", callback_data="adad")
-#     )
-#     return products_selection_markup

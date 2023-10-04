@@ -18,7 +18,9 @@ class Database:
                     current_cost INTEGER,
                     status TEXT DEFAULT 'inactive',
                     members_id TEXT DEFAULT '',
-                    category TEXT);
+                    category TEXT,
+                    description TEXT,
+                    autostart INTEGER DEFAULT 0);
                 """
             )
             users = self.cursor.execute(
@@ -58,11 +60,11 @@ class Database:
             ).fetchone()
             return res
 
-    def add_auction(self, author_id, product, start_cost, category):
+    def add_auction(self, author_id, product, start_cost, category, description):
         with self.connection:
             return self.cursor.execute(
-                "INSERT INTO `auctions` (`author_id`, `product`, `start_cost`, `current_cost`, `category`) VALUES (?,?,?,?,?)",
-                (author_id, product, start_cost, start_cost, category),
+                "INSERT INTO `auctions` (`author_id`, `product`, `start_cost`, `current_cost`, `category`, `description`) VALUES (?,?,?,?,?,?)",
+                (author_id, product, start_cost, start_cost, category, description),
             )
 
     def del_auction(self, author_id):
@@ -158,3 +160,18 @@ class Database:
                     user_id,
                 ),
             )
+
+    def set_autostart(self, user_id, members):
+        with self.connection:
+            return self.cursor.execute(
+                "UPDATE `auctions` SET `autostart` = ? WHERE `author_id` = ?",
+                (members, user_id),
+            )
+
+    def get_autostart(self, user_id):
+        with self.connection:
+            res = self.cursor.execute(
+                "SELECT `autostart` FROM `auctions` WHERE `author_id` = ?", (user_id,)
+            ).fetchone()
+            print(res, "autostart")
+            return res

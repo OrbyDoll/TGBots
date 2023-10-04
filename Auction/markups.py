@@ -31,19 +31,6 @@ menu = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2).add(
     types.KeyboardButton(text="Перейти к своему аукциону 🔓"),
 )
 
-action_choose = types.InlineKeyboardMarkup(row_width=2)
-action_choose.add(
-    types.InlineKeyboardButton(
-        text="Список аукционов ⚖️", callback_data="get_auctions"
-    ),
-    types.InlineKeyboardButton(
-        text="Создать аукцион 💎", callback_data="create_auction"
-    ),
-    types.InlineKeyboardButton(
-        text="Перейти к своему аукциону 🔓", callback_data="my_auction"
-    ),
-)
-
 sort_choose = types.InlineKeyboardMarkup(row_width=2).add(
     types.InlineKeyboardButton(text="Сначала дорогие", callback_data="sort_increase"),
     types.InlineKeyboardButton(text="Сначала дешевые", callback_data="sort_decrease"),
@@ -69,6 +56,7 @@ owner_actions.add(
     types.InlineKeyboardButton(
         text="Изменить начальную ставку 💰", callback_data="start_cost"
     ),
+    types.InlineKeyboardButton(text="Настроить автостарт", callback_data="auto_start"),
     types.InlineKeyboardButton(text="Начать аукцион", callback_data="start_auction"),
 )
 

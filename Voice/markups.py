@@ -3,14 +3,14 @@ from filesMass import files_name
 import math
 
 categor_choose = types.InlineKeyboardMarkup(row_width=2).add(
-    types.InlineKeyboardButton(text="🌐Universal🌐", callback_data="cat_universal"),
-    types.InlineKeyboardButton(text="📈Trade📈", callback_data="cat_trade"),
+    types.InlineKeyboardButton(text="🌐UNIVERSAL🌐", callback_data="cat_universal"),
+    types.InlineKeyboardButton(text="📈TRADE📈", callback_data="cat_trade"),
     types.InlineKeyboardButton(text="🖼NFT🖼", callback_data="cat_nft"),
-    types.InlineKeyboardButton(text="💱Exchange💱", callback_data="cat_exchange"),
-    types.InlineKeyboardButton(text="🃏Casino🃏", callback_data="cat_casino"),
-    types.InlineKeyboardButton(text="💋Escort💋", callback_data="cat_escort"),
-    types.InlineKeyboardButton(text="🎥Antik🎥", callback_data="cat_antik"),
-    types.InlineKeyboardButton(text="💊N@rko💊", callback_data="cat_narko"),
+    types.InlineKeyboardButton(text="💱EXCHANGE💱", callback_data="cat_exchange"),
+    types.InlineKeyboardButton(text="🃏CASINO🃏", callback_data="cat_casino"),
+    types.InlineKeyboardButton(text="💋ESCORT💋", callback_data="cat_eskort"),
+    types.InlineKeyboardButton(text="🎥ANTIK🎥", callback_data="cat_antik"),
+    types.InlineKeyboardButton(text="💊N@RKO💊", callback_data="cat_narko"),
 )
 
 
@@ -28,7 +28,7 @@ def get_category_page(category, page):
             item_choose.insert(
                 types.InlineKeyboardButton(
                     text=choosed_category[item][0],
-                    callback_data=f"{category} {choosed_category[item][1]}",
+                    callback_data=f"{category}/{choosed_category[item][1]}",
                 )
             )
         button_back = types.InlineKeyboardButton(

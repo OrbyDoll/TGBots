@@ -2,10 +2,16 @@ from aiogram import Bot, Dispatcher, executor, types
 
 import config as cfg
 import markups as nav
-
+from filesMass import files_name
 
 bot = Bot(token=cfg.TOKEN)
 dp = Dispatcher(bot)
+
+
+def find_voice_desc(name, category):
+    for voices in files_name[category]:
+        if voices[1] == name:
+            return voices[0]
 
 
 @dp.message_handler(commands=["start"])
@@ -18,6 +24,7 @@ async def start(message: types.Message):
 @dp.callback_query_handler()
 async def callback(call: types.CallbackQuery):
     chatid = call.message.chat.id
+    await bot.answer_callback_query(callback_query_id=call.id)
     if call.data.startswith("cat_"):
         choosed_category = call.data[4:]
         await bot.send_message(
@@ -39,16 +46,14 @@ async def callback(call: types.CallbackQuery):
         )
     elif call.data == "back":
         await bot.delete_message(chatid, call.message.message_id)
-        # await bot.send_message(
-        #     chatid, "Выберите категорию📋", reply_markup=nav.categor_choose
-        # )
     elif not call.data == "aboba":
         try:
-            data_split = call.data.split()
+            data_split = call.data.split('/')
             open_file = open(
-                f"Voice/files/{data_split[0]}/{data_split[1] + '  ' + data_split[2]}.ogg",
+                f"files/{data_split[0]}/{data_split[1]}.ogg",
                 "rb",
             )
+            await bot.send_message(chatid, find_voice_desc(data_split[1], data_split[0]))
             await bot.send_audio(chatid, open_file)
         except Exception as e:
             print(e)

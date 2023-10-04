@@ -26,6 +26,7 @@ class ClientState(StatesGroup):
     CHOOSESORTTYPE = State()
     CHOOSEPRODUCT_CATEGORY = State()
     DELETEPRODUCT_CATEGORY = State()
+    CHANGEPRICE = State()
 
 
 def sortOffers(mass: list, increase):
@@ -68,7 +69,9 @@ async def start(message: types.Message, state: FSMContext):
                 db.add_user(message.chat.id, float(balance), message.from_user.username)
             db.set_balance(message.chat.id, float(balance))
             await bot.send_message(
-                message.chat.id, f"Приветствую, {message.from_user.username} ✅\n\nPRADA MARKETPLACE - единственный маркет своего рода во всей индустрии 💎\n\nЗдесь вы найдет все что вам нужно для приятной работы в многочисленных категориях🌐\n\nтак же вы можете стать часть этого проекта выставляя свои товары на продажу 💵\n\nСистем покупок для полной защиты вашей сделки проходит через нашего гаранта и специальных ключей криптографии💠\n\n🏆PRADA EMPIRE - работай с лучшими🏆", reply_markup=nav.menu
+                message.chat.id,
+                f"Приветствую, {message.from_user.username} ✅\n\nPRADA MARKETPLACE - единственный маркет своего рода во всей индустрии 💎\n\nЗдесь вы найдет все что вам нужно для приятной работы в многочисленных категориях🌐\n\nтак же вы можете стать часть этого проекта выставляя свои товары на продажу 💵\n\nСистем покупок для полной защиты вашей сделки проходит через нашего гаранта и специальных ключей криптографии💠\n\n🏆PRADA EMPIRE - работай с лучшими🏆",
+                reply_markup=nav.menu,
             )
             await state.set_state(ClientState.START)
     except Exception as e:
@@ -161,20 +164,58 @@ async def callback_message(call: types.CallbackQuery, state: FSMContext):
                 nav.prada_service_list[choosed_service]["contacts"],
                 reply_markup=nav.menu,
             )
-        elif "my_products" in call.data:
-            if db.get_user_offers(chatid) == None:
-                await bot.send_message(chatid, "У вас нет активных предложений")
-                return
-            await bot.send_message(
-                chatid, "Выберите категорию📋", reply_markup=nav.categor
+        elif "changeprice" in call.data:
+            offer_str = call.data.split("_")[1]
+            await bot.send_message(chatid, "Напишите новую цену")
+            await state.update_data(
+                changeprice_dict={
+                    "offer_str": offer_str,
+                    "message_id": call.message.message_id,
+                }
             )
-            await state.set_state(ClientState.DELETEPRODUCT_CATEGORY)
+            await state.set_state(ClientState.CHANGEPRICE)
         elif "del" in call.data:
             offer_str = call.data[4:]
-            db.del_offer_products(chatid, offer_str.split("/"))
-            await bot.delete_message(chatid, call.message.message_id)
-            await state.set_state(ClientState.START)
-            await bot.send_message(chatid, "Товар удален✔️")
+            await bot.edit_message_text(
+                "Вы уверены? Это действие нельзя будет отменить",
+                chatid,
+                call.message.message_id,
+            )
+            await bot.edit_message_reply_markup(
+                chatid,
+                call.message.message_id,
+                call.message.message_id,
+                types.InlineKeyboardMarkup().add(
+                    types.InlineKeyboardButton(
+                        text="Удалить", callback_data=f"confirm_{offer_str}_yes"
+                    ),
+                    types.InlineKeyboardButton(
+                        text="Отмена", callback_data=f"confirm_{offer_str}_no"
+                    ),
+                ),
+            )
+        elif "confirm" in call.data:
+            data_split = call.data.split("_")
+            offer_data = data_split[1].split("/")
+            if data_split[2] == "no":
+                await bot.edit_message_text(
+                    f"💼Категория: {offer_data[0]}\n📦Товар: {offer_data[1]}\n💲Цена: {offer_data[2]} USDT",
+                    chatid,
+                    call.message.message_id,
+                )
+                await bot.edit_message_reply_markup(
+                    chatid,
+                    call.message.message_id,
+                    call.message.message_id,
+                    nav.get_offer_del_button(data_split[1]),
+                )
+                return
+            db.del_offer_products(chatid, offer_data)
+            await bot.edit_message_text(
+                "Товар удален✔️",
+                chatid,
+                call.message.message_id,
+            )
         elif "sort" in call.data:
             try:
                 state_data = await state.get_data()
@@ -207,9 +248,7 @@ async def callback_message(call: types.CallbackQuery, state: FSMContext):
                         reply_markup=nav.menu,
                     )
                 else:
-                    await bot.send_message(
-                        chatid, "🏆", reply_markup=nav.menu
-                    )
+                    await bot.send_message(chatid, "🏆", reply_markup=nav.menu)
                     await state.set_state(ClientState.START)
             except Exception as e:
                 print(e, " create offer 1")
@@ -219,41 +258,36 @@ async def callback_message(call: types.CallbackQuery, state: FSMContext):
         await bot.send_message(chatid, "Что-то пошло не так⛔️")
 
 
-@dp.message_handler(state=ClientState.DELETEPRODUCT_CATEGORY)
-async def createOffer(message: types.Message, state: FSMContext):
+@dp.message_handler(state=ClientState.CHANGEPRICE)
+async def changePrice(message: types.Message, state: FSMContext):
     try:
-        choosed_category = message.text[:-1]
-        user_offers = db.get_user_offers(message.chat.id)[0].split("/")
-        res = True
-        for offer in user_offers:
-            if not offer == "":
-                offer_list = offer.split("_")
-                product_category = offer_list[0]
-                product_name = offer_list[1]
-                product_price = offer_list[2]
-                del_link = f"{product_category}/{product_name}/{product_price}"
-                if choosed_category == product_category:
-                    res = False
-                    await bot.send_message(
-                        message.chat.id,
-                        f"💼Категория: {product_category}\n📦Товар: {product_name}\n💲Цена: {product_price} USDT",
-                        reply_markup=nav.get_offer_del_button(del_link),
-                    )
-        if res:
-            await bot.send_message(
-                message.chat.id,
-                "Ваших товаров данной категории не найдено",
-                reply_markup=nav.menu,
-            )
-            await state.set_state(ClientState.START)
-        else:
-            await bot.send_message(
-                message.chat.id, "🏆", reply_markup=nav.menu
-            )
+        try:
+            new_price = int(message.text)
+        except:
+            await bot.send_message(message.chat.id, "Введите число!")
+            return
+        state_data = await state.get_data()
+        product_data = state_data["changeprice_dict"]["offer_str"].split("/")
+        message_id = state_data["changeprice_dict"]["message_id"]
+        await bot.edit_message_text(
+            f"💼Категория: {product_data[0]}\n📦Товар: {product_data[1]}\n💲Цена: {new_price} USDT",
+            message.chat.id,
+            message_id,
+        )
+        await bot.edit_message_reply_markup(
+            message.chat.id,
+            message_id,
+            message_id,
+            nav.get_offer_del_button(state_data["changeprice_dict"]["offer_str"]),
+        )
+        db.update_price(
+            message.chat.id, state_data["changeprice_dict"]["offer_str"], new_price
+        )
+        await bot.delete_message(message.chat.id, message.message_id)
+        await bot.delete_message(message.chat.id, message.message_id - 1)
         await state.set_state(ClientState.START)
-
     except Exception as e:
-        print(e, " delete product")
+        print(e, "change price")
         await bot.send_message(message.chat.id, "Что-то пошло не так⛔️")
 
 
@@ -263,9 +297,7 @@ async def chooseProduct(message: types.Message, state: FSMContext):
         if message.text == "Назад":
             await bot.delete_message(message.chat.id, message.message_id)
             await bot.delete_message(message.chat.id, message.message_id - 1)
-            await bot.send_message(
-                message.chat.id, "🏆", reply_markup=nav.menu
-            )
+            await bot.send_message(message.chat.id, "🏆", reply_markup=nav.menu)
             await state.set_state(ClientState.START)
             return
         elif message.text == "PRADA🏆":
@@ -290,9 +322,7 @@ async def createOffer(message: types.Message, state: FSMContext):
     try:
         if message.text == "Назад":
             await bot.delete_message(message.chat.id, message.message_id)
-            await bot.send_message(
-                message.chat.id, "🏆", reply_markup=nav.menu
-            )
+            await bot.send_message(message.chat.id, "🏆", reply_markup=nav.menu)
             await state.set_state(ClientState.START)
             return
         await state.update_data(product_category=message.text[:-1])
@@ -365,22 +395,35 @@ async def textHandler(message: types.Message, state: FSMContext):
         await bot.send_message(
             chatid,
             "К какой категории относиться ваш товар?📦",
-            reply_markup=nav.categor,
+            reply_markup=nav.categor_without_prada,
         )
         await state.set_state(ClientState.CREATEOFFER_CATEGORY)
     elif message.text == "Выбрать товар":
         await bot.send_message(chatid, "Выберите категорию💼", reply_markup=nav.categor)
         await state.set_state(ClientState.CHOOSEPRODUCT_CATEGORY)
-        # await bot.send_message(
-        #     chatid, "Выберите вариант сортировки", reply_markup=nav.sort_choose
-        # )
-
     elif message.text == "Мои товары":
-        if db.get_user_offers(chatid) == None:
-            await bot.send_message(chatid, "У вас нет активных предложений")
-            return
-        await bot.send_message(chatid, "Выберите категорию📋", reply_markup=nav.categor)
-        await state.set_state(ClientState.DELETEPRODUCT_CATEGORY)
+        try:
+            if db.get_user_offers(chatid)[0] == "":
+                await bot.send_message(chatid, "У вас нет активных предложений")
+                return
+            user_offers = db.get_user_offers(message.chat.id)[0].split("/")
+            res = True
+            for offer in user_offers:
+                if not offer == "":
+                    offer_list = offer.split("_")
+                    product_category = offer_list[0]
+                    product_name = offer_list[1]
+                    product_price = offer_list[2]
+                    del_link = f"{product_category}/{product_name}/{product_price}"
+                    await bot.send_message(
+                        message.chat.id,
+                        f"💼Категория: {product_category}\n📦Товар: {product_name}\n💲Цена: {product_price} USDT",
+                        reply_markup=nav.get_offer_del_button(del_link),
+                    )
+            await bot.send_message(message.chat.id, "🏆", reply_markup=nav.menu)
+        except Exception as e:
+            print(e, " delete product")
+            await bot.send_message(message.chat.id, "Что-то пошло не так⛔️")
 
 
 if __name__ == "__main__":

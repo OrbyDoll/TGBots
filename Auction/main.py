@@ -16,10 +16,12 @@ class ClientState(StatesGroup):
     GETAUCTIONS = State()
     SETAUCTIONCATEGORY = State()
     SETAUCTIONPRODUCT = State()
+    SETAUCTIONDESCRIPTION = State()
     FINSIHCREATEAUCTION = State()
     AUCTIONOWNER = State()
     OFFERRATE = State()
     CHANGESTARTCOST = State()
+    AUTOSTART = State()
 
 
 storage = MemoryStorage()
@@ -64,7 +66,7 @@ async def start(message: types.Message, state: FSMContext):
                 return
             await bot.send_message(
                 message.chat.id,
-                "Приветствую, {message.from_user.username} ✅\n\nPRADA AUCTION - первый подобный проект во всей индустрии 💎\n\nНе определились с ценой товара? 💸\nУ вас есть что то уникальное? 🗃️\n\nНаш бот поможет вам провести аукцион, максимально комфортно и на профессиональном уровне🌐\n\n🏆PRADA EMPIRE - работай с лучшими🏆",
+                f"Приветствую, {message.from_user.username} ✅\n\nPRADA AUCTION - первый подобный проект во всей индустрии 💎\n\nНе определились с ценой товара? 💸\nУ вас есть что то уникальное? 🗃️\n\nНаш бот поможет вам провести аукцион, максимально комфортно и на профессиональном уровне🌐\n\n🏆PRADA EMPIRE - работай с лучшими🏆",
                 reply_markup=nav.menu,
             )
             await state.update_data(auction_id=None)
@@ -139,16 +141,26 @@ async def setAuctionProduct(message: types.Message, state: FSMContext):
     try:
         productName = message.text
         await state.update_data(product_name=productName)
+        await bot.send_message(message.chat.id, "Напишите описание вашего товара")
+        await state.set_state(ClientState.SETAUCTIONDESCRIPTION)
+    except Exception as e:
+        print(e, "set product")
+        await bot.send_message(message.chat.id, "Что-то пошло не так⛔️")
+
+
+@dp.message_handler(state=ClientState.SETAUCTIONDESCRIPTION)
+async def setAuctionProduct(message: types.Message, state: FSMContext):
+    try:
+        product_description = message.text
+        await state.update_data(product_description=product_description)
         await bot.send_message(
             message.chat.id,
             "Введите начальную ставку для вашего аукциона.",
-            reply_markup=types.InlineKeyboardMarkup().add(
-                types.InlineKeyboardButton(text="Назад", callback_data="back_2")
-            ),
+            reply_markup=nav.menu,
         )
         await state.set_state(ClientState.FINSIHCREATEAUCTION)
     except Exception as e:
-        print(e, "set product")
+        print(e, " set description")
         await bot.send_message(message.chat.id, "Что-то пошло не так⛔️")
 
 
@@ -159,7 +171,14 @@ async def createAuction(message: types.Message, state: FSMContext):
         auction_data = await state.get_data()
         product_category = auction_data["product_category"]
         product_name = auction_data["product_name"]
-        db.add_auction(message.chat.id, product_name, product_cost, product_category)
+        product_description = auction_data["product_description"]
+        db.add_auction(
+            message.chat.id,
+            product_name,
+            product_cost,
+            product_category,
+            product_description,
+        )
         await bot.send_message(
             message.chat.id,
             "Аукцион успешно создан, ожидайте участников✅",
@@ -168,6 +187,34 @@ async def createAuction(message: types.Message, state: FSMContext):
         await state.set_state(ClientState.START)
     except Exception as e:
         print(e, "finish create auction")
+        await bot.send_message(message.chat.id, "Что-то пошло не так⛔️")
+
+
+@dp.message_handler(state=ClientState.AUTOSTART)
+async def autoStart(message: types.Message, state: FSMContext):
+    try:
+        try:
+            members_number = int(message.text)
+        except:
+            await bot.send_message(message.chat.id, "Введите целое число!")
+            return
+        if db.get_auction(message.chat.id)[6] == "active":
+            await bot.send_message("Аукцион уже начат")
+        elif members_number < 2:
+            await bot.send_message(
+                message.chat.id, "Число участников должно быть больше 1!"
+            )
+        elif members_number < int(db.get_auction_members(message.chat.id)[0]):
+            await bot.send_message(
+                message.chat.id,
+                f"В вашем аукционе {db.get_auction_members(message.chat.id)[0]} участников. Введите большее число для авто старта",
+            )
+        else:
+            db.set_autostart(message.chat.id, members_number)
+            await bot.send_message(message.chat.id, "Авто старт успешно установлен")
+
+    except Exception as e:
+        print(e, " auto start")
         await bot.send_message(message.chat.id, "Что-то пошло не так⛔️")
 
 
@@ -295,22 +342,7 @@ async def call_handler(call: types.CallbackQuery, state: FSMContext):
     chatid = call.message.chat.id
     try:
         await bot.answer_callback_query(callback_query_id=call.id)
-        if "get_auctions" in call.data:
-            try:
-                state_data = await state.get_data()
-                author_id = state_data["auction_id"]
-                if db.check_active_auction(chatid) or not author_id == None:
-                    await bot.send_message(
-                        chatid, "Вам необходимо закончить все аукционы!⛔️"
-                    )
-                    return
-                await bot.send_message(
-                    chatid, "Выюерите вариант сортировки", reply_markup=nav.sort_choose
-                )
-            except Exception as e:
-                print(e, " get auctions")
-                await bot.send_message(chatid, "Что-то пошло не так⛔️")
-        elif "sort" in call.data:
+        if "sort" in call.data:
             await bot.delete_message(chat_id=chatid, message_id=call.message.message_id)
             sort_type = call.data[5:]
             auction_data = await state.get_data()
@@ -334,6 +366,12 @@ async def call_handler(call: types.CallbackQuery, state: FSMContext):
             )
             await bot.send_message(chatid, "🏆", reply_markup=nav.menu)
             await state.set_state(ClientState.START)
+        elif "auto_start" in call.data:
+            await bot.send_message(
+                chatid,
+                "Напишите сколько участников необходимо для автоматическго старта",
+            )
+            await state.set_state(ClientState.AUTOSTART)
         elif "back_offer_list" in call.data:
             await bot.delete_message(chatid, call.message.message_id)
             state_data = await state.get_data()
@@ -342,36 +380,6 @@ async def call_handler(call: types.CallbackQuery, state: FSMContext):
                 "Выберите интересующий аукцион",
                 reply_markup=state_data["auctions_list"],
             )
-        elif "create_auction" in call.data:
-            try:
-                state_data = await state.get_data()
-                author_id = state_data["auction_id"]
-                if db.check_active_auction(chatid):
-                    await bot.send_message(chatid, "У вас уже есть аукцион!⛔️")
-                    return
-                if not author_id == None:
-                    await bot.send_message(
-                        chatid, "Вам необходимо закончить все аукционы!⛔️"
-                    )
-                    return
-                await bot.send_message(
-                    chatid,
-                    "К какой категории относиться ваш товар?",
-                    reply_markup=nav.categor,
-                )
-                await state.set_state(ClientState.SETAUCTIONCATEGORY)
-            except Exception as e:
-                print(e)
-        elif "my_auction" in call.data:
-            if db.check_active_auction(chatid):
-                current_state = await state.get_state()
-                await bot.send_message(
-                    chatid,
-                    "Ваш аукцион, ожидайте участников👥",
-                    reply_markup=nav.owner_actions,
-                )
-            else:
-                await bot.send_message(chatid, "У вас нет активного аукциона⛔️")
         elif "remove_auction" in call.data:
             try:
                 members_id = db.get_members_id(chatid)[0].split("/")
@@ -438,6 +446,22 @@ async def call_handler(call: types.CallbackQuery, state: FSMContext):
                     f'Вы присоединились к аукциону №{auction_info[0]}\n📦Товар: {auction_info[4]}\n{"💵Начальная ставка" if auction_info[6] == "inactive" else "💲Текущая ставка"} : {auction_info[2] if auction_info[6] == "inactive" else auction_info[5]}\n👥Участников: {auction_info[1]}',
                     reply_markup=nav.member_actions,
                 )
+                if int(db.get_auction_members(author_id)[0]) == int(
+                    db.get_autostart(author_id)[0]
+                ):
+                    db.set_auction_status(author_id, "active")
+                    await bot.send_message(
+                        author_id,
+                        "Сработал автостарт. Участники могут предлагать ставки",
+                    )
+                    for member in new_members_id.split("/"):
+                        if not member == "":
+                            await bot.send_message(
+                                int(member),
+                                "Аукцион начат. Можно предлагать ставки✅",
+                                reply_markup=nav.member_actions,
+                            )
+
                 await state.update_data(auction_id=author_id)
             except Exception as e:
                 print(e, call.data)
@@ -447,7 +471,7 @@ async def call_handler(call: types.CallbackQuery, state: FSMContext):
                 state_data = await state.get_data()
                 author_id = state_data["auction_id"]
                 await bot.send_message(
-                    chatid, "Вы вышли из аукциона⭕️", reply_markup=nav.action_choose
+                    chatid, "Вы вышли из аукциона⭕️", reply_markup=nav.menu
                 )
                 await state.update_data(auction_id=None)
                 db.change_members(author_id, -1)
@@ -506,9 +530,7 @@ async def call_handler(call: types.CallbackQuery, state: FSMContext):
                 print(e, call.data)
                 await bot.send_message(chatid, "Что-то пошло не так.⛔️")
         elif "return" in call.data:
-            await bot.send_message(
-                chatid, "Выбирайте действие📋", reply_markup=nav.action_choose
-            )
+            await bot.send_message(chatid, "Выбирайте действие📋", reply_markup=nav.menu)
             await state.update_data(author_id=None)
         elif "accept_offer" in call.data:
             try:
@@ -545,7 +567,7 @@ async def call_handler(call: types.CallbackQuery, state: FSMContext):
             auction = db.get_auction(int(call.data[7:]))
             await bot.send_message(
                 chatid,
-                f'Аукцион: №{auction[0]}\n📦Товар: {auction[4]}\n{"💵Начальная ставка" if auction[6] == "inactive" else "💲Текущая ставка"} : {auction[2] if auction[6] == "inactive" else auction[5]}\n👥Участников: {auction[1]}\n📢Статус: {auction[6]} ',
+                f'Аукцион: №{auction[0]}\n📦Товар: {auction[4]}\nОписание товара: {auction[9]}\n{"💵Начальная ставка" if auction[6] == "inactive" else "💲Текущая ставка"} : {auction[2] if auction[6] == "inactive" else auction[5]}\n👥Участников: {auction[1]}\n📢Статус: {auction[6]} ',
                 reply_markup=nav.get_auction_offer(auction[3]),
             )
     except Exception as e:
