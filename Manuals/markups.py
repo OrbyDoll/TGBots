@@ -26,13 +26,21 @@ categor_choose_back = types.InlineKeyboardMarkup(row_width=1).add(
         text="📜ПОСОБИЯ BY PRADA📜", callback_data="ПОСОБИЯ BY PRADA"
     ),
     types.InlineKeyboardButton(
-        text="🕵️‍♂️SAFETY 1.0 BY PRADA💻 (техника)", callback_data="SAFETY 1.0 BY PRADA (техника)"
+        text="🕵️‍♂️SAFETY 1.0 BY PRADA💻 (техника)",
+        callback_data="SAFETY 1.0 BY PRADA (техника)",
     ),
     types.InlineKeyboardButton(
-        text="🕵️‍♂️SAFETY 2.0 BY PRADA🧠 (поведение)", callback_data="SAFETY 2.0 BY PRADA (поведение)"
+        text="🕵️‍♂️SAFETY 2.0 BY PRADA🧠 (поведение)",
+        callback_data="SAFETY 2.0 BY PRADA (поведение)",
     ),
     types.InlineKeyboardButton(
-        text="🕵️‍♂️SAFETY 3.0 BY PRADA💰 (отмыв)", callback_data="SAFETY 3.0 BY PRADA (отмыв)"
+        text="🕵️‍♂️SAFETY 3.0 BY PRADA💰 (отмыв)",
+        callback_data="SAFETY 3.0 BY PRADA (отмыв)",
     ),
-    types.InlineKeyboardButton(text="Назад⬅️", callback_data="back"),
+    types.InlineKeyboardButton(text="⬅️Назад", callback_data="back"),
+)
+
+channel_url = types.InlineKeyboardMarkup().add(
+    types.InlineKeyboardButton("Перейти в канал", url=cfg.channel_url),
+    types.InlineKeyboardButton("Я подписался", callback_data="check_member"),
 )

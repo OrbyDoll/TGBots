@@ -45,7 +45,7 @@ async def sendMessage(message: types.Message, state: FSMContext):
             ):
                 await bot.send_message(
                     message.chat.id,
-                    "Привет ! Пишите сообщенияя ниже и наш админ ответит вам в ближайшее время.",
+                    f"Приветствуем, @{message.from_user.username}!🙋\n\n🧑‍💻Данный бот - <b>средство связи со мной</b> если вы получили SPAM-метку, либо же я вам долго не отвечаю. <b>Я являюсь менеджером @pradatc</b> и представляю интересы нашей ветки проектов - если у вас <b>есть предложения о сотрудничестве - мы рады вам ответить.</b> \n\n🤝Если <b>у вас вопросы по работе какой либо из веток</b> - просьба обращаться не ко мне, а <b>к локальным работникам на местах.</b> \n\n🏆 <a href='https://t.me/PRADAEMPlRE'>🏆PRADA | EMPIRE - работай с лучшими!</a> ", parse_mode='html', disable_web_page_preview=True,
                 )
             elif (
                 message.from_user.id == cfg.admin_id
@@ -53,12 +53,12 @@ async def sendMessage(message: types.Message, state: FSMContext):
             ):
                 await bot.send_message(
                     message.chat.id,
-                    "Для просмотра сообщений напишите /check.",
+                    "🔔Для просмотра сообщений напишите /check.",
                 )
         else:
             await bot.send_message(
                 message.chat.id,
-                "Вы уже зарегестрированы.",
+                "🔔Вы уже зарегестрированы.",
             )
 
 
@@ -79,16 +79,16 @@ async def cmd_check(message: types.Message, state: FSMContext):
             if len(db.get_active_users()) > 0:
                 await bot.send_message(
                     message.chat.id,
-                    "Выберите пользователя, сообщения которого вы хотите увидеть",
+                    "🔔Выберите пользователя, сообщения которого вы хотите увидеть",
                     reply_markup=nav.get_users_markup(db),
                 )
                 await state.set_state(ClientState.GET_MESSAGES)
             else:
                 await bot.send_message(
-                    message.chat.id, "На данный момент сообщений нет."
+                    message.chat.id, "🔔На данный момент сообщений нет."
                 )
         else:
-            await bot.send_message(message.chat.id, "Вы не являетесь админом!")
+            await bot.send_message(message.chat.id, "🔔Вы не являетесь админом!")
             return
 
 
@@ -102,16 +102,16 @@ async def cmd_clear(message: types.Message, state: FSMContext):
             if len(db.get_active_users()) > 0:
                 await bot.send_message(
                     message.chat.id,
-                    "Выберите пользователя, сообщения которого вы хотите удалить",
+                    "🔔Выберите пользователя, сообщения которого вы хотите удалить",
                     reply_markup=nav.get_users_markup(db),
                 )
                 await state.set_state(ClientState.CLEAR_MESSAGES)
             else:
                 await bot.send_message(
-                    message.chat.id, "На данный момент сообщений нет."
+                    message.chat.id, "🔔На данный момент сообщений нет."
                 )
         else:
-            await bot.send_message(message.chat.id, "Вы не являетесь админом!")
+            await bot.send_message(message.chat.id, "🔔Вы не являетесь админом!")
             return
 
 
@@ -125,16 +125,16 @@ async def cmd_answer(message: types.Message, state: FSMContext):
             if len(db.get_active_users()) > 0:
                 await bot.send_message(
                     message.chat.id,
-                    "Выберите пользователя, на сообщение которого вы хотите ответить",
+                    "🔔Выберите пользователя, на сообщение которого вы хотите ответить",
                     reply_markup=nav.get_users_markup(db),
                 )
                 await state.set_state(ClientState.ANSWER_GET_ID)
             else:
                 await bot.send_message(
-                    message.chat.id, "На данный момент сообщений нет."
+                    message.chat.id, "🔔На данный момент сообщений нет."
                 )
         else:
-            await bot.send_message(message.chat.id, "Вы не являетесь админом!")
+            await bot.send_message(message.chat.id, "🔔Вы не являетесь админом!")
             return
 
 
@@ -153,7 +153,7 @@ async def get_messages(message: types.Message, state: FSMContext):
         print(e)
         await bot.send_message(
             message.chat.id,
-            "Что-то пошло не так. Попробуйте еще раз",
+            "⛔️Что-то пошло не так. Попробуйте еще раз",
             reply_markup=nav.get_users_markup(db),
         )
     await state.finish()
@@ -165,7 +165,7 @@ async def answer_get_id(message: types.Message, state: FSMContext):
     await state.update_data(ANSWER_USER=desired_user)
     await bot.send_message(
         message.chat.id,
-        "Напишите сообщение, которое вы хотите отправить данному пользователю.",
+        "📩Напишите сообщение, которое вы хотите отправить данному пользователю.",
         reply_markup=types.ReplyKeyboardRemove,
     )
     await state.set_state(ClientState.ANSWER_SEND_MESSAGE)
@@ -178,7 +178,7 @@ async def answer_send_message(message: types.Message, state: FSMContext):
     await bot.send_message(user_state_id, message.text)
     previous_msg = db.get_messages(user_state_id)[0][0]
     new_msg = str(previous_msg) + "/" + "Ответ:" + message.text
-    await bot.send_message(message.chat.id, "Сообщение отправлено")
+    await bot.send_message(message.chat.id, "Сообщение отправлено📨")
     db.set_messages(new_msg, user_state_id)
     await state.finish()
 
@@ -190,13 +190,13 @@ async def clear(message: types.Message, state: FSMContext):
         db.set_messages(None, desired_user)
         db.set_msg_count(0, desired_user)
         await bot.send_message(
-            message.chat.id, "Сообщения очищены", reply_markup=types.ReplyKeyboardRemove
+            message.chat.id, "🔔Сообщения очищены", reply_markup=types.ReplyKeyboardRemove
         )
     except Exception as e:
         print(e)
         await bot.send_message(
             message.chat.id,
-            "Что-то пошло не так. Попробуйте еще раз",
+            "🔔Что-то пошло не так. Попробуйте еще раз",
             reply_markup=nav.get_users_markup(db),
         )
     await state.finish()

@@ -28,17 +28,51 @@ prada_service_list = {
     },
 }
 
+admin_panel = types.InlineKeyboardMarkup(row_width=2).add(
+    types.InlineKeyboardButton("Заявки на одобрение", callback_data="check_products"),
+    types.InlineKeyboardButton("Удалить товар", callback_data="admin_delete"),
+    types.InlineKeyboardButton("Бан-система🔕", callback_data="bor"),
+    types.InlineKeyboardButton("Рассылка💬", callback_data="newsletter"),
+    types.InlineKeyboardButton("Изменение баланса📝", callback_data="edit_balance"),
+    types.InlineKeyboardButton("Статистика📊", callback_data="stats"),
+    types.InlineKeyboardButton("⬅️Назад", callback_data="hide"),
+)
+
 service_markup = types.InlineKeyboardMarkup(row_width=1).add(
     types.InlineKeyboardButton(text="DESIGN", callback_data="service_DESIGN"),
     types.InlineKeyboardButton(text="MATERIALS", callback_data="service_MATERIALS"),
     types.InlineKeyboardButton(text="DOX", callback_data="service_DOX"),
     types.InlineKeyboardButton(text="SMM", callback_data="service_SMM"),
+    types.InlineKeyboardButton(text="⬅️Назад", callback_data="category_back"),
 )
 
-menu = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2).add(
-    types.KeyboardButton(text="Создать предложение"),
-    types.KeyboardButton(text="Выбрать товар"),
-    types.KeyboardButton(text="Мои товары"),
+bor = types.InlineKeyboardMarkup(row_width=2).add(
+    types.InlineKeyboardButton("Забанить🔕", callback_data="ban"),
+    types.InlineKeyboardButton("Разбанить🔔", callback_data="unban"),
+)
+
+menu = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=3).add(
+    types.KeyboardButton(text="Создать товар📝"),
+    types.KeyboardButton(text="Выбрать товар📋"),
+    types.KeyboardButton("О нас🌟"),
+    types.KeyboardButton(text="Мои товары🛍"),
+)
+
+channel_url = types.InlineKeyboardMarkup().add(
+    types.InlineKeyboardButton("Перейти в канал", url=cfg.channel_url),
+    types.InlineKeyboardButton("Я подписался", callback_data="check_member_channel"),
+)
+
+garant_check = types.InlineKeyboardMarkup().add(
+    types.InlineKeyboardButton(
+        text="Перейти в гарант бота💎",
+        url="https://t.me/pradagarant_bot",
+    ),
+    types.InlineKeyboardButton(text="Я нажал", callback_data="check_member_garant"),
+)
+
+hide = types.InlineKeyboardMarkup().add(
+    types.InlineKeyboardButton(text="Скрыть", callback_data="hide")
 )
 
 
@@ -54,8 +88,30 @@ categor.add(
     types.KeyboardButton(text="Сайты🌐"),
     types.KeyboardButton(text="Мануалы📓"),
     types.KeyboardButton(text="Документы📄"),
-    types.KeyboardButton(text="Другое⚙️"),
-    types.KeyboardButton(text="Назад"),
+    types.KeyboardButton(text="Другое⚙"),
+    types.KeyboardButton(text="⬅️Назад"),
+)
+
+o_nas = types.InlineKeyboardMarkup(row_width=2).add(
+    types.InlineKeyboardButton(
+        text="🧑‍💻КРУГЛОСУТОЧНАЯ ПОДДЕРЖКА", url="https://t.me/pradamarketplace_sup"
+    ),
+    types.InlineKeyboardButton(
+        text="📰ИНФОРМАЦИЯ ОБ ОБНОВЛЕНИЯХ БОТОВ",
+        url="https://t.me/+gbEsSZAUQTU4OWZi",
+    ),
+    types.InlineKeyboardButton(
+        text="🌎ВСЕ НАШИ ПРОЕКТЫ", url="https://t.me/PRADAEMPlRE"
+    ),
+    types.InlineKeyboardButton(text="Скрыть", callback_data="hide_2"),
+)
+
+back_from_name = types.InlineKeyboardMarkup().add(
+    types.InlineKeyboardButton("Назад", callback_data="back_name")
+)
+
+back_from_price = types.InlineKeyboardMarkup().add(
+    types.InlineKeyboardButton("Назад", callback_data="back_price")
 )
 
 categor_without_prada = types.ReplyKeyboardMarkup(
@@ -70,19 +126,23 @@ categor_without_prada = types.ReplyKeyboardMarkup(
     types.KeyboardButton(text="Боты🤖"),
     types.KeyboardButton(text="Сайты🌐"),
     types.KeyboardButton(text="Документы📄"),
-    types.KeyboardButton(text="Другое⚙️"),
-    types.KeyboardButton(text="Назад"),
+    types.KeyboardButton(text="Другое⚙"),
+    types.KeyboardButton(text="⬅️Назад"),
 )
 
 buy_choose = types.InlineKeyboardMarkup(row_width=2).add(
-    types.InlineKeyboardButton("Да✔️", callback_data="accept"),
-    types.InlineKeyboardButton("Нет❌", callback_data="deny"),
+    types.InlineKeyboardButton("Да✔️", callback_data="accept_buy"),
+    types.InlineKeyboardButton("Нет❌", callback_data="deny_buy"),
 )
 
 sort_choose = types.InlineKeyboardMarkup(row_width=2).add(
-    types.InlineKeyboardButton(text="Сначала дорогие", callback_data="sort_increase"),
-    types.InlineKeyboardButton(text="Сначала дешевые", callback_data="sort_decrease"),
-    types.InlineKeyboardButton(text="Сначала новые", callback_data="sort_no"),
+    types.InlineKeyboardButton(text="Сначала дорогие📈", callback_data="sort_increase"),
+    types.InlineKeyboardButton(text="Сначала дешевые📉", callback_data="sort_decrease"),
+    types.InlineKeyboardButton(text="Сначала новые⏱", callback_data="sort_no"),
+)
+
+cancel_admin_del = types.InlineKeyboardMarkup().add(
+    types.InlineKeyboardButton("Отмена", callback_data="cancel_admin_del")
 )
 
 
@@ -92,10 +152,25 @@ def get_offer_buy_button(offer_str):
     )
 
 
-def get_offer_del_button(offer_str):
-    return types.InlineKeyboardMarkup().add(
+def get_offer_del_button(offer_str, type):
+    offer_del = types.InlineKeyboardMarkup().add(
         types.InlineKeyboardButton(text="Удалить🗑", callback_data=f"del_{offer_str}"),
+    )
+    if type == 1:
+        offer_del.add(
+            types.InlineKeyboardButton(
+                text="Изменить цену⚙️", callback_data=f"cp_{offer_str}"
+            )
+        )
+    return offer_del
+
+
+def get_admin_solution_markup(owner, product_name):
+    return types.InlineKeyboardMarkup().add(
         types.InlineKeyboardButton(
-            text="Изменить цену", callback_data=f"changeprice_{offer_str}"
+            "Одобрить", callback_data=f"ap_{owner}_{product_name}"
+        ),
+        types.InlineKeyboardButton(
+            "Отклонить", callback_data=f"dp_{owner}_{product_name}"
         ),
     )

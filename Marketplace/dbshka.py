@@ -8,9 +8,15 @@ class Database:
 
     def create_tables(self):
         with self.connection:
-            auct = self.cursor.execute(
+            offers = self.cursor.execute(
                 """CREATE TABLE IF NOT EXISTS offers(
                     owner_id INTEGER,
+                    products TEXT);
+                """
+            )
+            temp_offers = self.cursor.execute(
+                """CREATE TABLE IF NOT EXISTS temp_offers(
+                    owner_id TEXT,
                     products TEXT);
                 """
             )
@@ -21,7 +27,7 @@ class Database:
                     nickname TEXT);
                 """
             )
-            return auct, users
+            return offers, users
 
     def add_user(self, user_id, garant_balance, nickname):
         with self.connection:
@@ -41,6 +47,13 @@ class Database:
         with self.connection:
             res = self.cursor.execute(
                 "SELECT * FROM `users` WHERE `user_id` = ?", (user_id,)
+            ).fetchone()
+            return res
+
+    def get_user_from_nick(self, nick):
+        with self.connection:
+            res = self.cursor.execute(
+                "SELECT * FROM `users` WHERE `nickname` = ?", (nick,)
             ).fetchone()
             return res
 
@@ -103,7 +116,6 @@ class Database:
     def update_price(self, user_id, offer_str, new_price):
         prev_offers = self.get_user_offers(user_id)[0]
         offer_str = offer_str.replace("/", "_")
-        print(offer_str)
         offer_str_split = offer_str.split("_")
         new_offers = prev_offers.replace(
             offer_str, f"{offer_str_split[0]}_{offer_str_split[1]}_{new_price}"
@@ -116,3 +128,64 @@ class Database:
                     user_id,
                 ),
             )
+
+    def insert_owner_temp(self, user_id):
+        with self.connection:
+            return self.cursor.execute(
+                "INSERT INTO `temp_offers` (`owner_id`, `products`) VALUES (?,?)",
+                (
+                    user_id,
+                    "",
+                ),
+            )
+
+    def get_user_tempOffers(self, user_id):
+        with self.connection:
+            res = self.cursor.execute(
+                "SELECT `products` FROM `temp_offers` WHERE `owner_id` = ?", (user_id,)
+            ).fetchone()
+            return res
+
+    def add_tempOffer(self, user_id, offer: list):
+        with self.connection:
+            prev_offers = self.get_user_tempOffers(user_id)[0]
+            new_offers = prev_offers + "/" + offer[0] + "_" + offer[1] + "_" + offer[2]
+            return self.cursor.execute(
+                "UPDATE `temp_offers` SET `products` = ? WHERE `owner_id` = ?",
+                (
+                    new_offers,
+                    user_id,
+                ),
+            )
+
+    def del_tempOffer_products(self, user_id, del_offer: list):
+        with self.connection:
+            prev_offers = self.get_user_tempOffers(user_id)[0]
+            offer_str = "/" + del_offer[0] + "_" + del_offer[1] + "_" + del_offer[2]
+            new_offers = prev_offers.replace(offer_str, "")
+            return self.cursor.execute(
+                "UPDATE `temp_offers` SET `products` = ? WHERE `owner_id` = ?",
+                (
+                    new_offers,
+                    user_id,
+                ),
+            )
+
+    def get_all_tempOffers(self):
+        with self.connection:
+            return self.cursor.execute("SELECT * FROM `temp_offers`").fetchall()
+
+    def get_all_users(self):
+        with self.connection:
+            return self.cursor.execute("SELECT user_id FROM users").fetchall()
+
+    def stats(self, offers_number):
+        with self.connection:
+            users = self.get_all_users()
+            msg = (
+                "❕ Информация:\n\n❕ Пользователей в боте - "
+                + str(len(users))
+                + "\n❕ Проведено сделок - "
+                + str(offers_number["g-m"])
+            )
+            return msg

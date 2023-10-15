@@ -25,7 +25,7 @@ class GiveBalance:
         self.balance = None
 
 
-header = {"Crypto-Pay-API-Token": crypto_test_token}
+header = {"Crypto-Pay-API-Token": crypto_token}
 
 script_dir = pathlib.Path(sys.argv[0]).parent
 db = script_dir / db1
@@ -48,14 +48,16 @@ cur.execute(
    user_id2 TEXT,
    sum TEXT,
    id_offer INTEGER PRIMARY KEY,
-   status TEXT);
+   status TEXT,
+   type TEXT);
 """
 )
 cur.execute(
     """CREATE TABLE IF NOT EXISTS last_offers(
    customer TEXT,
    seller TEXT,
-   act TEXT);
+   act TEXT,
+   type TEXT);
 """
 )
 cur.execute(
@@ -68,8 +70,23 @@ cur.execute(
 )
 
 
+def check_user_offers(user_id):
+    connection = sqlite3.connect(db)
+    q = connection.cursor()
+    by_seller = q.execute(
+        "SELECT act FROM last_offers WHERE seller = ?", (user_id,)
+    ).fetchone()
+    by_customer = q.execute(
+        "SELECT act FROM last_offers WHERE customer = ?", (user_id,)
+    ).fetchone()
+    if not by_seller == None and not by_customer == None:
+        return "all"
+    elif not by_customer == None:
+        return "customer"
+    return "seller"
+
+
 def get_nick_from_id(id):
-    print(id)
     connection = sqlite3.connect(db)
     q = connection.cursor()
     res = q.execute("SELECT nick FROM users WHERE user_id = ?", (id,)).fetchone()
@@ -84,12 +101,15 @@ def get_id_from_name(name):
 
 
 def getOffersNumber():
-    res = 0
+    res = {"g-m": 0, "a": 0}
     connection = sqlite3.connect(db)
     q = connection.cursor()
-    offers = q.execute("SELECT seller FROM last_offers").fetchall()
-    for seller in offers:
-        res += 1
+    offers = q.execute("SELECT type FROM last_offers").fetchall()
+    for offer in offers:
+        if offer[0] == "a":
+            res["a"] += 1
+        else:
+            res["g-m"] += 1
     return res
 
 
@@ -101,12 +121,15 @@ def getSummFromString(str):
 
 
 def getOffersSumm():
-    summ = 0
+    summ = {"g-m": 0.0, "a": 0.0}
     connection = sqlite3.connect(db)
     q = connection.cursor()
-    acts = q.execute("SELECT act FROM last_offers").fetchall()
-    for act in acts:
-        summ += getSummFromString(act[0])
+    deals = q.execute("SELECT * FROM last_offers").fetchall()
+    for deal in deals:
+        if deal[3] == "a":
+            summ["a"] += getSummFromString(deal[2])
+        else:
+            summ["g-m"] += getSummFromString(deal[2])
     return summ
 
 
@@ -118,7 +141,7 @@ def generate_random_string(length):
 
 def getExchangeRate():
     exchangeRates = requests.get(
-        "https://testnet-pay.crypt.bot/api/getExchangeRates", headers=header
+        "https://pay.crypt.bot/api/getExchangeRates", headers=header
     ).json()["result"]
     for coin in exchangeRates:
         if coin["source"] == "USDT" and coin["target"] == "USD":
@@ -182,7 +205,7 @@ def last_offers_seller(user_id):
     connection = sqlite3.connect(db)
     q = connection.cursor()
     row = q.execute(
-        "SELECT act FROM last_offers WHERE seller IS " + str(user_id)
+        "SELECT act FROM last_offers WHERE seller = ? ", (user_id,)
     ).fetchall()
     text = ""
     for i in row:
@@ -195,7 +218,7 @@ def last_offers_customer(user_id):
     connection = sqlite3.connect(db)
     q = connection.cursor()
     row = q.execute(
-        "SELECT act FROM last_offers WHERE customer IS " + str(user_id)
+        "SELECT act FROM last_offers WHERE customer = ? ", (user_id,)
     ).fetchall()
     text = ""
     for i in row:
@@ -297,13 +320,12 @@ def search(search):
     connection.close()
 
 
-def deal(seller_id, customer_id):
+def deal(seller_id, customer_id, deal_type):
     connection = sqlite3.connect(db)
     q = connection.cursor()
-
     q.execute(
-        "INSERT INTO temp_deal (user_id, user_id2, status) VALUES ('%s', '%s', '%s')"
-        % (seller_id, customer_id, "dont_open")
+        "INSERT INTO temp_deal (user_id, user_id2, status, type) VALUES ('%s', '%s', '%s', '%s')"
+        % (seller_id, customer_id, "dont_open", deal_type)
     )
     connection.commit()
     connection.close()
@@ -518,6 +540,7 @@ def ok(
     customer_nick,
     seller_of,
     customer_of,
+    type_deal,
 ):
     conn = sqlite3.connect(db)
     cursor = conn.cursor()
@@ -534,7 +557,7 @@ def ok(
         "UPDATE users SET offers = ('%s') WHERE user_id IS " % (of_c) + str(customer)
     )
     cursor.execute(
-        "INSERT INTO last_offers (customer, seller, act) VALUES ('%s', '%s', '%s')"
+        "INSERT INTO last_offers (customer, seller, act, type) VALUES ('%s', '%s', '%s', '%s')"
         % (
             customer,
             seller,
@@ -546,11 +569,12 @@ def ok(
             + str(num)
             + " на сумму "
             + str(sum1)
-            + " рублей с покупателем(ID - "
+            + " USDT с покупателем(ID - "
             + str(customer)
             + ")(@"
             + str(customer_nick)
             + ")",
+            type_deal,
         )
     )
     cursor.execute(

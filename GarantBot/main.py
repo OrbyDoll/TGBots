@@ -4,11 +4,9 @@ from config import (
     TOKEN,
     admin,
     chat_bota,
-    instruction,
     nicknameadm,
     procent,
     admin2,
-    instruction,
     chat_bota,
     crypto_token,
     crypto_test_token,
@@ -16,6 +14,7 @@ from config import (
 )
 
 from var import error, canel_operation, disable_keyboard, enable_keyboard
+import math
 import kboard as kb
 import functions as func
 import requests
@@ -23,8 +22,8 @@ import json
 import sqlite3
 import time
 
-api_link = "https://testnet-pay.crypt.bot/api/"
-header = {"Crypto-Pay-API-Token": crypto_test_token}
+api_link = "https://pay.crypt.bot/api/"
+header = {"Crypto-Pay-API-Token": crypto_token}
 
 coin_dict = {"coin": "None", "amount": 0}
 balance_dict = {}
@@ -32,8 +31,10 @@ bot = telebot.TeleBot(TOKEN)
 bot_username = bot.get_me().username
 
 
-def checkMember(userid, chatid):
-    chat_member = bot.get_chat_member(chatid, userid)
+def checkMember(
+    userid,
+):
+    chat_member = bot.get_chat_member(required_chat_id, userid)
     if chat_member.status == "left":
         return False
     return True
@@ -55,11 +56,10 @@ def get_offer_from_string(seller_id, customer_id, offer_type, offer_link_split):
             text="Нельзя отправить сделку самому себе❌",
         )
     else:
-        print(customer_nick, seller_nick, " c-s")
         check_deal = func.check_deal(customer_nick)  # Требует ник
         if check_deal == None:
             try:
-                func.deal(seller_id, customer_id)
+                func.deal(seller_id, customer_id, offer_type)
                 func.edit_price(offer_price, seller_id)
                 bot.send_message(
                     chat_id=seller_id,
@@ -98,52 +98,60 @@ def get_offer_from_string(seller_id, customer_id, offer_type, offer_link_split):
 # Запись в Базу Данных
 @bot.message_handler(commands=["start"])
 def start(message: types.Message):
-    # if not checkMember(message.chat.id, required_chat_id):
-    #     bot.send_message(message.chat.id,f'Для доступа к каналу необходимо подписаться на канал!',reply_markup=kb.channel_url)
-    #     return
-    if not message.chat.type == "private":
-        return
-    chat_id = message.chat.id
-    username = message.from_user.username
-    if message.from_user.username == None:
-        bot.send_message(
-            chat_id, "⛔️ Вам необходимо установить логин для работы с ботом!"
-        )
-    else:
-        func.first_join(user_id=chat_id, username=username)
-        bot.send_message(
-            chat_id,
-            f" Приветствую, {message.from_user.username}✅\n\nPRADA GARANT - уникальная система позволяющая вам максимально безопасно проводить любые сделки💎\n\nСистема оплаты проходит через Crypto bot  для полной конфиденциальности ваших сделок💠\n\nКомиссия нашего бота составляет всего 6%💸\n\nВ нашем боте вас ждёт профессионализм, безопасности и все удобства для качественного проведения вашей сделки🌐\n\n🏆PRADA EMPIRE - работай с лучшими🏆",
-            reply_markup=kb.menu,
-        )
-
-
-@bot.message_handler(commands=["getBalance"])
-def getBalance(message: types.Message):
-    # if not checkMember(message.chat.id, required_chat_id):
-    #     bot.send_message(message.chat.id,f'Для доступа к каналу необходимо подписаться на канал!',reply_markup=kb.channel_url)
-    #     return
-    if not message.chat.type == "private":
-        return
-    if message.from_user.id == admin:
-        res = requests.get(api_link + "getBalance", headers=header).json()["result"]
-        bot.send_message(message.chat.id, res[0]["available"])
+    try:
+        if not checkMember(message.chat.id):
+            bot.send_message(
+                message.chat.id,
+                f"Для доступа к каналу необходимо подписаться на канал!",
+                reply_markup=kb.channel_url,
+            )
+            return
+        if not message.chat.type == "private":
+            return
+        chat_id = message.chat.id
+        username = message.from_user.username
+        if message.from_user.username == None:
+            bot.send_message(
+                chat_id, "⛔️ Вам необходимо установить логин для работы с ботом!"
+            )
+        else:
+            func.first_join(user_id=chat_id, username=username)
+            bot.send_message(
+                chat_id,
+                f"Приветствуем, @{message.from_user.username}!🙋\n\nДобро пожаловать на официального бота-гаранта самой крупной ветки проектов в индустрии!\n\n🤝 <a href='https://t.me/pradagarant_bot'>PRADA | GARANT</a> - <b>уникальная система</b>, позволяющая вам проводить сделки на ваших условиях быстро, удобно и безопасно.\n\n💠Система оплаты происходит напрямую через <i>@CryptoBot</i>, что гарантирует <b>сохранность ваших средств</b> и полную <b>конфиденциальность ваших сделок.</b> \n\n💵Все суммы сделок считаются в долларах <b>(USD)</b>, а все сделки проходят в <b>криптовалюте USDT (TRC20)</b>, без возможности перехода оплаты на другую криптовалюту.\n\n🦾Для улучшения работы бота или по любым другим вопросам <b>вы всегда можете обратиться в нашу круглосуточную поддержку -</b> @pradagarant_sup. Мы всегда <b>рады обратной связи</b> и готовы <b>реализовать любые ваши пожелания.</b>\n\n👉Комиссия за проведение сделок является фиксированной и <b>равняется 8% </b>(<i>5% комиссия гаранта + 3% комисси CryptoBot</i>) <b>от суммы сделки.</b>\n\n🏆 <a href='https://t.me/PRADAEMPlRE'>PRADA | EMPIRE - работай с лучшими!</a>",
+                parse_mode="html",
+                disable_web_page_preview=True,
+                reply_markup=kb.menu,
+            )
+    except Exception as e:
+        print(e)
+        bot.send_message(message.chat.id, "Что-то пошло не так")
 
 
 # Вызов Админ Панели
 @bot.message_handler(commands=["admin"])
 def start(message: types.Message):
-    # if not checkMember(message.chat.id, required_chat_id):
-    #     bot.send_message(message.chat.id,f'Для доступа к каналу необходимо подписаться на канал!',reply_markup=kb.channel_url)
-    #     return
+    if not checkMember(message.chat.id):
+        bot.send_message(
+            message.chat.id,
+            f"Для доступа к каналу необходимо подписаться на канал!",
+            reply_markup=kb.channel_url,
+        )
+        return
     if not message.chat.type == "private":
         return
     if message.chat.id == admin or message.chat.id == admin2:
         bot.send_message(
             message.chat.id,
-            "✅ {}, вы авторизованы!".format(message.from_user.first_name),
+            f"✅ {message.from_user.username}, вы авторизованы!",
             reply_markup=kb.admin,
         )
+
+
+@bot.message_handler(commands=["getBalance"])
+def getBalance(message: types.Message):
+    res = requests.get(api_link + "getBalance", headers=header).json()
+    bot.send_message(message.chat.id, f"Доступно {res['result'][0]['available']} USDT")
 
 
 # Команды
@@ -151,17 +159,21 @@ def start(message: types.Message):
 def send_text(message):
     if not message.chat.type == "private":
         return
-    # if not checkMember(message.chat.id, required_chat_id):
-    #     bot.send_message(message.chat.id,f'Для доступа к каналу необходимо подписаться на канал!',reply_markup=kb.channel_url)
-    #     return
+    if not checkMember(message.chat.id):
+        bot.send_message(
+            message.chat.id,
+            f"Для доступа к каналу необходимо подписаться на канал!",
+            reply_markup=kb.channel_url,
+        )
+        return
     chat_id = message.chat.id
     username = message.from_user.username
     try:
         info = func.check_ban(user_id=chat_id)
         if info[0] == "1":
             bot.send_message(chat_id, "⛔️ К сожалению, Вы получили блокировку!")
-        else:
-            info = func.search_block(chat_id)
+            return
+        info = func.search_block(chat_id)
         if info != None:
             bot.send_message(
                 chat_id,
@@ -172,9 +184,7 @@ def send_text(message):
                 info = func.profile(user_id=chat_id)
                 bot.send_message(
                     chat_id,
-                    "🧾 Профиль:\n\n❕ Ваш id - <b><code>{id}</code></b>\n❕ Проведенных сделок - {offers}\n\n💰 Ваш баланс - {balance} USDT\n".format(
-                        id=info[0], offers=info[1], balance=info[2]
-                    ),
+                    f"🧾 Ваш профиль:\n\n⚡️ Ваш ID - <b><code>{info[0]}</code></b>\n\n👤 Ваш логин - @{message.from_user.username}\n\n🤝 Проведенных сделок - {info[1]}\n\n💰 Ваш баланс - {info[2]} USDT (TRC2)\n\nЕсли вы изменили свой @username вы всегда можете изменить ваш логин по нажатию кнопки внизу \n\n❗️Важно всегда изменять логин когда вы изменили ваш @username, так как при некорректном вводе вашего логина пользователи не смогут найти ваш профиль для проведения сделок.",
                     reply_markup=kb.profile,
                     parse_mode="HTML",
                 )
@@ -183,19 +193,38 @@ def send_text(message):
                     chat_id, "В этой сделке вы...", reply_markup=kb.choise_offer
                 )
             elif message.text.lower() == "⭐️ о нас":
+                deals_number = func.getOffersNumber()
+                gm_deals_number = deals_number["g-m"]
+                a_deals_number = deals_number["a"]
+                deals_summ = func.getOffersSumm()
+                gm_deals_summ = math.ceil(deals_summ["g-m"])
+                a_deals_summ = math.ceil(deals_summ["a"])
                 bot.send_message(
                     chat_id,
-                    f"По всем вопросам: @{nicknameadm}\nНаш чат: {chat_bota}\nИнструкция по использованию: {instruction}\n\nОбщее число сделок: {func.getOffersNumber()}\nОбщая сумма всех сделок: {func.getOffersSumm()} USDT",
+                    f"Мы - <b>средство проведения автоматических сделок</b> внутри комьюнити, гарантирующее вам полную <b>конфиденциальность и безопасность</b>. Мы работаем на базе платежной системы <i>@CryptoBot</i>, а сами сделки проходят в криптовалюте <b>USDT (TRC20)</b>, а значит и ценны соответственно приравниваются к доллару <b>(USD)</b>.\n\n🫂Количество сделок гарант-маркет: {gm_deals_number}\n🤑Сумма сделок гарант-маркет: {gm_deals_summ} USDT\n\n🫂Количество сделок аукциона: {a_deals_number}\n🤑Сумма сделок аукциона: {a_deals_summ} USDT",
+                    parse_mode="html",
+                    reply_markup=kb.o_nas,
+                    disable_web_page_preview=True,
                 )
             elif message.text.lower() == "💵 прошедшие сделки":
-                bot.send_message(
-                    chat_id,
-                    "Вывести ваши последние сделки где вы...",
-                    reply_markup=kb.cors,
-                )
+                info = func.profile(chat_id)
+                acts_info = func.check_user_offers(chat_id)
+                if int(info[1]) == 0:
+                    bot.send_message(chat_id, "Вы еще не проводили сделок⛔️")
+                elif acts_info == "customer":
+                    text = func.last_offers_customer(chat_id)
+                    bot.send_message(chat_id, text)
+                elif acts_info == "seller":
+                    text = func.last_offers_seller(chat_id)
+                    bot.send_message(chat_id, text)
+                else:
+                    bot.send_message(
+                        chat_id,
+                        "Вывести ваши последние сделки где вы...",
+                        reply_markup=kb.cors,
+                    )
             else:
                 try:
-                    print(func.decode_link(message.text))
                     if func.decode_link(message.text).startswith("offer"):
                         offer_link_split = func.decode_link(message.text).split()
                         seller_id = offer_link_split[1]
@@ -208,10 +237,9 @@ def send_text(message):
                         )
                 except Exception as e:
                     print(e, " decoder error")
-                    bot.send_message(chat_id, "Попробуйте заново")
     except Exception as e:
         print(e, "1")
-        bot.send_message(chat_id, "Попробуйте заново")
+        bot.send_message(chat_id, "Попробуйте заново⛔️")
         func.first_join(user_id=chat_id, username=username)
 
 
@@ -219,8 +247,17 @@ def send_text(message):
 def handler_call(call: types.CallbackQuery):
     chat_id = call.message.chat.id
     message_id = call.message.message_id
+    bot.answer_callback_query(callback_query_id=call.id)
     if call.data == "output":
-        msg = bot.send_message(chat_id, "Напишите сколько USDT! вы хотите вывести")
+        msg = bot.send_message(
+            chat_id,
+            "💠Напишите сколько USDT вы хотите вывести",
+            reply_markup=types.InlineKeyboardMarkup().add(
+                types.InlineKeyboardButton(
+                    text="Отменить вывод⛔️", callback_data="decline"
+                )
+            ),
+        )
         bot.register_next_step_handler(msg, output)
     elif call.data == "seller":
         info = func.last_offers_seller(chat_id)
@@ -247,10 +284,17 @@ def handler_call(call: types.CallbackQuery):
             )
 
     elif call.data == "menu":
-        bot.edit_message_text(
-            chat_id=call.message.chat.id, message_id=message_id, text="Главное меню"
-        )
-
+        bot.delete_message(chat_id, call.message.message_id)
+    elif call.data == "check_member":
+        if checkMember(chat_id):
+            bot.delete_message(chat_id, call.message.message_id)
+            bot.send_message(
+                chat_id,
+                f"Приветствуем, @{call.message.from_user.username}!🙋\n\nДобро пожаловать на официального бота-гаранта самой крупной ветки проектов в индустрии!\n\n🤝 <a href='https://t.me/pradagarant_bot'>PRADA | GARANT</a> - <b>уникальная система</b>, позволяющая вам проводить сделки на ваших условиях быстро, удобно и безопасно.\n\n💠Система оплаты происходит напрямую через <i>@CryptoBot</i>, что гарантирует <b>сохранность ваших средств</b> и полную <b>конфиденциальность ваших сделок.</b> \n\n💵Все суммы сделок считаются в долларах <b>(USD)</b>, а все сделки проходят в <b>криптовалюте USDT (TRC20)</b>, без возможности перехода оплаты на другую криптовалюту.\n\n🦾Для улучшения работы бота или по любым другим вопросам <b>вы всегда можете обратиться в нашу круглосуточную поддержку -</b> @pradagarant_sup. Мы всегда <b>рады обратной связи</b> и готовы <b>реализовать любые ваши пожелания.</b>\n\n👉Комиссия за проведение сделок является фиксированной и <b>равняется 8% </b>(<i>5% комиссия гаранта + 3% комисси CryptoBot</i>) <b>от суммы сделки.</b>\n\n🏆 <a href='https://t.me/PRADAEMPlRE'>PRADA | EMPIRE - работай с лучшими!</a>",
+                parse_mode="html",
+                disable_web_page_preview=True,
+                reply_markup=kb.menu,
+            )
     elif call.data == "bor":
         bot.send_message(chat_id, text="Что вы хотите сделать?", reply_markup=kb.bor)
 
@@ -267,7 +311,9 @@ def handler_call(call: types.CallbackQuery):
             text="Введите ID человека, которого хотите забанить. (Для отмены введите любую букву)",
         )
         bot.register_next_step_handler(msg, ban1)
-
+    elif call.data == "hide":
+        bot.delete_message(chat_id, call.message.message_id)
+        bot.delete_message(chat_id, call.message.message_id - 1)
     elif call.data == "edit_balance":
         msg = bot.send_message(
             chat_id=chat_id,
@@ -278,7 +324,12 @@ def handler_call(call: types.CallbackQuery):
     elif call.data == "input":
         msg = bot.send_message(
             chat_id,
-            "Внимание! Наш бот принимет оплату только с помощью USDT! Напишите сумму для пополнения.",
+            "💠Внимание! Наш бот принимет оплату только с помощью USDT💠 \n\n Напишите сумму для пополнения.",
+            reply_markup=types.InlineKeyboardMarkup().add(
+                types.InlineKeyboardButton(
+                    text="Отменить пополнение", callback_data="decline"
+                )
+            ),
         )
         bot.register_next_step_handler(msg, getAmount)
     elif call.data == "check_payment":
@@ -288,12 +339,12 @@ def handler_call(call: types.CallbackQuery):
             bot.send_message(text="Успешно оплачено!", chat_id=chat_id)
             func.input(chat_id, invoices["result"]["items"][0]["amount"])
         else:
-            bot.send_message(chat_id, "Оплата не прошла. Попробуйте еще раз.")
+            bot.send_message(chat_id, "Оплата не прошла. Попробуйте еще раз⛔️")
 
     elif call.data == "canel_payment":
         func.canel_payment(user_id=chat_id)
         bot.edit_message_text(chat_id=chat_id, message_id=message_id, text=f"Меню")
-        bot.send_message(chat_id, text="Включение клавиатуры", reply_markup=kb.menu)
+        bot.send_message(chat_id, text="🔔Включение клавиатуры", reply_markup=kb.menu)
 
     elif call.data == "message":
         msg = bot.send_message(
@@ -306,7 +357,7 @@ def handler_call(call: types.CallbackQuery):
         msg = bot.edit_message_text(
             chat_id=chat_id,
             message_id=message_id,
-            text='Введите логин пользователя(Без @), с которым хотите провести сделку. \n\nДля отмены напишите "-" без кавычек!',
+            text='🔔Введите логин пользователя(Без @), с которым хотите провести сделку. \n\nДля отмены напишите "-" без кавычек!',
         )
         bot.register_next_step_handler(msg, search_seller)
 
@@ -314,10 +365,12 @@ def handler_call(call: types.CallbackQuery):
         msg = bot.edit_message_text(
             chat_id=chat_id,
             message_id=message_id,
-            text='Введите логин пользователя(Без @), с которым хотите провести сделку. \n\nДля отмены напишите "-" без кавычек!',
+            text='🔔Введите логин пользователя(Без @), с которым хотите провести сделку. \n\nДля отмены напишите "-" без кавычек!',
         )
         bot.register_next_step_handler(msg, search_customer)
-
+    elif call.data == "decline":
+        bot.delete_message(chat_id=chat_id, message_id=message_id)
+        bot.clear_step_handler(call.message)
     elif call.data == "proposal_customer":
         try:
             bot.edit_message_text(
@@ -489,7 +542,7 @@ def handler_call(call: types.CallbackQuery):
                     bot.answer_callback_query(
                         callback_query_id=call.id,
                         show_alert=True,
-                        text="Вы уже оплатили товар, продавец обязан вам его передать. Если продавец отказывается передать товар, откройте спор.",
+                        text="⛔️ Вы уже оплатили товар, продавец обязан вам его передать. Если продавец отказывается передать товар, откройте спор.",
                     )
                 else:
                     if float(info[2]) < float(offer[2]):
@@ -520,13 +573,13 @@ def handler_call(call: types.CallbackQuery):
             if info[2] == None:
                 msg = bot.send_message(
                     chat_id,
-                    text='Введите сумму товара. \n\nДля отмены напишите "-" без кавычек!',
+                    text='💰 Введите сумму товара. \n\nДля отмены напишите "-" без кавычек!',
                 )
                 bot.register_next_step_handler(msg, price)
             else:
                 bot.send_message(
                     chat_id,
-                    text="Вы уже ввели сумму товара, и не можете её редактировать!",
+                    text="🔔Вы уже ввели сумму товара, и не можете её редактировать!",
                 )
         except Exception as e:
             print(e)
@@ -537,7 +590,7 @@ def handler_call(call: types.CallbackQuery):
     elif call.data == "canel_open":
         bot.send_message(
             chat_id,
-            text="Вы уверены что хотите отменить сделку?",
+            text="🔔Вы уверены что хотите отменить сделку?",
             reply_markup=kb.choise_canel,
         )
 
@@ -545,7 +598,7 @@ def handler_call(call: types.CallbackQuery):
         bot.answer_callback_query(
             callback_query_id=call.id,
             show_alert=True,
-            text="Процесс отмены сделки аннулирован",
+            text="✅Процесс отмены сделки аннулирован",
         )
 
     elif call.data == "Yes_canel":
@@ -555,18 +608,18 @@ def handler_call(call: types.CallbackQuery):
                 bot.answer_callback_query(
                     callback_query_id=call.id,
                     show_alert=True,
-                    text="Запрос на отмену отправлен продавцу",
+                    text="🔔Запрос на отмену отправлен продавцу",
                 )
                 bot.send_message(
                     info[0],
-                    text="Покупатель предложил отменить сделку.",
+                    text="🔔Покупатель предложил отменить сделку.",
                     reply_markup=kb.choise_canel_seller2,
                 )
             else:
                 bot.answer_callback_query(
                     callback_query_id=call.id,
                     show_alert=True,
-                    text="Сделка уже завершена или над ней проходит спор.",
+                    text="🔔Сделка уже завершена или над ней проходит спор.",
                 )
         except:
             bot.answer_callback_query(
@@ -598,7 +651,7 @@ def handler_call(call: types.CallbackQuery):
     elif call.data == "canel_open_seller":
         bot.send_message(
             chat_id,
-            text="Вы уверены что хотите отменить сделку?",
+            text="🔔Вы уверены что хотите отменить сделку?",
             reply_markup=kb.choise_canel_seller,
         )
 
@@ -609,18 +662,18 @@ def handler_call(call: types.CallbackQuery):
                 bot.answer_callback_query(
                     callback_query_id=call.id,
                     show_alert=True,
-                    text="Запрос на отмену отправлен покупателю",
+                    text="🔔Запрос на отмену отправлен покупателю",
                 )
                 bot.send_message(
                     info[1],
-                    text="Продавец предложил отменить сделку.",
+                    text="🔔Продавец предложил отменить сделку.",
                     reply_markup=kb.choise_canel_customer,
                 )
             else:
                 bot.answer_callback_query(
                     callback_query_id=call.id,
                     show_alert=True,
-                    text="Сделка уже завершена или над ней проходит спор.",
+                    text="🔔Сделка уже завершена или над ней проходит спор.",
                 )
         except:
             bot.answer_callback_query(
@@ -676,7 +729,7 @@ def handler_call(call: types.CallbackQuery):
             if info[0] == "success":
                 bot.send_message(
                     chat_id,
-                    text="Вы уверены что получили товар, и он валидный? Если нет, или условия не соблюдены, то вам необходимо открыть спор.",
+                    text="🔔Вы уверены что получили товар, и он валидный? Если нет, или условия не соблюдены, то вам необходимо открыть спор.",
                     reply_markup=kb.ok_choise,
                 )
             else:
@@ -691,7 +744,7 @@ def handler_call(call: types.CallbackQuery):
         bot.answer_callback_query(
             callback_query_id=call.id,
             show_alert=True,
-            text="Вы подтвердили, что товар не получен.",
+            text="🔔Вы подтвердили, что товар не получен.",
         )
 
     elif call.data == "ok_ok":
@@ -710,6 +763,7 @@ def handler_call(call: types.CallbackQuery):
                     info2[4],
                     info1[1],
                     info2[1],
+                    info[5],
                 )
                 bot.send_message(
                     chat_id,
@@ -729,7 +783,7 @@ def handler_call(call: types.CallbackQuery):
                 # )
             else:
                 bot.send_message(
-                    chat_id, text="Вы не оплатили сделку, или над ней ведётся спор."
+                    chat_id, text="🔔Вы не оплатили сделку, или над ней ведётся спор."
                 )
         except:
             bot.answer_callback_query(
@@ -758,19 +812,19 @@ def handler_call(call: types.CallbackQuery):
                         func.dispute_customer(chat_id)
                         bot.send_message(
                             chat_id,
-                            text="Спор начат, продавец оповещён. Если долго ничего не происходит, напишите администратору @{}.".format(
+                            text="🔔Спор начат, продавец оповещён. Если долго ничего не происходит, напишите администратору @{}.".format(
                                 nicknameadm
                             ),
                         )
                         bot.send_message(
                             info[0],
-                            text="Покупатель начал спор по вашему товару, скоро вам напишет администратор. Если долго ничего не происходит, напишите администратору @{}.".format(
+                            text="🔔Покупатель начал спор по вашему товару, скоро вам напишет администратор. Если долго ничего не происходит, напишите администратору @{}.".format(
                                 nicknameadm
                             ),
                         )
                         bot.send_message(
                             admin,
-                            text="Был начат спор!\n\nID сделки - <b><code>{id}</code></b>\nПродавец - @{seller}\nПокупатель(Организовал спор) - @{customer}".format(
+                            text="🔔Был начат спор!\n\nID сделки - <b><code>{id}</code></b>\nПродавец - @{seller}\nПокупатель(Организовал спор) - @{customer}".format(
                                 id=info[3], seller=info_s[4], customer=info_c[4]
                             ),
                             parse_mode="HTML",
@@ -787,7 +841,7 @@ def handler_call(call: types.CallbackQuery):
                 if info[4] == "open":
                     bot.send_message(
                         chat_id,
-                        text="Товар ещё не был вам передан. Если вы считаете что продавец хочет вам скамнуть, отмените сделку и напишите администратору @{}.".format(
+                        text="🔔Товар ещё не был вам передан. Если вы считаете что продавец хочет вам обмануть, отмените сделку и напишите администратору @{}.".format(
                             nicknameadm
                         ),
                     )
@@ -800,19 +854,19 @@ def handler_call(call: types.CallbackQuery):
                         func.dispute_customer(chat_id)
                         bot.send_message(
                             chat_id,
-                            text="Спор начат, покупатель оповещён. Если долго ничего не происходит, напишите администратору @{}.".format(
+                            text="🔔Спор начат, покупатель оповещён. Если долго ничего не происходит, напишите администратору @{}.".format(
                                 nicknameadm
                             ),
                         )
                         bot.send_message(
                             info[1],
-                            text="Продавец начал спор, скоро вам напишет администратор. Если долго ничего не происходит, напишите администратору @{}.".format(
+                            text="🔔Продавец начал спор, скоро вам напишет администратор. Если долго ничего не происходит, напишите администратору @{}.".format(
                                 nicknameadm
                             ),
                         )
                         bot.send_message(
                             admin,
-                            text="Был начат спор!\n\nID сделки - <b><code>{id}</code></b>\nПродавец - @{seller}\nПокупатель(Организовал спор) - @{customer}".format(
+                            text="🔔Был начат спор!\n\nID сделки - <b><code>{id}</code></b>\nПродавец - @{seller}\nПокупатель(Организовал спор) - @{customer}".format(
                                 id=info[3], seller=info_s[5], customer=info_c[5]
                             ),
                             parse_mode="HTML",
@@ -832,7 +886,28 @@ def handler_call(call: types.CallbackQuery):
             text='Покупатель вернёт деньги, а сделка будет отменена!\nДля подтверждения введите ID сделки, для отмены введите "-" без кавычек',
         )
         bot.register_next_step_handler(msg, customer_true_func)
-
+    elif call.data == "hide_profile":
+        bot.delete_message(chat_id, call.message.message_id)
+        bot.delete_message(chat_id, call.message.message_id - 1)
+    elif call.data == "my_reviews":
+        if func.reviews(chat_id) == "":
+            bot.send_message(
+                chat_id,
+                "У вас нет отзывов",
+                reply_markup=types.InlineKeyboardMarkup().add(
+                    types.InlineKeyboardButton("Скрыть", callback_data="hide_reviews")
+                ),
+            )
+            return
+        bot.send_message(
+            chat_id,
+            func.reviews(chat_id),
+            reply_markup=types.InlineKeyboardMarkup().add(
+                types.InlineKeyboardButton("Скрыть", callback_data="hide_reviews")
+            ),
+        )
+    elif call.data == "hide_reviews":
+        bot.delete_message(chat_id, call.message.message_id)
     elif call.data == "seller_true":
         msg = bot.send_message(
             chat_id,
@@ -929,7 +1004,7 @@ def handler_call(call: types.CallbackQuery):
                 bot.edit_message_text(
                     chat_id=chat_id,
                     message_id=message_id,
-                    text="Вы не можете оставить отзыв, так как не завершили сделку.",
+                    text="Вы не можете оставить отзыв, так как не завершили сделку⛔️",
                     reply_markup=kb.menu,
                 )
         except:
@@ -945,7 +1020,7 @@ def handler_call(call: types.CallbackQuery):
             else:
                 bot.send_message(
                     chat_id,
-                    text="Логин, который вы хотите занять уже получил другой пользователь, или вы его уже заняли!",
+                    text="Логин, который вы хотите занять уже получил другой пользователь, или вы его уже заняли!⛔️",
                 )
         except:
             bot.answer_callback_query(
@@ -982,7 +1057,7 @@ def handler_call(call: types.CallbackQuery):
                 )
                 bot.send_message(
                     info[1],
-                    "Продавец не захотел ожидать отзыва. Сделка заверешна",
+                    "Продавец не захотел ожидать отзыва. Сделка заверешна💔",
                     reply_markup=kb.menu,
                 )
             else:
@@ -1006,15 +1081,25 @@ def handler_call(call: types.CallbackQuery):
 
 
 def getAmount(message):
-    amount = message.text
-    api_msg = requests.get(
-        url=api_link + f"createInvoice?asset=USDT&amount={amount}", headers=header
-    ).json()["result"]
-    bot.send_message(
-        message.chat.id,
-        f"Запрос на пополнение баланса: \n\n ID: {api_msg['invoice_id']} \n Валюта: {api_msg['asset']} \n Сумма: {api_msg['amount']} \n",
-        reply_markup=func.getUrlMarkup(api_msg["pay_url"]),
-    )
+    try:
+        try:
+            amount = int(message.text)
+        except:
+            msg = bot.send_message(message.chat.id, "Введите положительное число!⛔️")
+            bot.register_next_step_handler(msg, getAmount)
+            return
+        api_msg_raw = requests.get(
+            url=api_link + f"createInvoice?asset=USDT&amount={amount}", headers=header
+        ).json()
+        api_msg = api_msg_raw["result"]
+        bot.send_message(
+            message.chat.id,
+            f"💵Запрос на пополнение баланса: \n\n ID: {api_msg['invoice_id']} \n Валюта: {api_msg['asset']} \n Сумма: {api_msg['amount']} \n",
+            reply_markup=func.getUrlMarkup(api_msg["pay_url"]),
+        )
+    except Exception as e:
+        print(e, " get amount")
+        print(api_msg_raw, " request")
 
 
 def add_review(message):
@@ -1191,7 +1276,11 @@ def search_seller(message):
                 else:
                     info1 = func.check_deal(message.text)
                     if info1 == None:
-                        func.deal(message.chat.id, info[0])
+                        func.deal(
+                            seller_id=message.chat.id,
+                            customer_id=info[0],
+                            deal_type="g",
+                        )
                         bot.send_message(
                             message.chat.id,
                             "🧾 Профиль:\n\n❕ Id - <b><code>{id}</code></b>\n❕ Логин - @{nickname}\n❕ Проведенных сделок - {offers}\n\n🔥 В этой сделке вы будете продавцом!".format(
@@ -1243,7 +1332,11 @@ def search_customer(message):
                 else:
                     result = func.check_deal(message.text)
                     if result == None:
-                        func.deal(info[0], message.chat.id)
+                        func.deal(
+                            seller_id=info[0],
+                            customer_id=message.chat.id,
+                            deal_type="g",
+                        )
                         bot.send_message(
                             message.chat.id,
                             "🧾 Профиль:\n\n❕ Id - <b><code>{id}</code></b>\n❕ Логин - @{nickname}\n❕ Проведенных сделок - {offers}\n\n🔥В этой сделке вы будете покупателем!".format(
@@ -1276,11 +1369,15 @@ def output(message):
         if message.text.startswith("-"):
             bot.send_message(message.chat.id, text="⛔️ Не в мою смену...")
         else:
-            output_amount = float(message.text)
+            try:
+                output_amount = float(message.text)
+            except:
+                msg = bot.send_message(message.chat.id, "Введите число!")
+                bot.register_next_step_handler(msg, output)
             if output_amount * func.getExchangeRate() < 1:
                 msg = bot.send_message(
                     message.chat.id,
-                    f"Минимальная сумма пополнения 1 USD \n Актульный курс USDT/USD = {func.getExchangeRate()}",
+                    f"Минимальная сумма пополнения 1 USD \n Актульный курс USDT/USD = {func.getExchangeRate()}💵",
                 )
                 bot.register_next_step_handler(msg, output)
             else:
@@ -1288,7 +1385,7 @@ def output(message):
                 if float(info[2]) < output_amount:
                     msg = bot.send_message(
                         message.chat.id,
-                        "Недостаточно денег на балансе. Попробуйте еще раз.",
+                        "Недостаточно денег на балансе. Попробуйте еще раз⛔️",
                     )
                     bot.register_next_step_handler(msg, output)
                 else:
@@ -1306,7 +1403,7 @@ def output(message):
                     except Exception as e:
                         print(e, " transfer error")
                         msg = bot.send_message(
-                            message.chat.id, "Что-то пошло не так. Попробуйте еще раз."
+                            message.chat.id, "Что-то пошло не так. Попробуйте еще раз⛔️"
                         )
                         bot.register_next_step_handler(msg, output)
     except Exception as e:

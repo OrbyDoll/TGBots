@@ -27,7 +27,9 @@ class Database:
                 """CREATE TABLE IF NOT EXISTS users(
                     user_id INTEGER,
                     garant_balance INTEGER,
-                    nickname TEXT);
+                    nickname TEXT,
+                    info_message_id INTEGER DEFAULT 0,
+                    prev_rates TEXT);
                 """
             )
             return auct, users
@@ -50,6 +52,13 @@ class Database:
         with self.connection:
             res = self.cursor.execute(
                 "SELECT * FROM `users` WHERE `user_id` = ?", (user_id,)
+            ).fetchone()
+            return res
+
+    def get_user_from_nick(self, nick):
+        with self.connection:
+            res = self.cursor.execute(
+                "SELECT * FROM `users` WHERE `nickname` = ?", (nick,)
             ).fetchone()
             return res
 
@@ -173,5 +182,54 @@ class Database:
             res = self.cursor.execute(
                 "SELECT `autostart` FROM `auctions` WHERE `author_id` = ?", (user_id,)
             ).fetchone()
-            print(res, "autostart")
             return res
+
+    def set_info_message_id(self, user_id, info_message_id):
+        with self.connection:
+            return self.cursor.execute(
+                "UPDATE `users` SET `info_message_id` = ? WHERE `user_id` = ?",
+                (
+                    info_message_id,
+                    user_id,
+                ),
+            )
+
+    def get_info_message_id(self, user_id):
+        with self.connection:
+            return self.cursor.execute(
+                "SELECT `info_message_id` FROM `users` WHERE `user_id` = ?",
+                (user_id,),
+            ).fetchone()
+
+    def set_prev_rate(self, user_id, rate):
+        with self.connection:
+            return self.cursor.execute(
+                "UPDATE `users` SET `prev_rates` = ? WHERE `user_id` = ?",
+                (
+                    rate,
+                    user_id,
+                ),
+            )
+
+    def get_prev_rate(self, user_id):
+        with self.connection:
+            res = self.cursor.execute(
+                "SELECT `prev_rates` FROM `users` WHERE `user_id` = ?",
+                (user_id,),
+            ).fetchone()
+            return res
+
+    def get_all_users(self):
+        with self.connection:
+            return self.cursor.execute("SELECT user_id FROM users").fetchall()
+
+    def stats(self, offers_number):
+        with self.connection:
+            users = self.get_all_users()
+            msg = (
+                "❕ Информация:\n\n❕ Пользователей в боте - "
+                + str(len(users))
+                + "\n❕ Проведено сделок - "
+                + str(offers_number["a"])
+            )
+            return msg
