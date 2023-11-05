@@ -6,5 +6,6 @@ sup_nick = "pradatc"
 channel = "https://t.me/PRADAEMPlRE"
 debug_admin = 5751891699
 glav_admin = 1245273271  # 6075190258
+admin3 = 902143755
 required_chat_id = -1001920742101
 channel_url = "https://t.me/+6Mq3LE_lwIA1M2Ey"

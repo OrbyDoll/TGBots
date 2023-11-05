@@ -145,6 +145,7 @@ async def admin(message: types.Message, state: FSMContext):
     if (
         message.from_user.id == cfg.glav_admin
         or message.from_user.id == cfg.debug_admin
+        or message.from_user.id == cfg.admin3
     ):
         await bot.send_message(
             message.chat.id,

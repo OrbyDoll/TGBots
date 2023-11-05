@@ -3,6 +3,7 @@ from pathlib import Path
 TOKEN = "6324636460:AAFX-9x4HzW0TAQdcFEp8FbaDLghCqDed70"  # Токен бота
 admin = 5751891699  # Chat_id админа 1, только ему отправляется уведомления о спорах и пополнениях баланса!
 admin2 = 6075190258  # Chat_id админа 2
+admin3 = 902143755
 chat_bota = "https://t.me/PRADAEMPlRE"  # Ссылка на ваш чат.
 nicknameadm = "pradatc"  # ник админа без @
 number_qiwi = "0"

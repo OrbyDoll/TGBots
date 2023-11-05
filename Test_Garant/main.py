@@ -11,10 +11,11 @@ from config import (
     crypto_token,
     crypto_test_token,
     required_chat_id,
+    admin3,
 )
 
 import datetime
-from apscheduler.schedulers.background import BackgroundScheduler
+import schedule
 from var import error, canel_operation, disable_keyboard, enable_keyboard
 import math
 import kboard as kb
@@ -31,8 +32,13 @@ coin_dict = {"coin": "None", "amount": 0}
 balance_dict = {}
 bot = telebot.TeleBot(TOKEN)
 bot_username = bot.get_me().username
-sched = BackgroundScheduler()
-sched.start()
+
+
+def test():
+    print("test")
+
+
+schedule.every().second.do(test)
 
 
 def checkMember(
@@ -45,7 +51,6 @@ def checkMember(
 
 
 def notice(chatid, message_id):
-    # try:
     bot.delete_message(chatid, message_id)
     prev_notice = func.get_notice(chatid)[0]
     if prev_notice != 4:
@@ -109,15 +114,7 @@ def get_offer_from_string(seller_id, customer_id, offer_type, offer_link_split):
                     reply_markup=kb.choise,
                     parse_mode="HTML",
                 )
-                time = datetime.datetime
-                run_time = time.now() + datetime.timedelta(seconds=10)
-                notifier = sched.add_job(
-                    func=notice,
-                    trigger="date",
-                    run_date=run_time,
-                    args=[customer_id, msg.id],
-                )
-                func.set_notice_id(customer_id, notifier.id)
+                # func.set_notice_id(customer_id, notifier.id)
             except Exception as e:
                 print(e)
                 bot.send_message(seller_id, text=error)
@@ -177,7 +174,11 @@ def start(message: types.Message):
     #     return
     if not message.chat.type == "private":
         return
-    if message.chat.id == admin or message.chat.id == admin2:
+    if (
+        message.chat.id == admin
+        or message.chat.id == admin2
+        or message.chat.id == admin3
+    ):
         bot.send_message(
             message.chat.id,
             f"✅ {message.from_user.username}, вы авторизованы!",
@@ -424,15 +425,15 @@ def handler_call(call: types.CallbackQuery):
                 reply_markup=kb.choise_seller,
                 parse_mode="HTML",
             )
-            time = datetime.datetime
-            run_time = time.now() + datetime.timedelta(seconds=10)
-            notifier = sched.add_job(
-                func=notice,
-                trigger="date",
-                run_date=run_time,
-                args=[info[0], msg.id],
-            )
-            func.set_notice_id(info[0], notifier.id)
+            # time = datetime.datetime
+            # run_time = time.now() + datetime.timedelta(seconds=10)
+            # notifier = sched.add_job(
+            #     func=notice,
+            #     trigger="date",
+            #     run_date=run_time,
+            #     args=[info[0], msg.id],
+            # )
+            # func.set_notice_id(info[0], notifier.id)
         except Exception as e:
             print(e)
             bot.send_message(chat_id, text=error)
@@ -460,15 +461,15 @@ def handler_call(call: types.CallbackQuery):
                 reply_markup=kb.choise,
                 parse_mode="HTML",
             )
-            time = datetime.datetime
-            run_time = time.now() + datetime.timedelta(seconds=10)
-            notifier = sched.add_job(
-                func=notice,
-                trigger="date",
-                run_date=run_time,
-                args=[info[0], msg.id],
-            )
-            func.set_notice_id(info[0], notifier.id)
+            # time = datetime.datetime
+            # run_time = time.now() + datetime.timedelta(seconds=10)
+            # notifier = sched.add_job(
+            #     func=notice,
+            #     trigger="date",
+            #     run_date=run_time,
+            #     args=[info[0], msg.id],
+            # )
+            # func.set_notice_id(info[0], notifier.id)
         except Exception as e:
             print(e)
             bot.send_message(chat_id, text=error)
@@ -1539,6 +1540,8 @@ print("zapuskaemsya")
 if __name__ == "__main__":
     while True:
         try:
+            schedule.run_pending()
             bot.polling(none_stop=True)
+            time.sleep(1)
         except Exception as e:
             print(e, " бот попытался умереть")

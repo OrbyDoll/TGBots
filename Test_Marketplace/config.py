@@ -1,6 +1,7 @@
 TOKEN = "6523515193:AAG0_ZoPY2fAJbtPfwvstnKaFTpTXkXlsNQ"
-glav_admin = 5751891699  # 902143755
-debug_admin = 1245273271  # 6075190258
+glav_admin = 6517704512
+debug_admin = 1245273271
+admin3 = 902143755
 db_file = "data/database.sqlte3"
 key = b"Zs0_7-WL749f543t1ufeqgjOmw8vWLxJeWMWZzLPkdI="
 sup_nick = "pradatc"

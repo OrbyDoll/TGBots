@@ -159,7 +159,11 @@ async def start(message: types.Message, state: FSMContext):
 
 @dp.message_handler(commands=["admin"], state=ClientState.all_states)
 async def admin(message: types.Message, state: FSMContext):
-    if message.chat.id == cfg.glav_admin or message.chat.id == cfg.debug_admin:
+    if (
+        message.chat.id == cfg.glav_admin
+        or message.chat.id == cfg.debug_admin
+        or message.chat.id == cfg.admin3
+    ):
         await bot.send_message(
             message.chat.id,
             f"Вы авторизованы, {message.from_user.username}",
