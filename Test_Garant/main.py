@@ -86,7 +86,7 @@ def get_offer_from_string(seller_id, customer_id, offer_type, offer_link_split):
     elif seller_id == customer_id:
         bot.send_message(
             seller_id,
-            text="Нельзя отправить сделку самому себе❌",
+            text="❌Нельзя отправить сделку самому себе",
         )
     else:
         check_deal = func.check_deal(customer_nick)  # Требует ник

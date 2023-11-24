@@ -1,0 +1,11 @@
+TOKEN = "6402872437:AAHFalLEAEyRY6D4d7eHrKhd0ha31-v6JNw"
+glav_admin = 6517704512
+debug_admin = 1245273271
+admin3 = 902143755
+db_file = "data/database.sqlte3"
+key = b"Zs0_7-WL749f543t1ufeqgjOmw8vWLxJeWMWZzLPkdI="
+sup_nick = "pradatc"
+channel = "https://t.me/PRADAEMPlRE"
+garantDB_file = "../Test_Garant/data/db.db"
+required_chat_id = -1001920742101
+channel_url = "https://t.me/+6Mq3LE_lwIA1M2Ey"

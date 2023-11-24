@@ -105,7 +105,8 @@ async def start(message: types.Message, state: FSMContext):
                     reply_markup=nav.channel_url,
                 )
                 await state.set_state(ClientState.START)
-                return
+                return      
+            print(message)
             if not garantDB.user_exists(message.chat.id):
                 await bot.send_message(
                     message.chat.id,

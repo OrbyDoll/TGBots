@@ -1168,8 +1168,8 @@ async def call_handler(call: types.CallbackQuery, state: FSMContext):
             auction = db.get_auction(int(call.data[7:]))
             await bot.send_message(
                 chatid,
-                f'Аукцион: №{auction[0]}\n📦Товар: {auction[4]}\nОписание товара: {auction[9]}\n{"💵Начальная ставка" if auction[6] == "inactive" else "💲Текущая ставка"} : {auction[2] if auction[6] == "inactive" else auction[5]}\n👥Участников: {auction[1]}\n📢Статус: {auction[6]} ',
-                reply_markup=nav.get_auction_offer(auction[3]),
+                f'🏆<b>Аукцион:</b> №{auction[0]}\n\n📦<b>Название товара:</b> {auction[4]}\n❔Описание товара: {auction[9]}\n\n{"<b>💵Начальная ставка</b>" if auction[6] == "inactive" else "<b>💲Текущая ставка</b>"} : <b>{auction[2] if auction[6] == "inactive" else auction[5]}</b>\n\n<b>👥Участников: {auction[1]}</b>\n<b>📢Статус: {auction[6]} </b>',
+                parse_mode="html",reply_markup=nav.get_auction_offer(auction[3]),
             )
     except Exception as e:
         print(e, call.data)

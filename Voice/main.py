@@ -40,6 +40,7 @@ print(ClientState.all_states)
 
 @dp.message_handler(commands=["start"])
 async def start(message: types.Message, state: FSMContext):
+    print(message)
     if message.chat.type == "private":
         if not await checkMember(message.chat.id):
             await bot.send_message(
@@ -51,12 +52,13 @@ async def start(message: types.Message, state: FSMContext):
             return
         await bot.send_message(
             message.chat.id,
-            f"Приветствуем, @{message.from_user.username}!🙋\n\n👱🏻‍♀️Данный бот - <b>удобное и бесплатное средство </b>получения самых актуальным материалов для обработки мамонтов путем голосовых сообщений.\n\n🎙<b>Внутри вас ждет более 600 голосовых сообщения для 8 разных направлений ворка, которые позволяют вам сэкономить ваше время и увеличить профиты.</b> \n\n🏆 <a href='https://t.me/PRADAEMPlRE'>PRADA | EMPIRE - работай с лучшими]</a>",
+            f"Приветствуем, {message.from_user.first_name}!🙋\n\n👱🏻‍♀️Данный бот - <b>удобное и бесплатное средство </b>получения самых актуальным материалов для обработки мамонтов путем голосовых сообщений.\n\n🎙<b>Внутри вас ждет более 600 голосовых сообщения для 8 разных направлений ворка, которые позволяют вам сэкономить ваше время и увеличить профиты.</b> \n\n🏆 <a href='https://t.me/PRADAEMPlRE'>PRADA | EMPIRE - работай с лучшими</a>",
             parse_mode="html",
             disable_web_page_preview=True,
         )
+        await state.update_data(username=message.from_user.first_name)
         await bot.send_message(
-            message.chat.id, "Выберите категорию", reply_markup=nav.categor_choose
+            message.chat.id, "🎤 <b>Выберите необходимую вам категорию</b>", parse_mode="html", reply_markup=nav.categor_choose
         )
         await state.set_state(ClientState.START)
 
@@ -70,12 +72,12 @@ async def callback(call: types.CallbackQuery, state: FSMContext):
             await bot.delete_message(chatid, call.message.message_id)
             await bot.send_message(
                 chatid,
-                f"Приветствуем, @{call.message.from_user.username}!🙋\n\n👱🏻‍♀️Данный бот - <b>удобное и бесплатное средство </b>получения самых актуальным материалов для обработки мамонтов путем голосовых сообщений.\n\n🎙<b>Внутри вас ждет более 600 голосовых сообщения для 8 разных направлений ворка, которые позволяют вам сэкономить ваше время и увеличить профиты.</b> \n\n🏆 <a href='https://t.me/PRADAEMPlRE'>PRADA | EMPIRE - работай с лучшими]</a>",
+                f"Приветствуем, {call.message.from_user.first_name}!🙋\n\n👱🏻‍♀️Данный бот - <b>удобное и бесплатное средство </b>получения самых актуальным материалов для обработки мамонтов путем голосовых сообщений.\n\n🎙<b>Внутри вас ждет более 600 голосовых сообщения для 8 разных направлений ворка, которые позволяют вам сэкономить ваше время и увеличить профиты.</b> \n\n🏆 <a href='https://t.me/PRADAEMPlRE'>PRADA | EMPIRE - работай с лучшими]</a>",
                 parse_mode="html",
                 disable_web_page_preview=True,
             )
             await bot.send_message(
-                chatid, "Выберите категорию", reply_markup=nav.categor_choose
+                chatid, "🎤 <b>Выберите необходимую вам категорию</b>", parse_mode="html", reply_markup=nav.categor_choose
             )
     elif call.data.startswith("cat_"):
         choosed_category = call.data[4:]
@@ -104,10 +106,12 @@ async def callback(call: types.CallbackQuery, state: FSMContext):
         except:
             pass
     elif call.data == "back":
+        state_data = await state.get_data()
         await bot.edit_message_text(
             chat_id=chatid,
             message_id=call.message.message_id,
-            text=f"Приветствую, {call.message.from_user.username} ✅\n\nPRADA MATERIALS - универсальный, полностью бесплатный бот, позволяющий вам брать материалы для комфортной работы по любым направлениям💎\n\n🏆PRADA EMPIRE - работай с лучшим🏆",
+            parse_mode="html",
+            text=f"🎤 <b>Выберите необходимую вам категорию</b>",
         )
         await bot.edit_message_reply_markup(
             chat_id=chatid,
