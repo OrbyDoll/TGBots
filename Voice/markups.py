@@ -1,7 +1,14 @@
 from aiogram import types
 import config as cfg
-from filesMass import files_name
+from filesMass import voices, circles, pictures
 import math
+
+start_menu = types.ReplyKeyboardMarkup(row_width=2, resize_keyboard=True, one_time_keyboard=True).add(
+    types.KeyboardButton('Гс'),
+    types.KeyboardButton('Кружки'),
+    types.KeyboardButton('Картинки'),
+    types.KeyboardButton('Хуйня'),
+)
 
 categor_choose = types.InlineKeyboardMarkup(row_width=2).add(
     types.InlineKeyboardButton(text="🌐UNIVERSAL🌐", callback_data="cat_universal"),
@@ -26,7 +33,12 @@ channel_url = types.InlineKeyboardMarkup().add(
 
 def get_category_page(category, page, flag, key):
     item_choose = types.InlineKeyboardMarkup(row_width=1)
-    choosed_category = files_name[category] if flag == 0 else flag
+    if category == 'circles':
+        choosed_category = circles
+    elif category == 'pictures':
+        choosed_category = pictures
+    else:
+        choosed_category = voices[category] if flag == 0 else flag
     category_lenght = math.ceil(len(choosed_category) / 8)
     type_page = "normal" if flag == 0 else key
     if 8 * page <= len(choosed_category) and 8 * page >= 0:
@@ -60,10 +72,6 @@ def get_category_page(category, page, flag, key):
                 text="Назад к выбору категории", callback_data="back"
             )
         )
-        # if not page == 1:
-        #     item_choose.add()
-        # if not page * 8 >= len(choosed_category):
-        #     item_choose.add()
         return item_choose
     elif 8 * page >= len(choosed_category):
         if flag == 0:
@@ -80,7 +88,7 @@ def get_category_page(category, page, flag, key):
 
 
 def get_search_markup(category: str, key: str, page):
-    desired_files = files_name[category]
+    desired_files = voices[category]
     res_mass = []
     for file in desired_files:
         if key.lower() in file[0].lower():

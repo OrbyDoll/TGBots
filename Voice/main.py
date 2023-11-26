@@ -5,7 +5,7 @@ from aiogram.dispatcher.filters.state import StatesGroup, State
 
 import config as cfg
 import markups as nav
-from filesMass import files_name
+from filesMass import voices
 
 storage = MemoryStorage()
 bot = Bot(token=cfg.TOKEN)
@@ -18,7 +18,7 @@ class ClientState(StatesGroup):
 
 
 def find_voice_desc(name, category):
-    for voices in files_name[category]:
+    for voices in voices[category]:
         if voices[1] == name:
             return voices[0]
 
@@ -31,6 +31,12 @@ async def checkMember(
         return False
     return True
 
+async def delete_msg(message, count):
+    for i in range(count):
+        try:
+            await bot.delete_message(message.chat.id, message.message_id - i)
+        except:
+            pass
 
 state = FSMContext
 
@@ -55,13 +61,26 @@ async def start(message: types.Message, state: FSMContext):
             f"Приветствуем, {message.from_user.first_name}!🙋\n\n👱🏻‍♀️Данный бот - <b>удобное и бесплатное средство </b>получения самых актуальным материалов для обработки мамонтов путем голосовых сообщений.\n\n🎙<b>Внутри вас ждет более 600 голосовых сообщения для 8 разных направлений ворка, которые позволяют вам сэкономить ваше время и увеличить профиты.</b> \n\n🏆 <a href='https://t.me/PRADAEMPlRE'>PRADA | EMPIRE - работай с лучшими</a>",
             parse_mode="html",
             disable_web_page_preview=True,
+            reply_markup=nav.start_menu
         )
         await state.update_data(username=message.from_user.first_name)
+        # await bot.send_message(
+        #     message.chat.id, "🎤 <b>Выберите необходимую вам категорию</b>", parse_mode="html", reply_markup=nav.categor_choose
+        # )
+        await state.set_state(ClientState.START)
+
+@dp.message_handler(content_types=['text'], state=ClientState.all_states)
+async def textMessages(message: types.Message, state: FSMContext):
+    chatid = message.chat.id
+    if message.text == 'Гс':
+        await delete_msg(message, 1)
         await bot.send_message(
             message.chat.id, "🎤 <b>Выберите необходимую вам категорию</b>", parse_mode="html", reply_markup=nav.categor_choose
         )
         await state.set_state(ClientState.START)
-
+    elif message.text == 'Кружки':
+        await delete_msg(message, 1)
+        await bot.send_message(chatid, 'Выберите кружок', reply_markup=nav.get_category_page('circles', 0, 0, 'no'))
 
 @dp.callback_query_handler(state=ClientState.all_states)
 async def callback(call: types.CallbackQuery, state: FSMContext):
@@ -143,8 +162,12 @@ async def callback(call: types.CallbackQuery, state: FSMContext):
     elif not call.data == "aboba":
         try:
             data_split = call.data.split("/")
+            if data_split[0] == 'circles' or data_split[0] == 'pictures':
+                dir_path = f"files/{data_split[0]}/{data_split[1]}.{'mp4' if data_split[0] == 'circles' else 'png'}"
+            else:
+                dir_path = f'files/voices/{data_split[0]}/{data_split[1]}.ogg'
             open_file = open(
-                f"files/{data_split[0]}/{data_split[1]}.ogg",
+                dir_path,
                 "rb",
             )
             await bot.send_message(

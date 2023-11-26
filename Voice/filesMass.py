@@ -1,4 +1,4 @@
-files_name = {
+voices = {
     "universal": [
         ["Что делаешь?", "audio  (7)"],
         ["Доброе утро", "audio  (4)"],
@@ -500,3 +500,10 @@ files_name = {
         ["я тебя не обманываю", "audio  (9)"],
     ],
 }
+circles = [
+    ['huy', 'audio huy']
+]
+
+pictures = [
+    
+]
