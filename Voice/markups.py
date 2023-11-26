@@ -3,12 +3,16 @@ import config as cfg
 from filesMass import voices, circles, pictures
 import math
 
-start_menu = types.ReplyKeyboardMarkup(row_width=2, resize_keyboard=True, one_time_keyboard=True).add(
-    types.KeyboardButton('Гс'),
-    types.KeyboardButton('Кружки'),
-    types.KeyboardButton('Картинки'),
-    types.KeyboardButton('Хуйня'),
+start_menu = types.ReplyKeyboardMarkup(
+    row_width=2, resize_keyboard=True, one_time_keyboard=True
+).add(
+    types.KeyboardButton("Гс"),
+    types.KeyboardButton("Кружки"),
+    types.KeyboardButton("Картинки"),
+    types.KeyboardButton("Хуйня"),
 )
+
+menu_hide = types.ReplyKeyboardRemove()
 
 categor_choose = types.InlineKeyboardMarkup(row_width=2).add(
     types.InlineKeyboardButton(text="🌐UNIVERSAL🌐", callback_data="cat_universal"),
@@ -19,6 +23,7 @@ categor_choose = types.InlineKeyboardMarkup(row_width=2).add(
     types.InlineKeyboardButton(text="💋ESCORT💋", callback_data="cat_eskort"),
     types.InlineKeyboardButton(text="🎥ANTIK🎥", callback_data="cat_antik"),
     types.InlineKeyboardButton(text="💊N@RKO💊", callback_data="cat_narko"),
+    types.InlineKeyboardButton(text="Назад в меню", callback_data="back_to_menu"),
 )
 
 back_to_files = types.InlineKeyboardMarkup().add(
@@ -33,9 +38,9 @@ channel_url = types.InlineKeyboardMarkup().add(
 
 def get_category_page(category, page, flag, key):
     item_choose = types.InlineKeyboardMarkup(row_width=1)
-    if category == 'circles':
+    if category == "circles":
         choosed_category = circles
-    elif category == 'pictures':
+    elif category == "pictures":
         choosed_category = pictures
     else:
         choosed_category = voices[category] if flag == 0 else flag
@@ -64,14 +69,23 @@ def get_category_page(category, page, flag, key):
             text=f"{page + 1}/{category_lenght}", callback_data="aboba"
         )
         item_choose.row(button_back, button_middle, button_forward)
-        item_choose.row(
-            types.InlineKeyboardButton(text="Поиск", callback_data=f"search_{category}")
-        )
-        item_choose.row(
-            types.InlineKeyboardButton(
-                text="Назад к выбору категории", callback_data="back"
+        if category != "circles" and category != "pictures":
+            item_choose.row(
+                types.InlineKeyboardButton(
+                    text="Поиск", callback_data=f"search_{category}"
+                )
             )
-        )
+            item_choose.row(
+                types.InlineKeyboardButton(
+                    text="Назад к выбору категории", callback_data="back"
+                )
+            )
+        else:
+            item_choose.row(
+                types.InlineKeyboardButton(
+                    text="Назад в меню", callback_data="back_to_menu"
+                )
+            )
         return item_choose
     elif 8 * page >= len(choosed_category):
         if flag == 0:
