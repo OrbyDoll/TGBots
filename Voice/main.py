@@ -5,7 +5,7 @@ from aiogram.dispatcher.filters.state import StatesGroup, State
 
 import config as cfg
 import markups as nav
-from filesMass import voices, circles
+from filesMass import voices, circles, pictures
 
 storage = MemoryStorage()
 bot = Bot(token=cfg.TOKEN)
@@ -18,7 +18,7 @@ class ClientState(StatesGroup):
 
 
 def find_voice_desc(name, category, mass):
-    searching_mass = mass[category] if category != 'circles' else mass
+    searching_mass = mass[category] if category != "circles" else mass
     for audio in searching_mass:
         if audio[1] == name:
             return audio[0]
@@ -27,9 +27,9 @@ def find_voice_desc(name, category, mass):
 async def checkMember(
     userid,
 ):
-    chat_member = await bot.get_chat_member(cfg.required_chat_id, userid)
-    if chat_member.status == "left":
-        return False
+    # chat_member = await bot.get_chat_member(cfg.required_chat_id, userid)
+    # if chat_member.status == "left":
+    #     return False
     return True
 
 
@@ -39,9 +39,6 @@ async def delete_msg(message, count):
             await bot.delete_message(message.chat.id, message.message_id - i)
         except:
             pass
-
-
-state = FSMContext
 
 
 @dp.message_handler(commands=["start"])
@@ -82,17 +79,23 @@ async def textMessages(message: types.Message, state: FSMContext):
         )
         await state.set_state(ClientState.START)
     elif message.text == "Кружки":
-        await delete_msg(message, 1)
         await bot.send_message(
             chatid,
-            "Выберите кружок",
+            "Выберите девушку",
             reply_markup=nav.get_category_page("circles", 0, 0, "no"),
+        )
+    elif message.text == "Картинки":
+        await bot.send_message(
+            chatid,
+            "Выберите девушку",
+            reply_markup=nav.get_category_page("pictures", 0, 0, "no"),
         )
 
 
 @dp.callback_query_handler(state=ClientState.all_states)
 async def callback(call: types.CallbackQuery, state: FSMContext):
     chatid = call.message.chat.id
+    messageid = call.message.message_id
     await bot.answer_callback_query(callback_query_id=call.id)
     if call.data == "check_member":
         if await checkMember(chatid):
@@ -144,9 +147,18 @@ async def callback(call: types.CallbackQuery, state: FSMContext):
             text=f"🎤 <b>Выберите необходимую вам категорию</b>",
             reply_markup=nav.categor_choose,
         )
+    elif "hide_photos" in call.data:
+        await delete_msg(call.message, int(call.data.split("_")[2]) + 1)
     elif call.data == "back_to_menu":
         await delete_msg(call.message, 2)
         await bot.send_message(chatid, "Меню", reply_markup=nav.start_menu)
+    elif call.data == "back_to_girl_choose":
+        await bot.edit_message_text(
+            "Выберите девушку",
+            chatid,
+            messageid,
+            reply_markup=nav.get_category_page("pictures", 0, 0, "no"),
+        )
     elif "search" in call.data:
         await bot.delete_message(chatid, call.message.message_id)
         await bot.send_message(
@@ -170,34 +182,63 @@ async def callback(call: types.CallbackQuery, state: FSMContext):
         await bot.delete_message(chatid, call.message.message_id)
         await bot.delete_message(chatid, call.message.message_id - 1)
     elif not call.data == "aboba":
-        # try:
-        data_split = call.data.split("/")
-        if data_split[0] == "circles" or data_split[0] == "pictures":
-            dir_path = f"files/{data_split[0]}/{data_split[1]}.{'mp4' if data_split[0] == 'circles' else 'png'}"
-        else:
-            dir_path = f"files/voices/{data_split[0]}/{data_split[1]}.ogg"
-        with open(dir_path, "rb") as open_file:
-            if data_split[0] == "circles":
-                await bot.send_message(
-                    chatid, find_voice_desc(data_split[1], data_split[0], circles)
-                )
-                await bot.send_video_note(chatid, open_file)
-            elif data_split[0] == "pictures":
-                pass
+        try:
+            data_split = call.data.split("/")
+            if data_split[0] == "circles" or data_split[0] == "pictures":
+                dir_path = f"files/{data_split[0]}/{data_split[1]}.{'mp4' if data_split[0] == 'circles' else 'jpg'}"
             else:
+                dir_path = f"files/voices/{data_split[0]}/{data_split[1]}.ogg"
+            if data_split[0] != "pictures":
+                with open(dir_path, "rb") as open_file:
+                    if data_split[0] == "circles":
+                        await bot.send_message(
+                            chatid,
+                            find_voice_desc(data_split[1], data_split[0], circles),
+                        )
+                        await bot.send_video_note(
+                            chatid,
+                            open_file,
+                            reply_markup=types.InlineKeyboardMarkup().add(
+                                types.InlineKeyboardButton(
+                                    "Скрыть", callback_data="hide_voice"
+                                )
+                            ),
+                        )
+                    else:
+                        await bot.send_message(
+                            chatid,
+                            find_voice_desc(data_split[1], data_split[0], voices),
+                        )
+                        await bot.send_audio(
+                            chat_id=chatid,
+                            audio=open_file,
+                            reply_markup=types.InlineKeyboardMarkup().add(
+                                types.InlineKeyboardButton(
+                                    "Скрыть", callback_data="hide_voice"
+                                )
+                            ),
+                        )
+            else:
+                photos_names = pictures[data_split[1]]
+                photos = []
+                for name in photos_names:
+                    photos.append(
+                        types.InputMediaPhoto(
+                            types.InputFile(f"files/pictures/{name}.jpg"),
+                        )
+                    )
+                await bot.send_media_group(
+                    chatid,
+                    photos,
+                )
                 await bot.send_message(
-                    chatid, find_voice_desc(data_split[1], data_split[0], voices)
+                    chatid,
+                    f"Девушка {data_split[1]}",
+                    reply_markup=nav.girl_photos_actions(len(photos_names)),
                 )
-                await bot.send_audio(
-                    chat_id=chatid,
-                    audio=open_file,
-                    reply_markup=types.InlineKeyboardMarkup().add(
-                        types.InlineKeyboardButton("Скрыть", callback_data="hide_voice")
-                    ),
-                )
-    # except Exception as e:
-    #     print(e)
-    #     await bot.send_message(chatid, "Этот файл недоступен⛔️")
+        except Exception as e:
+            print(e)
+            await bot.send_message(chatid, "Этот файл недоступен⛔️")
 
 
 @dp.message_handler(state=ClientState.SEARCH)

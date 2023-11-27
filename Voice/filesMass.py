@@ -545,6 +545,6 @@ voices = {
         ["я тебя не обманываю", "audio  (9)"],
     ],
 }
-circles = [["test1", "test1"]]
+circles = [["test1", "test1_name"], ["test2", "test2_name"]]
 
-pictures = []
+pictures = {"1": ["test1", "test2", "test3"], "2": ["test4", "test5"]}

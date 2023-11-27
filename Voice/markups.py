@@ -14,6 +14,18 @@ start_menu = types.ReplyKeyboardMarkup(
 
 menu_hide = types.ReplyKeyboardRemove()
 
+
+def girl_photos_actions(message_num):
+    return types.InlineKeyboardMarkup().add(
+        # types.InlineKeyboardButton(
+        #     "Назад к выбору девушки", callback_data="back_to_girl_choose"
+        # ),
+        types.InlineKeyboardButton(
+            "Скрыть", callback_data=f"hide_photos_{message_num}"
+        ),
+    )
+
+
 categor_choose = types.InlineKeyboardMarkup(row_width=2).add(
     types.InlineKeyboardButton(text="🌐UNIVERSAL🌐", callback_data="cat_universal"),
     types.InlineKeyboardButton(text="📈TRADE📈", callback_data="cat_trade"),
@@ -53,10 +65,16 @@ def get_category_page(category, page, flag, key):
             if 8 * (page + 1) < len(choosed_category)
             else len(choosed_category),
         ):
+            if category == "pictures":
+                text = f"Девушка {item + 1}"
+                cb_data = f"{category}/{item+1}"
+            else:
+                text = choosed_category[item][0]
+                cb_data = f"{category}/{choosed_category[item][1]}"
             item_choose.insert(
                 types.InlineKeyboardButton(
-                    text=choosed_category[item][0],
-                    callback_data=f"{category}/{choosed_category[item][1]}",
+                    text=text,
+                    callback_data=cb_data,
                 )
             )
         button_back = types.InlineKeyboardButton(
