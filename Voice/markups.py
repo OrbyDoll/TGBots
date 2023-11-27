@@ -9,10 +9,13 @@ start_menu = types.ReplyKeyboardMarkup(
     types.KeyboardButton("Гс"),
     types.KeyboardButton("Кружки"),
     types.KeyboardButton("Картинки"),
-    types.KeyboardButton("Хуйня"),
+    types.KeyboardButton("Кружок из видео"),
 )
 
 menu_hide = types.ReplyKeyboardRemove()
+msg_desc_hide = types.InlineKeyboardMarkup().add(
+    types.InlineKeyboardButton("Скрыть", callback_data="hide_voice")
+)
 
 
 def girl_photos_actions(message_num):
@@ -25,6 +28,9 @@ def girl_photos_actions(message_num):
         ),
     )
 
+back_to_menu = types.InlineKeyboardMarkup().add(
+    types.InlineKeyboardButton(text="Назад в меню", callback_data="back_to_menu"),
+)
 
 categor_choose = types.InlineKeyboardMarkup(row_width=2).add(
     types.InlineKeyboardButton(text="🌐UNIVERSAL🌐", callback_data="cat_universal"),

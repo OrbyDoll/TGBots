@@ -2,6 +2,7 @@ from aiogram import Bot, Dispatcher, executor, types
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import StatesGroup, State
+from moviepy.editor import *
 
 import config as cfg
 import markups as nav
@@ -15,6 +16,7 @@ dp = Dispatcher(bot, storage=storage)
 class ClientState(StatesGroup):
     START = State()
     SEARCH = State()
+    VIDEO_CONVERT = State()
 
 
 def find_voice_desc(name, category, mass):
@@ -90,6 +92,13 @@ async def textMessages(message: types.Message, state: FSMContext):
             "Выберите девушку",
             reply_markup=nav.get_category_page("pictures", 0, 0, "no"),
         )
+    elif message.text == "Кружок из видео":
+        await bot.send_message(
+            chatid,
+            "Пришли видео до 20Мб. Видео, длительностью более минуты будут обрезаны до минуты начиная с начала.",
+            reply_markup=nav.back_to_menu,
+        )
+        await state.set_state(ClientState.VIDEO_CONVERT)
 
 
 @dp.callback_query_handler(state=ClientState.all_states)
@@ -152,6 +161,7 @@ async def callback(call: types.CallbackQuery, state: FSMContext):
     elif call.data == "back_to_menu":
         await delete_msg(call.message, 2)
         await bot.send_message(chatid, "Меню", reply_markup=nav.start_menu)
+        await state.set_state(ClientState.START)
     elif call.data == "back_to_girl_choose":
         await bot.edit_message_text(
             "Выберите девушку",
@@ -198,11 +208,7 @@ async def callback(call: types.CallbackQuery, state: FSMContext):
                         await bot.send_video_note(
                             chatid,
                             open_file,
-                            reply_markup=types.InlineKeyboardMarkup().add(
-                                types.InlineKeyboardButton(
-                                    "Скрыть", callback_data="hide_voice"
-                                )
-                            ),
+                            reply_markup=nav.msg_desc_hide,
                         )
                     else:
                         await bot.send_message(
@@ -212,11 +218,7 @@ async def callback(call: types.CallbackQuery, state: FSMContext):
                         await bot.send_audio(
                             chat_id=chatid,
                             audio=open_file,
-                            reply_markup=types.InlineKeyboardMarkup().add(
-                                types.InlineKeyboardButton(
-                                    "Скрыть", callback_data="hide_voice"
-                                )
-                            ),
+                            reply_markup=nav.msg_desc_hide,
                         )
             else:
                 photos_names = pictures[data_split[1]]
@@ -260,7 +262,25 @@ async def Search(message: types.Message, state: FSMContext):
         "Выберите файл📋",
         reply_markup=nav.get_search_markup(category, key, 0),
     )
-    await state.set_state(ClientState.START)
+
+
+@dp.message_handler(state=ClientState.VIDEO_CONVERT, content_types=["video"])
+async def videoToCircle(message: types.Message, state: FSMContext):
+    chatid = message.chat.id
+    file_info = await bot.get_file(message.video.file_id)
+    downloaded_file = await bot.download_file(file_info.file_path)
+    with open("source.mp4", "wb") as new_file:
+        new_file.write(downloaded_file.getvalue())
+    clip = VideoFileClip("source.mp4")
+    clip = clip.subclip(0, min(clip.duration, 60))
+    fl_size = min(clip.size + tuple([630]))
+    final_clip = CompositeVideoClip(
+        [clip.set_position(("center"))],
+        size=(fl_size, fl_size),
+    )
+    final_clip.write_videofile(r"cropped_video.mp4", logger=None)
+    with open("cropped_video.mp4", "rb") as circle:
+        await bot.send_video_note(chatid, circle, reply_markup=nav.msg_desc_hide)
 
 
 if __name__ == "__main__":
