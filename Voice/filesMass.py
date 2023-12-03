@@ -591,7 +591,7 @@ circles = [["Я вот работу уже заканчиваю", "video"],
            ["интим 7", "video (43)"], 
            ["интим 8", "video (44)"]]
 
-pictures = {"1🙎🏻‍♀️": ["photo (1)", "photo (2)", "photo (3)", "photo (4)", "photo (5)", "photo (6)", "photo (7)"],
+pictures = {"1": ["photo (1)", "photo (2)", "photo (3)", "photo (4)", "photo (5)", "photo (6)", "photo (7)"],
             "2": ["photo (8)", "photo (9)", "photo (10)", "photo (11)", "photo (12)"],
             "3": ["photo (13)", "photo (14)", "photo (15)", "photo (16)", "photo (17)", "photo (18)"],
             "4": ["photo (19)", "photo (20)", "photo (21)", "photo (22)", "photo (23)", "photo (24)"],

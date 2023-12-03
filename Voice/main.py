@@ -110,6 +110,14 @@ async def textMessages(message: types.Message, state: FSMContext):
             reply_markup=nav.back_to_menu,
         )
         await state.set_state(ClientState.VIDEO_CONVERT)
+    elif message.text == "/start":
+        await bot.send_message(
+            message.chat.id,
+            f"Приветствуем, {message.from_user.first_name}!🙋\n\n👱🏻‍♀️Данный бот - <b>удобное и бесплатное средство </b>получения самых актуальным материалов для обработки мамонтов путем голосовых сообщений.\n\n🎙<b>Внутри вас ждет более 600 голосовых сообщения для 8 разных направлений ворка, которые позволяют вам сэкономить ваше время и увеличить профиты.</b> \n\n🏆 <a href='https://t.me/PRADAEMPlRE'>PRADA | EMPIRE - работай с лучшими</a>",
+            parse_mode="html",
+            disable_web_page_preview=True,
+            reply_markup=nav.start_menu,
+        )
 
 
 @dp.callback_query_handler(state=ClientState.all_states)
