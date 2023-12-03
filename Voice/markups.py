@@ -6,10 +6,10 @@ import math
 start_menu = types.ReplyKeyboardMarkup(
     row_width=2, resize_keyboard=True, one_time_keyboard=True
 ).add(
-    types.KeyboardButton("Гс"),
-    types.KeyboardButton("Кружки"),
-    types.KeyboardButton("Картинки"),
-    types.KeyboardButton("Кружок из видео"),
+    types.KeyboardButton("Голосовые🎙"),
+    types.KeyboardButton("Кружки🔘"),
+    types.KeyboardButton("Фото🖼"),
+    types.KeyboardButton("Кружок из видео🔧"),
 )
 
 menu_hide = types.ReplyKeyboardRemove()
@@ -84,10 +84,10 @@ def get_category_page(category, page, flag, key):
                 )
             )
         button_back = types.InlineKeyboardButton(
-            text="Назад⬅️", callback_data=f"page {page - 1} {category} {type_page}"
+            text="⬅️", callback_data=f"page {page - 1} {category} {type_page}"
         )
         button_forward = types.InlineKeyboardButton(
-            text="Вперед➡️", callback_data=f"page {page + 1} {category} {type_page}"
+            text="➡️", callback_data=f"page {page + 1} {category} {type_page}"
         )
         button_middle = types.InlineKeyboardButton(
             text=f"{page + 1}/{category_lenght}", callback_data="aboba"
@@ -96,7 +96,7 @@ def get_category_page(category, page, flag, key):
         if category != "circles" and category != "pictures":
             item_choose.row(
                 types.InlineKeyboardButton(
-                    text="Поиск", callback_data=f"search_{category}"
+                    text="Поиск🔎", callback_data=f"search_{category}"
                 )
             )
             item_choose.row(

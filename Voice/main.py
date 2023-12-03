@@ -72,30 +72,41 @@ async def textMessages(message: types.Message, state: FSMContext):
     msg = await bot.send_message(chatid, "Типо кубок", reply_markup=nav.menu_hide)
     await delete_msg(msg, 1)
     await delete_msg(message, 2)
-    if message.text == "Гс":
-        await bot.send_message(
-            message.chat.id,
-            "🎤 <b>Выберите необходимую вам категорию</b>",
-            parse_mode="html",
+    if message.text == "Голосовые🎙":
+        photo = open("files/set/voice.jpg", "rb")
+        await bot.send_photo(
+            chatid,
+            parse_mode="HTML",
+            photo=photo,
+            caption="🙋🏼‍♀️ Ниже для вас будут представлены более <b>шести сотен голосовых сообщений</b> <i>для работы с вашими мамонтами</i>, записанные <b>работницами нашей ветки</b> проектов <i>только для нас</i> и разделенные по направлениям ворка.\n\n⚡️ Приятной работы!",
             reply_markup=nav.categor_choose,
         )
         await state.set_state(ClientState.START)
-    elif message.text == "Кружки":
-        await bot.send_message(
+    elif message.text == "Кружки🔘":
+        photo = open("files/set/video.jpg", "rb")
+        await bot.send_photo(
             chatid,
-            "Выберите девушку",
+            parse_mode="HTML",
+            photo=photo,
+            caption="🙋🏼‍♀️ Ниже для вас будут представлены <i>первые в своем роде</i> <b>полностью бесплатные видеосообщения</b> <i>для работы с вашими мамонтами</i>, записанные <b>работницами нашей ветки</b> проектов <i>только для нас</i>.\n\n⚡️ <b>Приятной работы!</b>",
             reply_markup=nav.get_category_page("circles", 0, 0, "no"),
         )
-    elif message.text == "Картинки":
-        await bot.send_message(
+    elif message.text == "Фото🖼":
+        photo = open("files/set/pic.png", "rb")
+        await bot.send_photo(
             chatid,
-            "Выберите девушку",
+            parse_mode="HTML",
+            photo=photo,
+            caption="🙋🏼‍♀️ Ниже для вас будет представлен <b>сборник из более двух сотен фотографий</b> для <i>работы с вашими мамонтами</i>, собранные нашими работниками и разделенные на категории.\n\n <b>⚡️ Приятной работы!</b>",
             reply_markup=nav.get_category_page("pictures", 0, 0, "no"),
         )
-    elif message.text == "Кружок из видео":
-        await bot.send_message(
+    elif message.text == "Кружок из видео🔧":
+        photo = open("files/set/reb.png", "rb")
+        await bot.send_photo(
             chatid,
-            "Пришли видео до 20Мб. Видео, длительностью более минуты будут обрезаны до минуты начиная с начала.",
+            parse_mode="HTML",
+            photo=photo,
+            caption="📹 Пожалуйста, <b>отправьте нам ваше видео</b>, и мы <b>сделаем из него кружок.</b> \n\n❗️размер видео не более 20 мб, а <b>длительность не более минуты</b> (<i>иначе видео будет обрезано до нужного состояния автоматически</i>)",
             reply_markup=nav.back_to_menu,
         )
         await state.set_state(ClientState.VIDEO_CONVERT)
@@ -124,9 +135,12 @@ async def callback(call: types.CallbackQuery, state: FSMContext):
     elif call.data.startswith("cat_"):
         choosed_category = call.data[4:]
         await bot.delete_message(chat_id=chatid, message_id=call.message.message_id)
-        await bot.send_message(
-            chatid,
-            "Выберите файл📋",
+        photo = open(f"files/set/{choosed_category}.jpg", "rb")
+        await bot.send_photo(
+            chat_id=call.message.chat.id,
+            parse_mode="HTML",
+            photo=photo,
+            caption="Выберите голосовое сообщение📋",
             reply_markup=nav.get_category_page(choosed_category, 0, 0, "no"),
         )
     elif call.data.startswith("page"):
@@ -149,9 +163,9 @@ async def callback(call: types.CallbackQuery, state: FSMContext):
             pass
     elif call.data == "back":
         state_data = await state.get_data()
-        await bot.edit_message_text(
+        await delete_msg(call.message, 1)
+        await bot.send_message(
             chat_id=chatid,
-            message_id=call.message.message_id,
             parse_mode="html",
             text=f"🎤 <b>Выберите необходимую вам категорию</b>",
             reply_markup=nav.categor_choose,
@@ -160,11 +174,11 @@ async def callback(call: types.CallbackQuery, state: FSMContext):
         await delete_msg(call.message, int(call.data.split("_")[2]) + 1)
     elif call.data == "back_to_menu":
         await delete_msg(call.message, 2)
-        await bot.send_message(chatid, "Меню", reply_markup=nav.start_menu)
+        await bot.send_message(chatid, "🏆", reply_markup=nav.start_menu)
         await state.set_state(ClientState.START)
     elif call.data == "back_to_girl_choose":
         await bot.edit_message_text(
-            "Выберите девушку",
+            "Выберите девушку👱‍♀️",
             chatid,
             messageid,
             reply_markup=nav.get_category_page("pictures", 0, 0, "no"),
@@ -173,7 +187,7 @@ async def callback(call: types.CallbackQuery, state: FSMContext):
         await bot.delete_message(chatid, call.message.message_id)
         await bot.send_message(
             chatid,
-            "Введите ключ по которому будет происходить поиск",
+            "Введите ключ поиска✏️",
             reply_markup=nav.back_to_files,
         )
         await state.update_data(category=call.data[7:])
@@ -253,7 +267,7 @@ async def Search(message: types.Message, state: FSMContext):
     if not nav.get_search_markup(category, key, 0):
         await bot.send_message(
             message.chat.id,
-            "По этому ключу не найдо голосовых сообщений. Вы можете продолжить вводить ключи или вернуться к выбору файлов",
+            "К сожадению ничего не найдено😥",
             reply_markup=nav.back_to_files,
         )
         return
