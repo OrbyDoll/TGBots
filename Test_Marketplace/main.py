@@ -775,6 +775,11 @@ async def chooseProduct(message: types.Message, state: FSMContext):
             )
             return
         choosed_category = message.text[:-1]
+        photo = open(f"files/{choosed_category}.png", "rb")
+        await bot.send_photo(
+            chatid,
+            photo=photo,
+        )
         await state.update_data(choosed_category=message.text[:-1])
         all_offers = db.get_all_offers()
         msgs = []

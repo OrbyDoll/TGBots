@@ -68,7 +68,7 @@ garant_check = types.InlineKeyboardMarkup().add(
         text="Перейти в гарант бота💎",
         url="https://t.me/pradagarant_bot",
     ),
-    types.InlineKeyboardButton(text="Я нажал", callback_data="check_member_garant"),
+    types.InlineKeyboardButton("Я нажал", callback_data="check_member_garant"),
 )
 
 hide = types.InlineKeyboardMarkup().add(
@@ -77,7 +77,6 @@ hide = types.InlineKeyboardMarkup().add(
 
 
 categor = types.ReplyKeyboardMarkup(row_width=2, one_time_keyboard=True)
-categor.row(types.KeyboardButton(text="PRADA🏆"))
 categor.add(
     types.KeyboardButton(text="Теги📧"),
     types.KeyboardButton(text="Деф🛡"),

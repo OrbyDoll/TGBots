@@ -57,7 +57,7 @@ async def start(message: types.Message, state: FSMContext):
         await delete_msg(message, 1)
         await bot.send_message(
             message.chat.id,
-            f"Приветствуем, {message.from_user.first_name}!🙋\n\n👱🏻‍♀️Данный бот - <b>удобное и бесплатное средство </b>получения самых актуальным материалов для обработки мамонтов путем голосовых сообщений.\n\n🎙<b>Внутри вас ждет более 600 голосовых сообщения для 8 разных направлений ворка, которые позволяют вам сэкономить ваше время и увеличить профиты.</b> \n\n🏆 <a href='https://t.me/PRADAEMPlRE'>PRADA | EMPIRE - работай с лучшими</a>",
+            f"Приветствуем, {message.from_user.first_name}!🙋\n\n👱🏻‍♀️Данный бот - <b>удобное и бесплатное средство</b> получения самых актуальным материалов для обработки мамонтов путем голосовых сообщений и кружков.\n\n<b>🎙Внутри вас ждет более 600 голосовых сообщения и 50 кружков для 8 разных направлений ворка, а также сборник из нескольких сотен фотографий. Все это позволяет вам сэкономить ваше время и увеличить профиты.</b> \n\n🏆 <a href='https://t.me/PRADAEMPlRE'>PRADA | EMPIRE - работай с лучшими</a>",
             parse_mode="html",
             disable_web_page_preview=True,
             reply_markup=nav.start_menu,
@@ -65,11 +65,30 @@ async def start(message: types.Message, state: FSMContext):
         await state.update_data(username=message.from_user.first_name)
         await state.set_state(ClientState.START)
 
+@dp.message_handler(state=ClientState.SEARCH)
+async def Search(message: types.Message, state: FSMContext):
+    await bot.delete_message(message.chat.id, message.message_id - 1)
+    await bot.delete_message(message.chat.id, message.message_id)
+    key = message.text
+    state_data = await state.get_data()
+    category = state_data["category"]
+    if not nav.get_search_markup(category, key, 0):
+        await bot.send_message(
+            message.chat.id,
+            "К сожадению ничего не найдено😥",
+            reply_markup=nav.back_to_files,
+        )
+        return
+    await bot.send_message(
+        message.chat.id,
+        "Выберите файл📋",
+        reply_markup=nav.get_search_markup(category, key, 0),
+    )
 
 @dp.message_handler(content_types=["text"], state=ClientState.all_states)
 async def textMessages(message: types.Message, state: FSMContext):
     chatid = message.chat.id
-    msg = await bot.send_message(chatid, "Типо кубок", reply_markup=nav.menu_hide)
+    msg = await bot.send_message(chatid, "🏆", reply_markup=nav.menu_hide)
     await delete_msg(msg, 1)
     await delete_msg(message, 2)
     if message.text == "Голосовые🎙":
@@ -113,7 +132,7 @@ async def textMessages(message: types.Message, state: FSMContext):
     elif message.text == "/start":
         await bot.send_message(
             message.chat.id,
-            f"Приветствуем, {message.from_user.first_name}!🙋\n\n👱🏻‍♀️Данный бот - <b>удобное и бесплатное средство </b>получения самых актуальным материалов для обработки мамонтов путем голосовых сообщений.\n\n🎙<b>Внутри вас ждет более 600 голосовых сообщения для 8 разных направлений ворка, которые позволяют вам сэкономить ваше время и увеличить профиты.</b> \n\n🏆 <a href='https://t.me/PRADAEMPlRE'>PRADA | EMPIRE - работай с лучшими</a>",
+            f"Приветствуем, {message.from_user.first_name}!🙋\n\n👱🏻‍♀️Данный бот - <b>удобное и бесплатное средство</b> получения самых актуальным материалов для обработки мамонтов путем голосовых сообщений и кружков.\n\n<b>🎙Внутри вас ждет более 600 голосовых сообщения и 50 кружков для 8 разных направлений ворка, а также сборник из нескольких сотен фотографий. Все это позволяет вам сэкономить ваше время и увеличить профиты.</b> \n\n🏆 <a href='https://t.me/PRADAEMPlRE'>PRADA | EMPIRE - работай с лучшими</a>",
             parse_mode="html",
             disable_web_page_preview=True,
             reply_markup=nav.start_menu,
@@ -130,7 +149,7 @@ async def callback(call: types.CallbackQuery, state: FSMContext):
             await bot.delete_message(chatid, call.message.message_id)
             await bot.send_message(
                 chatid,
-                f"Приветствуем, {call.message.from_user.first_name}!🙋\n\n👱🏻‍♀️Данный бот - <b>удобное и бесплатное средство </b>получения самых актуальным материалов для обработки мамонтов путем голосовых сообщений.\n\n🎙<b>Внутри вас ждет более 600 голосовых сообщения для 8 разных направлений ворка, которые позволяют вам сэкономить ваше время и увеличить профиты.</b> \n\n🏆 <a href='https://t.me/PRADAEMPlRE'>PRADA | EMPIRE - работай с лучшими]</a>",
+                f"Приветствуем, {call.message.from_user.first_name}!🙋\n\n👱🏻‍♀️Данный бот - <b>удобное и бесплатное средство</b> получения самых актуальным материалов для обработки мамонтов путем голосовых сообщений и кружков.\n\n<b>🎙Внутри вас ждет более 600 голосовых сообщения и 50 кружков для 8 разных направлений ворка, а также сборник из нескольких сотен фотографий. Все это позволяет вам сэкономить ваше время и увеличить профиты.</b> \n\n🏆 <a href='https://t.me/PRADAEMPlRE'>PRADA | EMPIRE - работай с лучшими</a>",
                 parse_mode="html",
                 disable_web_page_preview=True,
             )
@@ -200,6 +219,7 @@ async def callback(call: types.CallbackQuery, state: FSMContext):
         )
         await state.update_data(category=call.data[7:])
         await state.set_state(ClientState.SEARCH)
+        
     elif call.data == "choose":
         await bot.delete_message(chatid, call.message.message_id)
         state_data = await state.get_data()
@@ -265,25 +285,7 @@ async def callback(call: types.CallbackQuery, state: FSMContext):
             await bot.send_message(chatid, "Этот файл недоступен⛔️")
 
 
-@dp.message_handler(state=ClientState.SEARCH)
-async def Search(message: types.Message, state: FSMContext):
-    await bot.delete_message(message.chat.id, message.message_id - 1)
-    await bot.delete_message(message.chat.id, message.message_id)
-    key = message.text
-    state_data = await state.get_data()
-    category = state_data["category"]
-    if not nav.get_search_markup(category, key, 0):
-        await bot.send_message(
-            message.chat.id,
-            "К сожадению ничего не найдено😥",
-            reply_markup=nav.back_to_files,
-        )
-        return
-    await bot.send_message(
-        message.chat.id,
-        "Выберите файл📋",
-        reply_markup=nav.get_search_markup(category, key, 0),
-    )
+
 
 
 @dp.message_handler(state=ClientState.VIDEO_CONVERT, content_types=["video"])

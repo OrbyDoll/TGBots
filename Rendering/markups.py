@@ -9,8 +9,8 @@ start_menu = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=T
 )
 
 crypt_menu = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2, one_time_keyboard=True).add(
-    types.KeyboardButton('Хуй1'),
-    types.KeyboardButton('Хуй2'),
+    types.KeyboardButton('Binance'),
+    types.KeyboardButton('Metamusk'),
     types.KeyboardButton('Хуй3'),
     types.KeyboardButton('Хуй4'),
     types.KeyboardButton('Назад'),

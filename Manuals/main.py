@@ -125,13 +125,6 @@ async def call_handler(call: types.CallbackQuery):
             caption=file_contents,
         )
         open_file = open(f"files/{file_name}.txt", "rb")
-        if file_name == "АУКЦИОН BY PRADA":
-            await bot.send_message(
-                chatid,
-                f'💸Для добавления в чат и начала работы по данному направлению напиши в личные сообщения @Imperator_Kuzco.\n\n⚡️В случае успешного прохождения <b>небольшого собеседования вы будете добавлены в чат</b> и вы сможете приступить к работе. <b>Заряду!</b>',
-                parse_mode="html",
-                disable_web_page_preview=True,
-            )
         await bot.send_document(
             chatid,
             open_file,

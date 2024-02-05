@@ -220,15 +220,18 @@ def send_text(message):
         else:
             if message.text.lower() == "👤 профиль":
                 info = func.profile(user_id=chat_id)
-                bot.send_message(
+                photo = open("garant/PROFILE GARANT.png", "rb")
+                bot.send_photo(
                     chat_id,
+                    photo,
                     f"🧾 Ваш профиль:\n\n⚡️ Ваш ID - <b><code>{info[0]}</code></b>\n\n👤 Ваш логин - @{message.from_user.username}\n\n🤝 Проведенных сделок - {info[1]}\n\n💰 Ваш баланс - {info[2]} USDT (TRC20)\n\nЕсли вы изменили свой @username вы всегда можете изменить ваш логин по нажатию кнопки внизу \n\n❗️Важно всегда изменять логин когда вы изменили ваш @username, так как при некорректном вводе вашего логина пользователи не смогут найти ваш профиль для проведения сделок.",
                     reply_markup=kb.profile,
                     parse_mode="HTML",
                 )
             elif message.text.lower() == "🔒 провести сделку":
-                msg = bot.send_message(
-                    chat_id, "В этой сделке вы...", reply_markup=kb.choise_offer
+                photo = open("garant/PROSHEDSHIE SDELKI GARANT.png", "rb")
+                bot.send_photo(
+                    chat_id, photo, "В этой сделке вы...", reply_markup=kb.choise_offer
                 )
             elif message.text.lower() == "⭐️ о нас":
                 deals_number = func.getOffersNumber()
@@ -237,32 +240,42 @@ def send_text(message):
                 deals_summ = func.getOffersSumm()
                 gm_deals_summ = math.ceil(deals_summ["g-m"])
                 a_deals_summ = math.ceil(deals_summ["a"])
-                bot.send_message(
+                photo = open(f"garant/ABOUT US GARANT.png", "rb")
+                bot.send_photo(
                     chat_id,
+                    photo,
                     f"Мы - <b>средство проведения автоматических сделок</b> внутри комьюнити, гарантирующее вам полную <b>конфиденциальность и безопасность</b>. Мы работаем на базе платежной системы <i>@CryptoBot</i>, а сами сделки проходят в криптовалюте <b>USDT (TRC20)</b>, а значит и ценны соответственно приравниваются к доллару <b>(USD)</b>.\n\n🫂Количество сделок гарант-маркет: {gm_deals_number}\n🤑Сумма сделок гарант-маркет: {gm_deals_summ} USDT\n\n🫂Количество сделок аукциона: {a_deals_number}\n🤑Сумма сделок аукциона: {a_deals_summ} USDT",
                     parse_mode="html",
                     reply_markup=kb.o_nas,
-                    disable_web_page_preview=True,
                 )
             elif message.text.lower() == "💵 прошедшие сделки":
+                photo = open(f"garant/PROSHEDSHIE SDELKI GARANT.png", "rb")
                 info = func.profile(chat_id)
                 acts_info = func.check_user_offers(chat_id)
                 if int(info[1]) == 0:
-                    bot.send_message(chat_id, "Вы еще не проводили сделок⛔️")
+                    bot.send_photo(chat_id, 
+                                   photo, 
+                                   caption = "Вы еще не проводили сделок⛔️",
+                                   reply_markup=types.InlineKeyboardMarkup().add(
+                                        types.InlineKeyboardButton("Скрыть", callback_data="hide_profile")
+                                    ),
+                    )
                 elif acts_info == "customer":
                     text = func.last_offers_customer(chat_id)
-                    bot.send_message(chat_id, text)
+                    bot.send_photo(chat_id, photo, text)
                 elif acts_info == "seller":
                     text = func.last_offers_seller(chat_id)
-                    bot.send_message(chat_id, text)
+                    bot.send_photo(chat_id, photo, text)
                 else:
-                    bot.send_message(
+                    bot.send_photo(
                         chat_id,
+                        photo,
                         "Вывести ваши последние сделки где вы...",
                         reply_markup=kb.cors,
                     )
             elif message.text.lower() == "сделка по коду":
-                msg = bot.send_message(chat_id, "Пришлите код для создания сделки")
+                photo = open(f"garant/SDELKA PO KODU GARANT.png", "rb")
+                msg = bot.send_photo(chat_id, photo, "Пришлите код для создания сделки")
                 bot.register_next_step_handler(msg, decoder)
     except Exception as e:
         print(e, "1")
@@ -385,17 +398,17 @@ def handler_call(call: types.CallbackQuery):
         bot.register_next_step_handler(msg, message1)
 
     elif call.data == "seller_offer":
-        msg = bot.edit_message_text(
+        bot.delete_message(chat_id, message_id)
+        msg = bot.send_message(
             chat_id=chat_id,
-            message_id=message_id,
             text='🔔Введите логин пользователя(Без @), с которым хотите провести сделку. \n\nДля отмены напишите "-" без кавычек!',
         )
         bot.register_next_step_handler(msg, search_seller)
 
     elif call.data == "customer_offer":
-        msg = bot.edit_message_text(
+        bot.delete_message(chat_id, message_id)
+        msg = bot.send_message(
             chat_id=chat_id,
-            message_id=message_id,
             text='🔔Введите логин пользователя(Без @), с которым хотите провести сделку. \n\nДля отмены напишите "-" без кавычек!',
         )
         bot.register_next_step_handler(msg, search_customer)

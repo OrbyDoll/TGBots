@@ -1,6 +1,6 @@
 TOKEN = "5982531408:AAHebwQ7Afhk_m6dK7YWzDysYi4002EYDSQ"
 db_file = "data/database.sqlite3"
-garantDB_file = "../Test_Garant/data/db.db"
+garantDB_file = "../Garant/data/db.db"
 key = b"Zs0_7-WL749f543t1ufeqgjOmw8vWLxJeWMWZzLPkdI="
 sup_nick = "pradatc"
 channel = "https://t.me/PRADAEMPlRE"

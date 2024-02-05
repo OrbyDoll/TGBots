@@ -181,6 +181,7 @@ async def getAuctions(message: types.Message, state: FSMContext):
                 "Включение меню",
                 reply_markup=nav.menu,
             )
+            await state.set_state(ClientState.START)
             return
         # await bot.delete_message(chat_id=chatid, message_id=call.message.message_id)
         # sort_type = call.data[5:]

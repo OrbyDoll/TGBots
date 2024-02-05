@@ -6,6 +6,6 @@ db_file = "data/database.sqlte3"
 key = b"Zs0_7-WL749f543t1ufeqgjOmw8vWLxJeWMWZzLPkdI="
 sup_nick = "pradatc"
 channel = "https://t.me/PRADAEMPlRE"
-garantDB_file = "../Test_Garant/data/db.db"
+garantDB_file = "../Garant/data/db.db"
 required_chat_id = -1001920742101
 channel_url = "https://t.me/+6Mq3LE_lwIA1M2Ey"

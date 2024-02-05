@@ -4,7 +4,7 @@ from filesMass import voices, circles, pictures
 import math
 
 start_menu = types.ReplyKeyboardMarkup(
-    row_width=2, resize_keyboard=True, one_time_keyboard=True
+    row_width=3, resize_keyboard=True, one_time_keyboard=True
 ).add(
     types.KeyboardButton("Голосовые🎙"),
     types.KeyboardButton("Кружки🔘"),
@@ -28,8 +28,9 @@ def girl_photos_actions(message_num):
         ),
     )
 
+
 back_to_menu = types.InlineKeyboardMarkup().add(
-    types.InlineKeyboardButton(text="Назад в меню", callback_data="back_to_menu"),
+    types.InlineKeyboardButton(text="⬅️Назад в меню", callback_data="back_to_menu"),
 )
 
 categor_choose = types.InlineKeyboardMarkup(row_width=2).add(
@@ -41,11 +42,11 @@ categor_choose = types.InlineKeyboardMarkup(row_width=2).add(
     types.InlineKeyboardButton(text="💋ESCORT💋", callback_data="cat_eskort"),
     types.InlineKeyboardButton(text="🎥ANTIK🎥", callback_data="cat_antik"),
     types.InlineKeyboardButton(text="💊N@RKO💊", callback_data="cat_narko"),
-    types.InlineKeyboardButton(text="Назад в меню", callback_data="back_to_menu"),
+    types.InlineKeyboardButton(text="⬅️Назад в меню", callback_data="back_to_menu"),
 )
 
 back_to_files = types.InlineKeyboardMarkup().add(
-    types.InlineKeyboardButton(text="Назад", callback_data="choose")
+    types.InlineKeyboardButton(text="⬅️Назад", callback_data="choose")
 )
 
 channel_url = types.InlineKeyboardMarkup().add(
@@ -56,12 +57,16 @@ channel_url = types.InlineKeyboardMarkup().add(
 
 def get_category_page(category, page, flag, key):
     item_choose = types.InlineKeyboardMarkup(row_width=1)
-    if category == "circles":
-        choosed_category = circles
-    elif category == "pictures":
+    stickers = ["👩🏻",'👩🏼','👩🏽']
+    # if category == "circles":
+    #     choosed_category = circles
+    if category == "pictures":
         choosed_category = pictures
     else:
-        choosed_category = voices[category] if flag == 0 else flag
+        if category == "circles" and flag == 0:
+            choosed_category = circles
+        else:
+            choosed_category = voices[category] if flag == 0 else flag
     category_lenght = math.ceil(len(choosed_category) / 8)
     type_page = "normal" if flag == 0 else key
     if 8 * page <= len(choosed_category) and 8 * page >= 0:
@@ -72,7 +77,7 @@ def get_category_page(category, page, flag, key):
             else len(choosed_category),
         ):
             if category == "pictures":
-                text = f"Девушка {item + 1}"
+                text = f"Девушка {item + 1} {stickers[item % 3]}"
                 cb_data = f"{category}/{item+1}"
             else:
                 text = choosed_category[item][0]
@@ -93,21 +98,22 @@ def get_category_page(category, page, flag, key):
             text=f"{page + 1}/{category_lenght}", callback_data="aboba"
         )
         item_choose.row(button_back, button_middle, button_forward)
-        if category != "circles" and category != "pictures":
+        if category != "pictures":
             item_choose.row(
                 types.InlineKeyboardButton(
                     text="Поиск🔎", callback_data=f"search_{category}"
                 )
             )
+        if category != "circles" and category != "pictures":
             item_choose.row(
                 types.InlineKeyboardButton(
-                    text="Назад к выбору категории", callback_data="back"
+                    text="⬅️Назад к выбору категории", callback_data="back"
                 )
             )
         else:
             item_choose.row(
                 types.InlineKeyboardButton(
-                    text="Назад в меню", callback_data="back_to_menu"
+                    text="⬅️Назад в меню", callback_data="back_to_menu"
                 )
             )
         return item_choose
@@ -126,7 +132,7 @@ def get_category_page(category, page, flag, key):
 
 
 def get_search_markup(category: str, key: str, page):
-    desired_files = voices[category]
+    desired_files = voices[category] if category != "circles" else circles
     res_mass = []
     for file in desired_files:
         if key.lower() in file[0].lower():

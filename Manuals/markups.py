@@ -3,7 +3,7 @@ import config as cfg
 
 categor_choose_forward = types.InlineKeyboardMarkup(row_width=1).add(
     types.InlineKeyboardButton(
-        text="NEW!🏺АУКЦИОН BY PRADA🏺", callback_data="АУКЦИОН BY PRADA"
+        text="🏺АУКЦИОН BY PRADA🏺", callback_data="АУКЦИОН BY PRADA"
     ),
     types.InlineKeyboardButton(
         text="🏠НЕДВИГА 1.0 BY PRADA🏠", callback_data="НЕДВИГА 1.0 BY PRADA"

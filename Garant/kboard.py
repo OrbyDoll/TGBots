@@ -7,7 +7,7 @@ menu.add(
     types.KeyboardButton("💵 Прошедшие сделки"),
     types.KeyboardButton("👤 Профиль"),
     types.KeyboardButton("⭐️ О нас"),
-    types.KeyboardButton('Сделка по коду'),
+    types.KeyboardButton('🔐Сделка по коду'),
     types.KeyboardButton("🔒 Провести сделку"),
 )
 
@@ -37,8 +37,9 @@ profile.add(
     types.InlineKeyboardButton("Отзывы", callback_data="my_reviews"),
     types.InlineKeyboardButton("Скрыть", callback_data="hide_profile"),
 )
+
 go_back = types.InlineKeyboardMarkup().add(
-    types.InlineKeyboardButton(text="Назад", callback_data="go_back")
+    types.InlineKeyboardButton(text="⬅️ Назад", callback_data="go_back")
 )
 cors = types.InlineKeyboardMarkup()
 cors.add(
@@ -60,7 +61,7 @@ bor = types.InlineKeyboardMarkup(row_width=2).add(
 )
 
 canel = types.InlineKeyboardMarkup()
-canel.add(types.InlineKeyboardButton("❌ Назад", callback_data="menu"))
+canel.add(types.InlineKeyboardButton("⬅️ Назад", callback_data="menu"))
 
 choise = types.InlineKeyboardMarkup()
 choise.add(
@@ -80,23 +81,24 @@ sentence.add(
         "📝 Предложить сделку", callback_data="proposal_customer"
     ),
     types.InlineKeyboardButton("📄 Отзывы", callback_data="reviews"),
-    types.InlineKeyboardButton("❌ Назад", callback_data="delete_customer"),
+    types.InlineKeyboardButton("⬅️ Назад", callback_data="delete_customer"),
 )
 
 sentence_seller = types.InlineKeyboardMarkup(row_width=2)
 sentence_seller.add(
     types.InlineKeyboardButton("📝 Предложить сделку", callback_data="proposal_seller"),
     types.InlineKeyboardButton("📄 Отзывы", callback_data="reviews"),
-    types.InlineKeyboardButton("❌ Назад", callback_data="delete_seller"),
+    types.InlineKeyboardButton("⬅️ Назад", callback_data="delete_seller"),
 )
 
 canel_button = types.ReplyKeyboardMarkup(resize_keyboard=True)
-canel_button.add(types.KeyboardButton("❌ Назад"))
+canel_button.add(types.KeyboardButton("⬅️ Назад"))
 
 choise_offer = types.InlineKeyboardMarkup()
 choise_offer.add(
     types.InlineKeyboardButton("💎 Покупатель", callback_data="customer_offer"),
     types.InlineKeyboardButton("💰 Продавец", callback_data="seller_offer"),
+    types.InlineKeyboardButton("⬅️ Назад", callback_data="hide_profile")
 )
 
 seller_panel = types.InlineKeyboardMarkup(row_width=2)

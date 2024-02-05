@@ -1,0 +1,4 @@
+photo = open(f"files/ZXCZXC.png", "rb")
+            await bot.send_photo(               
+                chatid,
+                photo=photo,
